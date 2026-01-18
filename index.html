@@ -490,6 +490,7 @@
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 8px;
+            position: relative;
         }
         
         .status-title {
@@ -503,6 +504,35 @@
             font-size: 0.75rem;
             margin-bottom: 3px;
             line-height: 1.3;
+        }
+        
+        /* 退款按钮 */
+        .refund-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 8px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 1;
+        }
+        
+        .refund-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(238, 90, 82, 0.3);
+        }
+        
+        .refund-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         /* 下单弹窗 */
@@ -796,17 +826,18 @@
             color: #FFD700;
         }
         
-        .user-list, .order-list, .message-list-admin {
+        .user-list, .order-list, .message-list-admin, .refund-list {
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
         
-        .user-item, .order-item, .message-item-admin {
+        .user-item, .order-item, .message-item-admin, .refund-item {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 6px;
             padding: 10px;
             font-size: 0.75rem;
+            position: relative;
         }
         
         .message-content-admin {
@@ -838,7 +869,7 @@
             margin-bottom: 6px;
         }
         
-        .order-actions {
+        .order-actions, .refund-actions {
             display: flex;
             gap: 6px;
             margin-top: 6px;
@@ -1203,6 +1234,20 @@
             }
         }
         
+        /* 碎片显示样式 */
+        .fragment-display {
+            animation: fragment-pulse 2s infinite alternate;
+        }
+        
+        @keyframes fragment-pulse {
+            from {
+                box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            }
+            to {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+        }
+        
         /* 响应式设计 - 针对小屏幕优化 */
         @media (max-width: 768px) {
             .container {
@@ -1396,7 +1441,18 @@
                 <option value="QQ区">QQ区</option>
                 <option value="微信区">微信区</option>
             </select>
-            <button class="modal-btn" id="serverConfirmBtn">进入</button>
+            <button class="modal-btn" id="serverConfirmBtn">下一步</button>
+        </div>
+    </div>
+    
+    <!-- 微信号/手机号输入弹窗 -->
+    <div class="modal" id="wechatModal">
+        <div class="modal-content">
+            <h2 class="modal-title">输入微信号/手机号</h2>
+            <input type="text" class="modal-input" id="wechatInput1" placeholder="请输入微信号或手机号">
+            <input type="text" class="modal-input" id="wechatInput2" placeholder="请再次输入确认">
+            <div id="wechatError" style="color: #ff6b6b; font-size: 0.8rem; margin: 5px 0; display: none;">两次输入不一致，请重新输入</div>
+            <button class="modal-btn" id="wechatConfirmBtn">进入</button>
         </div>
     </div>
     
@@ -1456,12 +1512,20 @@
                 <div class="user-info">
                     <h2 id="userName">用户名</h2>
                     <p id="userServer">区服: Q区</p>
+                    <p id="userWechat" style="font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); margin-top: 2px;">微信号: </p>
+                    <!-- 新增：碎片数量显示 -->
+                    <p id="userFragments" style="font-size: 0.7rem; color: #FFD700; margin-top: 2px; font-weight: 600;">
+                        <span style="color: rgba(255, 255, 255, 0.7);">传世碎片: </span>
+                        <span id="fragmentCountInProfile">0</span> 个
+                    </p>
                     <button class="modal-btn" id="logoutBtn">退出登录</button>
                 </div>
             </div>
             
             <div class="review-status">
-                <h3>我的订单</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h3 style="margin: 0;">我的订单</h3>
+                </div>
                 <div id="userOrdersList">
                     <!-- 用户订单将由JavaScript动态生成 -->
                 </div>
@@ -1503,7 +1567,7 @@
         </div>
     </div>
     
-    <!-- 抽奖弹窗 -->
+    <!-- 传世武器转盘抽奖弹窗 -->
     <div class="lottery-modal" id="lotteryModal">
         <div class="lottery-content">
             <h2 class="lottery-title">传世武器转盘抽奖</h2>
@@ -1530,6 +1594,39 @@
         </div>
     </div>
     
+    <!-- 粉丝福利抽奖【传世】弹窗 -->
+    <div class="lottery-modal" id="equipmentLotteryModal">
+        <div class="lottery-content">
+            <h2 class="lottery-title">粉丝福利抽奖【传世】</h2>
+            <!-- 新增：碎片数量显示 -->
+            <div class="fragment-display" id="fragmentDisplay" style="text-align: center; margin: 10px 0; padding: 8px; background: rgba(255, 215, 0, 0.1); border-radius: 6px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                <div style="font-size: 0.9rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">加载中...</div>
+                <div style="font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); margin-top: 3px;">累计抽奖获得</div>
+            </div>
+            <div class="lottery-description">
+                点击抽奖按钮，随机抽取一件传世装备！<br>
+                抽中什么就会自动下单什么，每单只有一次抽奖机会！
+            </div>
+            
+            <div class="prizes-container" id="equipmentPrizesContainer">
+                <!-- 装备奖品将由JavaScript动态生成 -->
+            </div>
+            
+            <div class="lottery-result" id="equipmentLotteryResult">
+                <div class="lottery-spinner" id="equipmentLotterySpinner"></div>
+                <div id="equipmentResultContent">
+                    <div class="result-title">抽奖结果</div>
+                    <div class="result-prize" id="equipmentResultPrize"></div>
+                    <div class="result-message" id="equipmentResultMessage"></div>
+                </div>
+            </div>
+            
+            <button class="lottery-btn" id="startEquipmentLotteryBtn">开始抽奖</button>
+            <button class="modal-btn" style="background: #6c757d; margin-top: 8px;" id="cancelEquipmentLotteryBtn">取消</button>
+        </div>
+    </div>
+    
     <!-- 支付弹窗 - 修改：删除取消按钮 -->
     <div class="payment-modal" id="paymentModal">
         <div class="payment-content">
@@ -1551,6 +1648,22 @@
             <h2 class="review-title" id="reviewTitle">审核通知</h2>
             <p class="review-message" id="reviewMessage">您的订单正在审核中</p>
             <button class="modal-btn" id="reviewCloseBtn">确定</button>
+        </div>
+    </div>
+    
+    <!-- 退款申请弹窗 -->
+    <div class="modal" id="refundModal">
+        <div class="modal-content">
+            <h2 class="modal-title">申请退款</h2>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; margin-bottom: 12px; text-align: center;">请选择要申请退款的订单</p>
+            <div id="refundOrderList" style="max-height: 200px; overflow-y: auto; margin-bottom: 12px;">
+                <!-- 可退款订单列表将由JavaScript动态生成 -->
+            </div>
+            <div style="margin-bottom: 12px;">
+                <textarea class="modal-input" id="refundReason" placeholder="请输入退款原因（可选）" rows="3"></textarea>
+            </div>
+            <button class="modal-btn" id="submitRefundBtn">提交退款申请</button>
+            <button class="modal-btn" style="background: #6c757d; margin-top: 8px;" id="cancelRefundBtn">取消</button>
         </div>
     </div>
     
@@ -1584,6 +1697,7 @@
                 <div class="admin-tab active" data-tab="ordersTab">订单审核</div>
                 <div class="admin-tab" data-tab="messagesTab">客服消息</div>
                 <div class="admin-tab" data-tab="usersTab">用户管理</div>
+                <div class="admin-tab" data-tab="refundsTab">退款审核</div>
                 <!-- 新增：给用户发消息标签页 -->
                 <div class="admin-tab" data-tab="sendMessageTab">给用户发消息</div>
             </div>
@@ -1621,6 +1735,23 @@
                     <h3>用户列表</h3>
                     <div class="user-list" id="userList">
                         <!-- 用户列表将由JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 退款审核标签页 -->
+            <div class="admin-tab-content" id="refundsTab">
+                <div class="admin-section">
+                    <h3>待审核退款申请</h3>
+                    <div class="refund-list" id="pendingRefundList">
+                        <!-- 待审核退款申请列表将由JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>已处理退款申请</h3>
+                    <div class="refund-list" id="processedRefundList">
+                        <!-- 已处理退款申请列表将由JavaScript动态生成 -->
                     </div>
                 </div>
             </div>
@@ -1667,6 +1798,13 @@
         <div class="support-icon">💬</div>
         <div class="support-text">联系客服</div>
     </div>
+
+    <!-- 音频元素用于播放通知声音 -->
+    <audio id="notificationSound" preload="auto">
+        <!-- 使用一个简单的通知铃声，这里使用一个在线音频 -->
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.wav" type="audio/wav">
+    </audio>
 
     <script>
         // GitHub云存储配置 - 使用分散存储和组合的方式隐藏Token
@@ -1841,17 +1979,10 @@
                         
                         if (success) {
                             console.log(`数据已保存到GitHub: ${key}`);
-                            // 同时在本地保存一份备份
-                            try {
-                                localStorage.setItem(key, JSON.stringify(data));
-                            } catch (e) {
-                                console.warn('本地备份保存失败:', e);
-                            }
                             return true;
                         } else {
-                            console.warn('GitHub保存失败，回退到本地存储');
-                            localStorage.setItem(key, JSON.stringify(data));
-                            return true;
+                            console.warn('GitHub保存失败');
+                            return false;
                         }
                     } else if (cloudConfig.storageType === 'customApi' && cloudConfig.apiEndpoint) {
                         const response = await fetch(cloudConfig.apiEndpoint + '/save', {
@@ -1861,20 +1992,12 @@
                         });
                         return response.ok;
                     } else {
-                        localStorage.setItem(key, JSON.stringify(data));
-                        console.log(`数据已保存到本地: ${key}`);
-                        return true;
+                        console.warn('没有配置存储方式');
+                        return false;
                     }
                 } catch (error) {
                     console.error('保存数据失败:', error);
-                    try {
-                        localStorage.setItem(key, JSON.stringify(data));
-                        console.log('已回退到本地存储');
-                        return true;
-                    } catch (e) {
-                        console.error('本地存储也失败:', e);
-                        return false;
-                    }
+                    return false;
                 }
             },
 
@@ -1887,20 +2010,9 @@
                         
                         if (data) {
                             console.log(`从GitHub获取数据: ${key}`);
-                            // 同时在本地保存一份缓存
-                            try {
-                                localStorage.setItem(key, JSON.stringify(data.content));
-                            } catch (e) {
-                                console.warn('本地缓存保存失败:', e);
-                            }
                             return data.content;
                         } else {
-                            console.log(`GitHub上没有找到数据: ${key}，尝试本地存储`);
-                            const localData = localStorage.getItem(key);
-                            if (localData) {
-                                console.log(`从本地获取数据: ${key}`);
-                                return JSON.parse(localData);
-                            }
+                            console.log(`GitHub上没有找到数据: ${key}`);
                             return null;
                         }
                     } else if (cloudConfig.storageType === 'customApi' && cloudConfig.apiEndpoint) {
@@ -1910,20 +2022,11 @@
                         }
                         return null;
                     } else {
-                        const data = localStorage.getItem(key);
-                        return data ? JSON.parse(data) : null;
+                        console.warn('没有配置存储方式');
+                        return null;
                     }
                 } catch (error) {
                     console.error('获取数据失败:', error);
-                    try {
-                        const localData = localStorage.getItem(key);
-                        if (localData) {
-                            console.log('已回退到本地存储');
-                            return JSON.parse(localData);
-                        }
-                    } catch (e) {
-                        console.error('本地存储读取失败:', e);
-                    }
                     return null;
                 }
             },
@@ -1952,10 +2055,10 @@
                             
                             if (response.ok) {
                                 console.log(`从GitHub删除数据: ${key}`);
-                                localStorage.removeItem(key);
                                 return true;
                             }
                         }
+                        return false;
                     } else if (cloudConfig.storageType === 'customApi' && cloudConfig.apiEndpoint) {
                         const response = await fetch(cloudConfig.apiEndpoint + '/remove?key=' + key, {
                             method: 'DELETE'
@@ -1963,9 +2066,8 @@
                         return response.ok;
                     }
                     
-                    localStorage.removeItem(key);
-                    console.log(`从本地删除数据: ${key}`);
-                    return true;
+                    console.warn('没有配置存储方式');
+                    return false;
                 } catch (error) {
                     console.error('删除数据失败:', error);
                     return false;
@@ -1982,12 +2084,14 @@
         // 抽奖相关变量
         let lotteryOrder = null;
         let selectedPrize = null;
+        let selectedEquipmentPrize = null;
+        let equipmentOrder = null;
         
         // 客服消息刷新定时器
         let messageRefreshTimer = null;
         
         // 管理员密码
-        const ADMIN_PASSWORD = "admin123456";
+        const ADMIN_PASSWORD = "admin123";
         
         // DOM元素
         const loading = document.getElementById('loading');
@@ -1997,9 +2101,15 @@
         const serverModal = document.getElementById('serverModal');
         const serverSelect = document.getElementById('serverSelect');
         const serverConfirmBtn = document.getElementById('serverConfirmBtn');
+        const wechatModal = document.getElementById('wechatModal');
+        const wechatInput1 = document.getElementById('wechatInput1');
+        const wechatInput2 = document.getElementById('wechatInput2');
+        const wechatError = document.getElementById('wechatError');
+        const wechatConfirmBtn = document.getElementById('wechatConfirmBtn');
         const mainContainer = document.getElementById('mainContainer');
         const userNameElement = document.getElementById('userName');
         const userServerElement = document.getElementById('userServer');
+        const userWechatElement = document.getElementById('userWechat');
         const logoutBtn = document.getElementById('logoutBtn');
         const ordersGrid = document.getElementById('ordersGrid');
         const categoryOrdersGrid = document.getElementById('categoryOrdersGrid');
@@ -2020,6 +2130,15 @@
         const resultContent = document.getElementById('resultContent');
         const resultPrize = document.getElementById('resultPrize');
         const resultMessage = document.getElementById('resultMessage');
+        const equipmentLotteryModal = document.getElementById('equipmentLotteryModal');
+        const equipmentPrizesContainer = document.getElementById('equipmentPrizesContainer');
+        const startEquipmentLotteryBtn = document.getElementById('startEquipmentLotteryBtn');
+        const cancelEquipmentLotteryBtn = document.getElementById('cancelEquipmentLotteryBtn');
+        const equipmentLotteryResult = document.getElementById('equipmentLotteryResult');
+        const equipmentLotterySpinner = document.getElementById('equipmentLotterySpinner');
+        const equipmentResultContent = document.getElementById('equipmentResultContent');
+        const equipmentResultPrize = document.getElementById('equipmentResultPrize');
+        const equipmentResultMessage = document.getElementById('equipmentResultMessage');
         const paymentModal = document.getElementById('paymentModal');
         const paymentAmount = document.getElementById('paymentAmount');
         const paymentConfirmBtn = document.getElementById('paymentConfirmBtn');
@@ -2045,17 +2164,30 @@
         const sendMessageBtn = document.getElementById('sendMessageBtn');
         const deleteAllDataBtn = document.getElementById('deleteAllDataBtn');
         const floatingSupport = document.getElementById('floatingSupport');
+        const notificationSound = document.getElementById('notificationSound');
+        const fragmentDisplay = document.getElementById('fragmentDisplay');
+        const fragmentCountElement = document.getElementById('fragmentCount');
+        const fragmentCountInProfileElement = document.getElementById('fragmentCountInProfile');
         
         // 新增：给用户发消息相关DOM元素
         const sendToUserSelect = document.getElementById('sendToUserSelect');
         const adminMessageContent = document.getElementById('adminMessageContent');
         const sendMessageToUserBtn = document.getElementById('sendMessageToUserBtn');
         
+        // 退款相关DOM元素
+        const refundModal = document.getElementById('refundModal');
+        const refundOrderList = document.getElementById('refundOrderList');
+        const refundReason = document.getElementById('refundReason');
+        const submitRefundBtn = document.getElementById('submitRefundBtn');
+        const cancelRefundBtn = document.getElementById('cancelRefundBtn');
+        const pendingRefundList = document.getElementById('pendingRefundList');
+        const processedRefundList = document.getElementById('processedRefundList');
+        
         // 后台管理标签页
         const adminTabs = document.querySelectorAll('.admin-tab');
         const adminTabContents = document.querySelectorAll('.admin-tab-content');
         
-        // 奖品数据 - 可以在这里修改奖品名称和几率（优化版）
+        // 传世武器奖品数据
         const lotteryPrizes = [
             { 
                 name: "火焰刀", 
@@ -2107,26 +2239,187 @@
             }
         ];
         
+        // 传世装备奖品数据
+        const equipmentLotteryPrizes = [
+            { 
+                name: "火焰刀", 
+                probability: 0.00, // 0% 几率
+                originalPrice: 1899,
+                currentPrice: 1
+            },
+            { 
+                name: "蝴蝶刀", 
+                probability: 0.00, // 0% 几率
+                originalPrice: 9699,
+                currentPrice: 1
+            },
+            { 
+                name: "苏尔南手枪", 
+                probability: 0.00, // 5% 几率
+                originalPrice: 99299,
+                currentPrice: 1
+            },
+            { 
+                name: "弗拉迪尾刺", 
+                probability: 0.00, // 8% 几率
+                originalPrice: 99199,
+                currentPrice: 1
+            },
+            { 
+                name: "传世碎片*1000", 
+                probability: 0.01, // 10% 几率
+                originalPrice: 149,
+                currentPrice: 1
+            },
+            { 
+                name: "七级包", 
+                probability: 0.55, // 15% 几率
+                originalPrice: 99,
+                currentPrice: 1
+            },
+            { 
+                name: "传世碎片*2", 
+                probability: 0.60, // 25% 几率
+                originalPrice: 79,
+                currentPrice: 1
+            },
+            { 
+                name: "传世碎片*100", 
+                probability: 0.75, // 35% 几率
+                originalPrice: 49,
+                currentPrice: 1
+            }
+        ];
+        
+        // 播放通知声音
+        function playNotificationSound() {
+            try {
+                // 重置音频到开始位置
+                notificationSound.currentTime = 0;
+                
+                // 播放音频
+                notificationSound.play().catch(error => {
+                    console.log('播放通知声音失败:', error);
+                    // 尝试使用备用方法播放
+                    setTimeout(() => {
+                        notificationSound.play().catch(e => {
+                            console.log('备用播放也失败:', e);
+                        });
+                    }, 100);
+                });
+            } catch (error) {
+                console.error('播放通知声音出错:', error);
+            }
+        }
+        
+        // 新增：解析传世碎片数量
+        function parseFragmentAmount(prizeName) {
+            if (prizeName.includes('传世碎片')) {
+                const match = prizeName.match(/传世碎片\*(\d+)/);
+                if (match && match[1]) {
+                    return parseInt(match[1]);
+                }
+                
+                // 处理中文数字格式
+                const chineseMatch = prizeName.match(/传世碎片[×x*](\d+)/);
+                if (chineseMatch && chineseMatch[1]) {
+                    return parseInt(chineseMatch[1]);
+                }
+            }
+            return 0;
+        }
+        
+        // 新增：加载并显示用户碎片数量
+        async function loadUserFragments() {
+            if (!currentUser) return 0;
+            
+            try {
+                const allUsers = await storageManager.get('users') || [];
+                const user = allUsers.find(u => u.id === currentUser.id);
+                
+                if (user) {
+                    // 确保有fragments字段
+                    if (user.fragments === undefined) {
+                        user.fragments = 0;
+                        // 保存更新后的用户数据
+                        await storageManager.save('users', allUsers);
+                    }
+                    
+                    // 更新当前用户对象
+                    currentUser.fragments = user.fragments;
+                    return user.fragments;
+                }
+            } catch (error) {
+                console.error('加载用户碎片数量失败:', error);
+            }
+            
+            return 0;
+        }
+        
+        // 新增：更新碎片显示
+        async function updateFragmentDisplay() {
+            if (!currentUser) return;
+            
+            if (!fragmentCountElement || !fragmentDisplay) return;
+            
+            try {
+                const fragmentCount = await loadUserFragments();
+                fragmentCountElement.textContent = `${fragmentCount} 个`;
+                
+                // 如果碎片数量为0，隐藏显示区域
+                if (fragmentCount === 0) {
+                    fragmentDisplay.style.display = 'none';
+                } else {
+                    fragmentDisplay.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('更新碎片显示失败:', error);
+                fragmentCountElement.textContent = '加载失败';
+            }
+        }
+        
+        // 新增：更新用户信息页的碎片显示
+        async function updateProfileFragmentDisplay() {
+            if (!currentUser) return;
+            
+            if (!fragmentCountInProfileElement) return;
+            
+            try {
+                const fragmentCount = await loadUserFragments();
+                fragmentCountInProfileElement.textContent = fragmentCount;
+            } catch (error) {
+                console.error('更新用户信息页碎片显示失败:', error);
+                fragmentCountInProfileElement.textContent = '加载失败';
+            }
+        }
+        
         // 初始化
         async function init() {
             try {
                 console.log('开始初始化应用...');
-                sessionStorage.removeItem('tempGameName');
                 
-                const savedUser = localStorage.getItem('currentUser');
-                if (savedUser) {
-                    currentUser = JSON.parse(savedUser);
-                    console.log('发现已登录用户:', currentUser.name);
+                // 清除所有本地存储
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // 检查是否有已登录用户（从云端）
+                const allUsers = await storageManager.get('users') || [];
+                
+                // 如果只有一个用户，直接登录（为了测试方便）
+                if (allUsers.length === 1) {
+                    currentUser = allUsers[0];
+                    console.log('发现云端用户:', currentUser.name);
                     showMainApp();
                     loadUserMessages();
                 } else {
-                    console.log('未发现登录用户，显示登录界面');
+                    console.log('需要用户登录');
                     gameNameModal.style.display = 'flex';
                 }
                 
                 generateOrders();
                 generateCategoryOrders();
                 generateLotteryPrizes();
+                generateEquipmentLotteryPrizes(); // 初始化装备抽奖奖品
                 
                 if (currentUser) {
                     updateUserOrders();
@@ -2173,8 +2466,8 @@
                     // 弹出最新的一条消息
                     const latestMessage = unreadAdminMessages[unreadAdminMessages.length - 1];
                     
-                    // 显示弹窗提示
-                    showReviewMessage('客服消息', latestMessage.content);
+                    // 显示弹窗提示并播放声音
+                    showReviewMessageWithSound('客服消息', latestMessage.content);
                     
                     // 将这些未读消息标记为已读
                     unreadAdminMessages.forEach(msg => {
@@ -2194,7 +2487,7 @@
             }
         }
         
-        // 生成抽奖奖品显示
+        // 生成传世武器抽奖奖品显示
         function generateLotteryPrizes() {
             prizesContainer.innerHTML = '';
             
@@ -2220,7 +2513,33 @@
             });
         }
         
-        // 开始抽奖
+        // 生成传世装备抽奖奖品显示
+        function generateEquipmentLotteryPrizes() {
+            equipmentPrizesContainer.innerHTML = '';
+            
+            equipmentLotteryPrizes.forEach((prize, index) => {
+                const prizeItem = document.createElement('div');
+                prizeItem.className = 'prize-item';
+                prizeItem.dataset.prize = index;
+                
+                // 格式化概率显示 - 概率为0的不显示
+                let probabilityHtml = '';
+                if (prize.probability > 0) {
+                    const probabilityPercent = Math.round(prize.probability * 100);
+                    probabilityHtml = `<div class="prize-probability">中奖几率: ${probabilityPercent}%</div>`;
+                }
+                
+                prizeItem.innerHTML = `
+                    <div class="prize-name">${prize.name}</div>
+                    ${probabilityHtml}
+                    <div class="prize-original-price">原价: ¥${prize.originalPrice}</div>
+                    <div class="prize-current-price">抽奖价: ¥${prize.currentPrice}</div>
+                `;
+                equipmentPrizesContainer.appendChild(prizeItem);
+            });
+        }
+        
+        // 开始传世武器抽奖
         function startLottery() {
             // 禁用抽奖按钮
             startLotteryBtn.disabled = true;
@@ -2262,7 +2581,7 @@
             }, spinInterval);
         }
         
-        // 确定抽奖结果
+        // 确定传世武器抽奖结果
         function determineLotteryResult() {
             // 根据概率随机选择奖品
             const randomValue = Math.random(); // 0到1之间的随机数
@@ -2311,7 +2630,7 @@
             }, 500);
         }
         
-        // 确认抽奖订单
+        // 确认传世武器抽奖订单
         async function confirmLotteryOrder() {
             if (!selectedPrize) {
                 alert('请先抽奖');
@@ -2328,6 +2647,7 @@
                     userId: currentUser.id,
                     userName: currentUser.name,
                     userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
                     orderTitle: '传世武器转盘抽奖',
                     spec: selectedPrize.name,
                     price: selectedPrize.currentPrice,
@@ -2337,7 +2657,7 @@
                     isLottery: true // 标记为抽奖订单
                 };
                 
-                console.log('正在创建抽奖订单...', orderData);
+                console.log('正在创建传世武器抽奖订单...', orderData);
                 
                 // 模拟网络延迟，展示加载效果
                 await new Promise(resolve => setTimeout(resolve, 1500));
@@ -2350,7 +2670,7 @@
                     throw new Error('保存订单到服务器失败');
                 }
                 
-                console.log('抽奖订单创建成功，ID:', orderData.id);
+                console.log('传世武器抽奖订单创建成功，ID:', orderData.id);
                 
                 // 关闭加载动画
                 hideOrderLoading();
@@ -2374,7 +2694,7 @@
                 });
                 
             } catch (error) {
-                console.error('创建抽奖订单失败:', error);
+                console.error('创建传世武器抽奖订单失败:', error);
                 // 关闭加载动画
                 hideOrderLoading();
                 alert('下单失败: ' + error.message);
@@ -2388,8 +2708,226 @@
             }
         }
         
-        // 显示抽奖支付弹窗
+        // 显示传世武器抽奖支付弹窗
         function showPaymentModalForLottery(prize) {
+            const amount = prize.currentPrice;
+            
+            paymentAmount.textContent = `¥${amount}`;
+            document.getElementById('paymentAmountText').textContent = `¥${amount}`;
+            paymentModal.style.display = 'flex';
+        }
+        
+        // 开始传世装备抽奖
+        function startEquipmentLottery() {
+            // 禁用抽奖按钮
+            startEquipmentLotteryBtn.disabled = true;
+            startEquipmentLotteryBtn.innerHTML = '抽奖中...';
+            
+            // 显示抽奖结果区域和旋转动画
+            equipmentLotteryResult.style.display = 'block';
+            equipmentLotterySpinner.style.display = 'block';
+            equipmentResultContent.style.display = 'none';
+            
+            // 清除之前的选中状态
+            document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
+                item.classList.remove('selected', 'winning');
+            });
+            
+            // 模拟抽奖过程
+            let spinCount = 0;
+            const maxSpins = 20;
+            const spinInterval = 100;
+            
+            // 快速切换奖品效果
+            const spinEffect = setInterval(() => {
+                // 随机高亮一个奖品
+                const randomIndex = Math.floor(Math.random() * equipmentLotteryPrizes.length);
+                document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach((item, idx) => {
+                    if (idx === randomIndex) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+                
+                spinCount++;
+                if (spinCount >= maxSpins) {
+                    clearInterval(spinEffect);
+                    // 抽奖结束，确定最终奖品
+                    determineEquipmentLotteryResult();
+                }
+            }, spinInterval);
+        }
+        
+        // 确定传世装备抽奖结果
+        function determineEquipmentLotteryResult() {
+            // 根据概率随机选择奖品
+            const randomValue = Math.random(); // 0到1之间的随机数
+            let cumulativeProbability = 0;
+            let selectedIndex = 0;
+            
+            for (let i = 0; i < equipmentLotteryPrizes.length; i++) {
+                cumulativeProbability += equipmentLotteryPrizes[i].probability;
+                if (randomValue <= cumulativeProbability) {
+                    selectedIndex = i;
+                    break;
+                }
+            }
+            
+            // 如果随机数大于总概率（理论上不会发生，但以防万一）
+            if (selectedIndex === 0 && randomValue > cumulativeProbability) {
+                selectedIndex = equipmentLotteryPrizes.length - 1;
+            }
+            
+            selectedEquipmentPrize = equipmentLotteryPrizes[selectedIndex];
+            
+            // 显示最终结果
+            setTimeout(() => {
+                equipmentLotterySpinner.style.display = 'none';
+                equipmentResultContent.style.display = 'block';
+                
+                equipmentResultPrize.textContent = selectedEquipmentPrize.name;
+                equipmentResultMessage.textContent = `恭喜您抽中了${selectedEquipmentPrize.name}！原价¥${selectedEquipmentPrize.originalPrice}，现在只需¥${selectedEquipmentPrize.currentPrice}！`;
+                
+                // 高亮显示中奖奖品
+                document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach((item, idx) => {
+                    item.classList.remove('selected');
+                    if (idx === selectedIndex) {
+                        item.classList.add('winning');
+                    }
+                });
+                
+                // 更新按钮状态
+                startEquipmentLotteryBtn.disabled = false;
+                startEquipmentLotteryBtn.innerHTML = '确认下单';
+                startEquipmentLotteryBtn.onclick = confirmEquipmentLotteryOrder;
+                
+                // 隐藏取消按钮
+                cancelEquipmentLotteryBtn.style.display = 'none';
+                
+            }, 500);
+        }
+        
+        // 确认传世装备抽奖订单
+        async function confirmEquipmentLotteryOrder() {
+            if (!selectedEquipmentPrize) {
+                alert('请先抽奖');
+                return;
+            }
+            
+            try {
+                // 显示加载动画
+                showOrderLoading();
+                
+                // 检查是否为传世碎片，并更新用户碎片数量
+                let fragmentsEarned = 0;
+                if (selectedEquipmentPrize.name.includes('传世碎片')) {
+                    fragmentsEarned = parseFragmentAmount(selectedEquipmentPrize.name);
+                    
+                    if (fragmentsEarned > 0) {
+                        // 更新用户碎片数量
+                        const allUsers = await storageManager.get('users') || [];
+                        const userIndex = allUsers.findIndex(user => user.id === currentUser.id);
+                        
+                        if (userIndex !== -1) {
+                            // 确保有fragments字段
+                            if (!allUsers[userIndex].fragments) {
+                                allUsers[userIndex].fragments = 0;
+                            }
+                            
+                            // 更新碎片数量
+                            allUsers[userIndex].fragments += fragmentsEarned;
+                            allUsers[userIndex].lastFragmentUpdate = new Date().toISOString();
+                            
+                            // 保存到GitHub
+                            await storageManager.save('users', allUsers);
+                            
+                            // 更新当前用户对象
+                            currentUser.fragments = allUsers[userIndex].fragments;
+                            
+                            console.log(`用户获得传世碎片: ${fragmentsEarned}, 累计: ${currentUser.fragments}`);
+                        }
+                    }
+                }
+                
+                // 创建订单数据
+                const orderData = {
+                    id: 'order-equipment-lottery-' + Date.now(),
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
+                    orderTitle: '粉丝福利抽奖【传世】',
+                    spec: selectedEquipmentPrize.name,
+                    price: selectedEquipmentPrize.currentPrice,
+                    originalPrice: selectedEquipmentPrize.originalPrice,
+                    status: 'pending',
+                    timestamp: new Date().toISOString(),
+                    isLottery: true,
+                    lotteryType: 'equipment', // 标记为装备抽奖类型
+                    fragmentsEarned: fragmentsEarned // 记录获得的碎片数量
+                };
+                
+                console.log('正在创建传世装备抽奖订单...', orderData);
+                
+                // 模拟网络延迟，展示加载效果
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                const allOrders = await storageManager.get('orders') || [];
+                allOrders.push(orderData);
+                const saveResult = await storageManager.save('orders', allOrders);
+                
+                if (!saveResult) {
+                    throw new Error('保存订单到服务器失败');
+                }
+                
+                console.log('传世装备抽奖订单创建成功，ID:', orderData.id);
+                
+                // 关闭加载动画
+                hideOrderLoading();
+                
+                // 关闭抽奖弹窗，显示支付弹窗
+                equipmentLotteryModal.style.display = 'none';
+                showPaymentModalForEquipmentLottery(selectedEquipmentPrize);
+                
+                // 更新用户订单列表
+                await updateUserOrders();
+                
+                // 如果有获得碎片，显示碎片获得提示
+                if (fragmentsEarned > 0) {
+                    setTimeout(() => {
+                        showReviewMessageWithSound('获得传世碎片', `恭喜您获得 ${fragmentsEarned} 个传世碎片！当前累计: ${currentUser.fragments || 0} 个`);
+                    }, 500);
+                }
+                
+                // 重置抽奖状态
+                selectedEquipmentPrize = null;
+                // 恢复取消按钮显示
+                cancelEquipmentLotteryBtn.style.display = 'block';
+                startEquipmentLotteryBtn.innerHTML = '开始抽奖';
+                startEquipmentLotteryBtn.onclick = startEquipmentLottery;
+                equipmentLotteryResult.style.display = 'none';
+                document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
+                    item.classList.remove('winning');
+                });
+                
+            } catch (error) {
+                console.error('创建传世装备抽奖订单失败:', error);
+                // 关闭加载动画
+                hideOrderLoading();
+                alert('下单失败: ' + error.message);
+                
+                // 重置按钮状态
+                startEquipmentLotteryBtn.disabled = false;
+                startEquipmentLotteryBtn.innerHTML = '开始抽奖';
+                startEquipmentLotteryBtn.onclick = startEquipmentLottery;
+                // 恢复取消按钮显示
+                cancelEquipmentLotteryBtn.style.display = 'block';
+            }
+        }
+        
+        // 显示传世装备抽奖支付弹窗
+        function showPaymentModalForEquipmentLottery(prize) {
             const amount = prize.currentPrice;
             
             paymentAmount.textContent = `¥${amount}`;
@@ -2487,6 +3025,7 @@
                     userId: currentUser.id,
                     userName: currentUser.name,
                     userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
                     type: 'user',
                     content: content,
                     timestamp: new Date().toISOString(),
@@ -2531,8 +3070,8 @@
                         await loadUserMessages();
                     }, 300);
                     
-                    // 显示发送成功提示
-                    showReviewMessage('发送成功', '消息已发送给客服，我们会尽快回复您！');
+                    // 显示发送成功提示（带声音）
+                    showReviewMessageWithSound('发送成功', '消息已发送给客服，我们会尽快回复您！');
                 } else {
                     throw new Error('保存消息失败');
                 }
@@ -2556,7 +3095,15 @@
                     desc: "点击下单参与抽奖，随机获得一件传世武器！", 
                     category: "equipment", 
                     specs: [
-                        { name: "点击抽奖(1元抽传世武器)", price: 1, originalPrice: 299, isLottery: true }
+                        { name: "点击抽奖(1元抽传世武器)", price: 1, originalPrice: 299, isLottery: true, lotteryType: 'weapon' }
+                    ] 
+                },
+                { 
+                    title: "粉丝福利抽奖【传世】", 
+                    desc: "点击下单参与抽奖，随机获得一件传世装备！", 
+                    category: "equipment", 
+                    specs: [
+                        { name: "点击抽奖(0.01元抽传世装备)", price: 0.01, originalPrice: 9299, isLottery: true, lotteryType: 'equipment' }
                     ] 
                 },
                 { 
@@ -2760,9 +3307,18 @@
                         return;
                     }
                     
-                    // 检查是否为传世武器转盘（抽奖订单）
-                    if (order.title === "传世武器转盘" && order.specs[0].isLottery) {
-                        showLotteryModal(orderIndex);
+                    // 检查抽奖订单类型
+                    if (order.specs[0] && order.specs[0].isLottery) {
+                        const lotteryType = order.specs[0].lotteryType;
+                        
+                        if (lotteryType === 'weapon') {
+                            showLotteryModal(orderIndex);
+                        } else if (lotteryType === 'equipment') {
+                            showEquipmentLotteryModal(orderIndex);
+                        } else {
+                            // 默认武器抽奖
+                            showLotteryModal(orderIndex);
+                        }
                     } else {
                         showOrderModal(orderIndex);
                     }
@@ -2770,7 +3326,7 @@
             });
         }
         
-        // 显示抽奖弹窗
+        // 显示传世武器转盘抽奖弹窗
         function showLotteryModal(orderIndex) {
             const orderData = getOrderData();
             const order = orderData[orderIndex];
@@ -2790,6 +3346,30 @@
             });
             
             lotteryModal.style.display = 'flex';
+        }
+        
+        // 显示传世装备抽奖弹窗
+        async function showEquipmentLotteryModal(orderIndex) {
+            const orderData = getOrderData();
+            const order = orderData[orderIndex];
+            
+            equipmentOrder = order;
+            selectedEquipmentPrize = null;
+            
+            // 重置抽奖界面
+            startEquipmentLotteryBtn.disabled = false;
+            startEquipmentLotteryBtn.innerHTML = '开始抽奖';
+            startEquipmentLotteryBtn.onclick = startEquipmentLottery;
+            equipmentLotteryResult.style.display = 'none';
+            cancelEquipmentLotteryBtn.style.display = 'block';
+            document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
+                item.classList.remove('selected', 'winning');
+            });
+            
+            // 更新碎片显示
+            await updateFragmentDisplay();
+            
+            equipmentLotteryModal.style.display = 'flex';
         }
         
         // 生成分类订单
@@ -2863,9 +3443,18 @@
                         return;
                     }
                     
-                    // 检查是否为传世武器转盘（抽奖订单）
-                    if (order.title === "传世武器转盘" && order.specs[0].isLottery) {
-                        showLotteryModal(orderIndex);
+                    // 检查抽奖订单类型
+                    if (order.specs[0] && order.specs[0].isLottery) {
+                        const lotteryType = order.specs[0].lotteryType;
+                        
+                        if (lotteryType === 'weapon') {
+                            showLotteryModal(orderIndex);
+                        } else if (lotteryType === 'equipment') {
+                            showEquipmentLotteryModal(orderIndex);
+                        } else {
+                            // 默认武器抽奖
+                            showLotteryModal(orderIndex);
+                        }
                     } else {
                         showOrderModal(orderIndex);
                     }
@@ -2917,17 +3506,29 @@
             console.log('显示主应用界面');
             gameNameModal.style.display = 'none';
             serverModal.style.display = 'none';
+            wechatModal.style.display = 'none';
             mainContainer.style.display = 'block';
             
             userNameElement.textContent = currentUser.name;
             userServerElement.textContent = `区服: ${currentUser.server}`;
+            userWechatElement.textContent = `微信号/手机号: ${currentUser.wechat}`;
             
             setTimeout(() => {
-                showReviewMessage('欢迎', `【新单】推出0.5元保底1000万，${currentUser.name}！`);
+                showReviewMessageWithSound('欢迎', `【新单】推出0.5元保底1000万，${currentUser.name}！`);
             }, 1000);
         }
         
-        // 显示审核消息
+        // 显示审核消息（带声音）
+        function showReviewMessageWithSound(title, message) {
+            // 播放通知声音
+            playNotificationSound();
+            
+            reviewTitle.textContent = title;
+            reviewMessage.textContent = message;
+            reviewModal.style.display = 'flex';
+        }
+        
+        // 显示审核消息（不带声音）
         function showReviewMessage(title, message) {
             reviewTitle.textContent = title;
             reviewMessage.textContent = message;
@@ -2986,13 +3587,36 @@
                     
                     const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
                     
+                    // 检查是否已经有退款申请
+                    const hasRefund = order.refundRequested || false;
+                    
                     statusCard.innerHTML = `
                         <div class="status-title">${order.orderTitle} - ${order.spec}</div>
                         <div class="status-desc">订单金额: ¥${order.price}</div>
                         <div class="status-desc">${statusText}</div>
                         <div class="status-desc">下单时间: ${formattedTime}</div>
                         ${order.isLottery ? '<div class="status-desc" style="color:#FFD700;">✨ 抽奖订单</div>' : ''}
+                        ${hasRefund ? '<div class="status-desc" style="color:#ff6b6b;">⚠️ 已申请退款</div>' : ''}
+                        ${order.refundStatus ? `<div class="status-desc" style="color:#ff6b6b;">退款状态: ${order.refundStatus === 'approved' ? '已退款' : '退款被拒绝'}</div>` : ''}
                     `;
+                    
+                    // 添加退款按钮（只有审核通过的订单才能申请退款，并且没有退款申请或退款申请被拒绝）
+                    if (order.status === 'approved' && !hasRefund) {
+                        const refundBtn = document.createElement('button');
+                        refundBtn.className = 'refund-btn';
+                        refundBtn.textContent = '申请退款';
+                        refundBtn.dataset.orderId = order.id;
+                        refundBtn.addEventListener('click', () => applyForRefund(order.id));
+                        statusCard.appendChild(refundBtn);
+                    } else if (hasRefund && order.refundStatus === 'pending') {
+                        const refundBtn = document.createElement('button');
+                        refundBtn.className = 'refund-btn';
+                        refundBtn.textContent = '退款审核中';
+                        refundBtn.disabled = true;
+                        refundBtn.style.background = '#6c757d';
+                        statusCard.appendChild(refundBtn);
+                    }
+                    
                     userOrdersList.appendChild(statusCard);
                 });
             } catch (error) {
@@ -3003,6 +3627,75 @@
                         <button class="modal-btn" style="width: auto; margin-top: 10px;" onclick="loadMockOrders()">查看演示数据</button>
                     </div>
                 `;
+            }
+        }
+        
+        // 申请退款
+        async function applyForRefund(orderId) {
+            if (!currentUser) {
+                alert('请先登录');
+                return;
+            }
+            
+            try {
+                const allOrders = await storageManager.get('orders') || [];
+                const order = allOrders.find(o => o.id === orderId && o.userId === currentUser.id);
+                
+                if (!order) {
+                    alert('订单不存在或不属于您');
+                    return;
+                }
+                
+                // 检查是否已经有退款申请
+                if (order.refundRequested) {
+                    alert('您已经申请过退款了');
+                    return;
+                }
+                
+                // 显示退款申请弹窗
+                refundModal.style.display = 'flex';
+                refundReason.value = '';
+                
+                // 显示订单信息（简化版，实际上可以显示更多信息）
+                refundOrderList.innerHTML = `
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                        <div><strong>订单:</strong> ${order.orderTitle} - ${order.spec}</div>
+                        <div><strong>金额:</strong> ¥${order.price}</div>
+                        <div><strong>下单时间:</strong> ${new Date(order.timestamp).toLocaleString()}</div>
+                    </div>
+                `;
+                
+                // 设置提交按钮事件
+                submitRefundBtn.onclick = async () => {
+                    try {
+                        // 更新订单状态，标记为已申请退款
+                        const orderIndex = allOrders.findIndex(o => o.id === orderId);
+                        if (orderIndex !== -1) {
+                            allOrders[orderIndex].refundRequested = true;
+                            allOrders[orderIndex].refundStatus = 'pending';
+                            allOrders[orderIndex].refundReason = refundReason.value || '无原因';
+                            allOrders[orderIndex].refundRequestTime = new Date().toISOString();
+                            
+                            await storageManager.save('orders', allOrders);
+                            
+                            // 关闭弹窗
+                            refundModal.style.display = 'none';
+                            
+                            // 更新用户订单列表
+                            updateUserOrders();
+                            
+                            // 显示成功消息
+                            showReviewMessageWithSound('退款申请已提交', '您的退款申请已提交，请等待管理员审核！');
+                        }
+                    } catch (error) {
+                        console.error('提交退款申请失败:', error);
+                        alert('提交退款申请失败: ' + error.message);
+                    }
+                };
+                
+            } catch (error) {
+                console.error('申请退款失败:', error);
+                alert('申请退款失败: ' + error.message);
             }
         }
         
@@ -3076,9 +3769,9 @@
                         
                         if (oldStatus && oldStatus !== order.status) {
                             if (order.status === 'approved') {
-                                showReviewMessage('审核通过', '您的订单已通过审核！');
+                                showReviewMessageWithSound('审核通过', '您的订单已通过审核！');
                             } else if (order.status === 'rejected') {
-                                showReviewMessage('审核未通过', `您的订单未通过审核，理由: ${order.reason || '信息不符合要求'}`);
+                                showReviewMessageWithSound('审核未通过', `您的订单未通过审核，理由: ${order.reason || '信息不符合要求'}`);
                             }
                         }
                         
@@ -3101,6 +3794,8 @@
                 adminOrderList.innerHTML = '<div class="order-item">正在加载订单数据...</div>';
                 processedOrderList.innerHTML = '<div class="order-item">正在加载已处理订单数据...</div>';
                 adminMessageList.innerHTML = '<div class="message-item-admin">正在加载消息数据...</div>';
+                pendingRefundList.innerHTML = '<div class="refund-item">正在加载退款数据...</div>';
+                processedRefundList.innerHTML = '<div class="refund-item">正在加载已处理退款数据...</div>';
                 
                 // 加载用户数据
                 const allUsers = await storageManager.get('users') || [];
@@ -3118,7 +3813,9 @@
                         
                         userItem.innerHTML = `
                             <div><strong>${user.name}</strong> - ${user.server}</div>
+                            <div>微信号/手机号: ${user.wechat}</div>
                             <div>注册时间: ${formattedTime}</div>
+                            <div>传世碎片: ${user.fragments || 0} 个</div>
                         `;
                         userList.appendChild(userItem);
                     });
@@ -3154,11 +3851,13 @@
                             orderItem.innerHTML = `
                                 <div><strong>订单 #${order.id}</strong></div>
                                 <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
                                 <div>商品: ${order.orderTitle} - ${order.spec}</div>
                                 <div>金额: ¥${order.price}</div>
                                 <div>时间: ${formattedTime}</div>
                                 <div>状态: 审核中</div>
                                 ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
+                                ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
                                 <div class="order-actions">
                                     <button class="approve-btn" data-order="${order.id}">通过</button>
                                     <button class="reject-btn" data-order="${order.id}">拒绝</button>
@@ -3183,12 +3882,14 @@
                             orderItem.innerHTML = `
                                 <div><strong>订单 #${order.id}</strong></div>
                                 <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
                                 <div>商品: ${order.orderTitle} - ${order.spec}</div>
                                 <div>金额: ¥${order.price}</div>
                                 <div>时间: ${formattedTime}</div>
                                 <div>状态: <button class="${statusClass}" style="cursor: default;">${statusText}</button></div>
                                 ${order.reason ? `<div>拒绝理由: ${order.reason}</div>` : ''}
                                 ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
+                                ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
                             `;
                             processedOrderList.appendChild(orderItem);
                         });
@@ -3212,9 +3913,12 @@
                                     updateAdminPanel();
                                     
                                     const order = allOrders[orderIndex];
+                                    // 显示审核通过的弹窗
+                                    showReviewMessageWithSound('审核通过', `订单 #${order.id} 已审核通过！`);
+                                    
                                     if (currentUser && order.userId === currentUser.id) {
                                         updateUserOrders();
-                                        showReviewMessage('审核通过', '您的订单已通过审核！');
+                                        showReviewMessageWithSound('审核通过', '您的订单已通过审核！');
                                     }
                                     
                                     alert('审核通过！');
@@ -3248,9 +3952,12 @@
                                     updateAdminPanel();
                                     
                                     const order = allOrders[orderIndex];
+                                    // 显示审核未通过的弹窗
+                                    showReviewMessageWithSound('审核未通过', `订单 #${order.id} 已拒绝！`);
+                                    
                                     if (currentUser && order.userId === currentUser.id) {
                                         updateUserOrders();
-                                        showReviewMessage('审核未通过', `您的订单未通过审核，理由: ${reason}`);
+                                        showReviewMessageWithSound('审核未通过', `您的订单未通过审核，理由: ${reason}`);
                                     }
                                     
                                     alert('已拒绝订单！');
@@ -3297,6 +4004,7 @@
                         
                         messageItem.innerHTML = `
                             <div><strong>${message.userName} (${message.userServer})</strong></div>
+                            <div>微信号: ${message.userWechat || '未知'}</div>
                             <div>时间: ${formattedTime}</div>
                             <div>状态: ${statusText}</div>
                             <div class="message-content-admin">
@@ -3345,6 +4053,7 @@
                                     userId: allMessages.find(msg => msg.id === messageId)?.userId || '',
                                     userName: allMessages.find(msg => msg.id === messageId)?.userName || '',
                                     userServer: allMessages.find(msg => msg.id === messageId)?.userServer || '',
+                                    userWechat: allMessages.find(msg => msg.id === messageId)?.userWechat || '',
                                     type: 'admin',
                                     content: replyContent,
                                     timestamp: new Date().toISOString(),
@@ -3372,6 +4081,154 @@
                     });
                 }
                 
+                // 加载退款申请数据
+                pendingRefundList.innerHTML = '';
+                processedRefundList.innerHTML = '';
+                
+                if (allOrders.length === 0) {
+                    pendingRefundList.innerHTML = '<div class="refund-item">暂无待审核退款申请</div>';
+                    processedRefundList.innerHTML = '<div class="refund-item">暂无已处理退款申请</div>';
+                } else {
+                    // 获取所有已申请退款的订单
+                    const refundOrders = allOrders.filter(order => order.refundRequested);
+                    
+                    // 待审核退款申请
+                    const pendingRefunds = refundOrders.filter(order => order.refundStatus === 'pending');
+                    // 已处理退款申请
+                    const processedRefunds = refundOrders.filter(order => order.refundStatus !== 'pending' && order.refundStatus !== undefined);
+                    
+                    // 显示待审核退款申请
+                    if (pendingRefunds.length === 0) {
+                        pendingRefundList.innerHTML = '<div class="refund-item">暂无待审核退款申请</div>';
+                    } else {
+                        pendingRefunds.forEach(order => {
+                            const refundItem = document.createElement('div');
+                            refundItem.className = 'refund-item';
+                            
+                            const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
+                            const refundRequestTime = order.refundRequestTime ? new Date(order.refundRequestTime).toLocaleString() : '未知时间';
+                            
+                            refundItem.innerHTML = `
+                                <div><strong>退款申请 - 订单 #${order.id}</strong></div>
+                                <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
+                                <div>订单: ${order.orderTitle} - ${order.spec}</div>
+                                <div>订单金额: ¥${order.price}</div>
+                                <div>下单时间: ${formattedTime}</div>
+                                <div>申请退款时间: ${refundRequestTime}</div>
+                                <div>退款原因: ${order.refundReason || '无原因'}</div>
+                                <div class="refund-actions">
+                                    <button class="approve-btn" data-refund-order="${order.id}">通过退款</button>
+                                    <button class="reject-btn" data-refund-order="${order.id}">拒绝退款</button>
+                                </div>
+                            `;
+                            pendingRefundList.appendChild(refundItem);
+                        });
+                    }
+                    
+                    // 显示已处理退款申请
+                    if (processedRefunds.length === 0) {
+                        processedRefundList.innerHTML = '<div class="refund-item">暂无已处理退款申请</div>';
+                    } else {
+                        processedRefunds.forEach(order => {
+                            const refundItem = document.createElement('div');
+                            refundItem.className = 'refund-item';
+                            
+                            const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
+                            const refundRequestTime = order.refundRequestTime ? new Date(order.refundRequestTime).toLocaleString() : '未知时间';
+                            const refundStatusText = order.refundStatus === 'approved' ? '已退款' : '退款被拒绝';
+                            const refundStatusClass = order.refundStatus === 'approved' ? 'approve-btn' : 'reject-btn';
+                            
+                            refundItem.innerHTML = `
+                                <div><strong>退款申请 - 订单 #${order.id}</strong></div>
+                                <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
+                                <div>订单: ${order.orderTitle} - ${order.spec}</div>
+                                <div>订单金额: ¥${order.price}</div>
+                                <div>下单时间: ${formattedTime}</div>
+                                <div>申请退款时间: ${refundRequestTime}</div>
+                                <div>退款原因: ${order.refundReason || '无原因'}</div>
+                                <div>退款状态: <button class="${refundStatusClass}" style="cursor: default;">${refundStatusText}</button></div>
+                                ${order.refundReviewReason ? `<div>审核备注: ${order.refundReviewReason}</div>` : ''}
+                            `;
+                            processedRefundList.appendChild(refundItem);
+                        });
+                    }
+                    
+                    // 添加退款审核按钮事件监听
+                    document.querySelectorAll('.approve-btn[data-refund-order]').forEach(btn => {
+                        btn.addEventListener('click', async function() {
+                            const orderId = this.dataset.refundOrder;
+                            try {
+                                const allOrders = await storageManager.get('orders') || [];
+                                const orderIndex = allOrders.findIndex(order => order.id === orderId);
+                                
+                                if (orderIndex !== -1) {
+                                    const reason = prompt('请输入审核备注（可选）:');
+                                    
+                                    allOrders[orderIndex].refundStatus = 'approved';
+                                    allOrders[orderIndex].refundReviewReason = reason || '';
+                                    allOrders[orderIndex].refundReviewTime = new Date().toISOString();
+                                    
+                                    await storageManager.save('orders', allOrders);
+                                    updateAdminPanel();
+                                    
+                                    const order = allOrders[orderIndex];
+                                    // 显示审核通过的弹窗
+                                    showReviewMessageWithSound('退款审核通过', `订单 #${order.id} 的退款申请已通过！`);
+                                    
+                                    if (currentUser && order.userId === currentUser.id) {
+                                        updateUserOrders();
+                                        showReviewMessageWithSound('退款申请通过', '您的退款申请已通过，退款将很快处理！');
+                                    }
+                                    
+                                    alert('退款申请已通过！');
+                                }
+                            } catch (error) {
+                                console.error('审核退款申请失败:', error);
+                                alert('审核失败，请重试');
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.reject-btn[data-refund-order]').forEach(btn => {
+                        btn.addEventListener('click', async function() {
+                            const orderId = this.dataset.refundOrder;
+                            try {
+                                const allOrders = await storageManager.get('orders') || [];
+                                const orderIndex = allOrders.findIndex(order => order.id === orderId);
+                                
+                                if (orderIndex !== -1) {
+                                    const reason = prompt('请输入拒绝退款的原因:');
+                                    
+                                    if (reason === null) return;
+                                    
+                                    allOrders[orderIndex].refundStatus = 'rejected';
+                                    allOrders[orderIndex].refundReviewReason = reason;
+                                    allOrders[orderIndex].refundReviewTime = new Date().toISOString();
+                                    
+                                    await storageManager.save('orders', allOrders);
+                                    updateAdminPanel();
+                                    
+                                    const order = allOrders[orderIndex];
+                                    // 显示审核未通过的弹窗
+                                    showReviewMessageWithSound('退款审核未通过', `订单 #${order.id} 的退款申请已被拒绝！`);
+                                    
+                                    if (currentUser && order.userId === currentUser.id) {
+                                        updateUserOrders();
+                                        showReviewMessageWithSound('退款申请被拒绝', `您的退款申请被拒绝，原因: ${reason}`);
+                                    }
+                                    
+                                    alert('退款申请已拒绝！');
+                                }
+                            } catch (error) {
+                                console.error('拒绝退款申请失败:', error);
+                                alert('操作失败，请重试');
+                            }
+                        });
+                    });
+                }
+                
                 // 检查是否有未审核的订单，禁用或启用删除按钮
                 const pendingOrders = allOrders.filter(order => order.status === 'pending');
                 if (pendingOrders.length > 0) {
@@ -3388,6 +4245,8 @@
                 adminOrderList.innerHTML = '<div class="order-item">加载订单数据失败</div>';
                 processedOrderList.innerHTML = '<div class="order-item">加载已处理订单数据失败</div>';
                 adminMessageList.innerHTML = '<div class="message-item-admin">加载消息数据失败</div>';
+                pendingRefundList.innerHTML = '<div class="refund-item">加载退款数据失败</div>';
+                processedRefundList.innerHTML = '<div class="refund-item">加载已处理退款数据失败</div>';
                 alert('加载数据失败，请刷新页面重试');
             }
         }
@@ -3403,7 +4262,7 @@
             allUsers.forEach(user => {
                 const option = document.createElement('option');
                 option.value = user.id;
-                option.textContent = `${user.name} (${user.server})`;
+                option.textContent = `${user.name} (${user.server}) - ${user.wechat} - 碎片: ${user.fragments || 0}个`;
                 sendToUserSelect.appendChild(option);
             });
         }
@@ -3439,6 +4298,7 @@
                     userId: userId,
                     userName: user.name,
                     userServer: user.server,
+                    userWechat: user.wechat,
                     type: 'admin',
                     content: content,
                     timestamp: new Date().toISOString(),
@@ -3491,12 +4351,6 @@
                 await storageManager.remove('users');
                 console.log('已删除用户数据');
                 
-                // 清空本地存储
-                localStorage.removeItem('orders');
-                localStorage.removeItem('messages');
-                localStorage.removeItem('users');
-                localStorage.removeItem('localOrders');
-                
                 alert('所有数据已成功删除！');
                 
                 // 刷新后台面板
@@ -3522,7 +4376,7 @@
         });
         
         // 区服弹窗确认事件
-        serverConfirmBtn.addEventListener('click', async function() {
+        serverConfirmBtn.addEventListener('click', function() {
             const server = serverSelect.value;
             const name = sessionStorage.getItem('tempGameName');
             
@@ -3541,30 +4395,94 @@
                 return;
             }
             
+            sessionStorage.setItem('tempServer', server);
+            serverModal.style.display = 'none';
+            wechatModal.style.display = 'flex';
+            wechatInput1.focus();
+        });
+        
+        // 微信号弹窗确认事件
+        wechatConfirmBtn.addEventListener('click', async function() {
+            const wechat1 = wechatInput1.value.trim();
+            const wechat2 = wechatInput2.value.trim();
+            const name = sessionStorage.getItem('tempGameName');
+            const server = sessionStorage.getItem('tempServer');
+            
+            if (!wechat1 || !wechat2) {
+                alert('请输入微信号/手机号');
+                return;
+            }
+            
+            if (wechat1 !== wechat2) {
+                wechatError.style.display = 'block';
+                wechatInput1.value = '';
+                wechatInput2.value = '';
+                wechatInput1.focus();
+                return;
+            }
+            
+            wechatError.style.display = 'none';
+            console.log('微信号/手机号输入:', wechat1);
+            console.log('游戏名称:', name);
+            console.log('区服:', server);
+            
+            if (!name || !server) {
+                alert('信息丢失，请重新开始');
+                wechatModal.style.display = 'none';
+                gameNameModal.style.display = 'flex';
+                return;
+            }
+            
             try {
                 loading.style.display = 'flex';
                 
-                const userData = {
-                    id: 'user-' + Date.now(),
-                    name: name,
-                    server: server,
-                    registerTime: new Date().toISOString()
-                };
-                
+                // 检查是否已有该微信号的用户
                 const allUsers = await storageManager.get('users') || [];
-                allUsers.push(userData);
-                await storageManager.save('users', allUsers);
+                let existingUser = allUsers.find(user => user.wechat === wechat1);
                 
-                currentUser = userData;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                if (existingUser) {
+                    // 更新现有用户信息
+                    existingUser.name = name;
+                    existingUser.server = server;
+                    existingUser.lastLoginTime = new Date().toISOString();
+                    
+                    console.log('找到现有用户，更新信息:', existingUser);
+                } else {
+                    // 创建新用户
+                    const userData = {
+                        id: 'user-' + Date.now(),
+                        name: name,
+                        server: server,
+                        wechat: wechat1,
+                        registerTime: new Date().toISOString(),
+                        lastLoginTime: new Date().toISOString(),
+                        fragments: 0 // 新增：初始碎片数量为0
+                    };
+                    
+                    allUsers.push(userData);
+                    existingUser = userData;
+                    console.log('创建新用户:', userData);
+                }
+                
+                // 保存用户数据到云端
+                const saveResult = await storageManager.save('users', allUsers);
+                
+                if (!saveResult) {
+                    throw new Error('保存用户数据到云端失败');
+                }
+                
+                currentUser = existingUser;
+                
+                // 清除临时数据
                 sessionStorage.removeItem('tempGameName');
+                sessionStorage.removeItem('tempServer');
                 
-                serverModal.style.display = 'none';
+                wechatModal.style.display = 'none';
                 showMainApp();
                 console.log('用户登录成功');
             } catch (error) {
-                console.error('创建用户失败:', error);
-                alert('登录失败，请重试');
+                console.error('登录失败:', error);
+                alert('登录失败: ' + error.message);
             } finally {
                 loading.style.display = 'none';
             }
@@ -3573,15 +4491,18 @@
         // 退出登录事件
         logoutBtn.addEventListener('click', async function() {
             try {
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('localOrders');
                 currentUser = null;
+                
+                // 清除所有会话存储
+                sessionStorage.clear();
                 
                 mainContainer.style.display = 'none';
                 gameNameModal.style.display = 'flex';
                 
                 gameNameInput.value = '';
                 serverSelect.value = '';
+                wechatInput1.value = '';
+                wechatInput2.value = '';
                 
                 // 清除消息检查定时器
                 if (messageRefreshTimer) {
@@ -3596,7 +4517,7 @@
         
         // 导航切换
         navItems.forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', async function() {
                 const pageId = this.dataset.page;
                 
                 navItems.forEach(nav => nav.classList.remove('active'));
@@ -3607,6 +4528,8 @@
                 
                 if (pageId === 'profilePage' && currentUser) {
                     updateUserOrders();
+                    // 更新碎片显示
+                    await updateProfileFragmentDisplay();
                 }
                 
                 if (pageId === 'messagePage' && currentUser) {
@@ -3675,6 +4598,7 @@
                     userId: currentUser.id,
                     userName: currentUser.name,
                     userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
                     orderTitle: currentOrder.title,
                     spec: specData.name,
                     price: specData.price,
@@ -3721,10 +4645,16 @@
             selectedSpec = null;
         });
         
-        // 取消抽奖
+        // 取消传世武器抽奖
         cancelLotteryBtn.addEventListener('click', function() {
             lotteryModal.style.display = 'none';
             selectedPrize = null;
+        });
+        
+        // 取消传世装备抽奖
+        cancelEquipmentLotteryBtn.addEventListener('click', function() {
+            equipmentLotteryModal.style.display = 'none';
+            selectedEquipmentPrize = null;
         });
         
         // 支付确认
@@ -3737,6 +4667,11 @@
         // 审核弹窗关闭
         reviewCloseBtn.addEventListener('click', function() {
             reviewModal.style.display = 'none';
+        });
+        
+        // 取消退款申请
+        cancelRefundBtn.addEventListener('click', function() {
+            refundModal.style.display = 'none';
         });
         
         // 后台管理按钮点击事件
@@ -3830,8 +4765,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         
-        // 添加点击模态框背景关闭功能
+        // 添加点击模态框背景关闭功能 - 修改版：登录弹窗不关闭
         document.querySelectorAll('.modal, .lottery-modal').forEach(modal => {
+            // 检查是否为登录相关的弹窗（游戏名称、区服、微信号弹窗）
+            if (modal.id === 'gameNameModal' || modal.id === 'serverModal' || modal.id === 'wechatModal') {
+                // 登录弹窗不添加背景点击关闭功能
+                return;
+            }
             modal.addEventListener('click', function(e) {
                 if (e.target === this) {
                     this.style.display = 'none';
@@ -3839,9 +4779,15 @@
             });
         });
         
+        // 添加装备抽奖弹窗背景点击关闭功能
+        equipmentLotteryModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+        
         // 初始化应用
         init();
     </script>
-
 </body>
 </html>
