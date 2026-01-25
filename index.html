@@ -755,7 +755,7 @@
             border-radius: 12px;
             padding: 16px;
             width: 95%;
-            max-width: 450px;
+            max-width: 400px;
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -1544,132 +1544,6 @@
         .prize-list-item:last-child {
             border-bottom: none;
         }
-        
-        /* 后台管理分类样式 - 新增 */
-        .admin-category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 6px;
-        }
-        
-        .admin-category-tab {
-            padding: 6px 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .admin-category-tab.active {
-            background: rgba(255, 215, 0, 0.3);
-            color: #FFD700;
-            font-weight: 600;
-        }
-        
-        .admin-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        
-        .stat-card {
-            flex: 1;
-            min-width: 120px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #FFD700;
-            margin-bottom: 4px;
-        }
-        
-        .stat-label {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .user-group {
-            margin-bottom: 16px;
-        }
-        
-        .user-group h4 {
-            font-size: 0.8rem;
-            color: #FFD700;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* 订单分类样式 */
-        .order-type-indicator {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            margin-left: 6px;
-        }
-        
-        .order-type-normal {
-            background: rgba(33, 150, 243, 0.3);
-            color: #2196F3;
-        }
-        
-        .order-type-weapon {
-            background: rgba(255, 87, 34, 0.3);
-            color: #FF5722;
-        }
-        
-        .order-type-equipment {
-            background: rgba(76, 175, 80, 0.3);
-            color: #4CAF50;
-        }
-        
-        /* 高价值用户标记 */
-        .high-value-user {
-            position: relative;
-            border-left: 3px solid #FFD700;
-        }
-        
-        .high-value-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #FFD700;
-            color: #000;
-            font-size: 0.6rem;
-            padding: 1px 4px;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-        
-        /* 活跃用户标记 */
-        .active-user {
-            position: relative;
-            border-left: 3px solid #4CAF50;
-        }
-        
-        .active-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #4CAF50;
-            color: white;
-            font-size: 0.6rem;
-            padding: 1px 4px;
-            border-radius: 3px;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -1880,8 +1754,8 @@
                 <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">累计抽奖获得</div>
             </div>
             <div class="lottery-description" id="equipmentLotteryDescription">
-                恭喜你！，预计【300】发即可中一把传世武器！<br>
-                10000碎片可以兑换一把传世武器，碎片数量会自动累加！
+                恭喜你！你是幸运用户，预计【300】发即可中传世武器！<br>
+                10000个碎片即可兑换一把传世武器，碎片数量会自动累加！
             </div>
             
             <div class="prizes-container" id="equipmentPrizesContainer">
@@ -1983,54 +1857,22 @@
                 <div class="admin-tab" data-tab="refundsTab">退款审核</div>
                 <!-- 新增：给用户发消息标签页 -->
                 <div class="admin-tab" data-tab="sendMessageTab">给用户发消息</div>
-                <!-- 新增：统计报表标签页 -->
-                <div class="admin-tab" data-tab="statsTab">统计报表</div>
             </div>
             
-            <!-- 订单审核标签页 - 新增分类功能 -->
+            <!-- 订单审核标签页 -->
             <div class="admin-tab-content active" id="ordersTab">
-                <!-- 统计卡片 -->
-                <div class="admin-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalOrdersCount">0</div>
-                        <div class="stat-label">总订单数</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="pendingOrdersCount">0</div>
-                        <div class="stat-label">待审核</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="lotteryOrdersCount">0</div>
-                        <div class="stat-label">抽奖订单</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="todayOrdersCount">0</div>
-                        <div class="stat-label">今日订单</div>
-                    </div>
-                </div>
-                
-                <!-- 订单分类筛选 -->
-                <div class="admin-category-tabs" id="orderCategoryTabs">
-                    <div class="admin-category-tab active" data-order-category="all">全部订单</div>
-                    <div class="admin-category-tab" data-order-category="normal">普通订单</div>
-                    <div class="admin-category-tab" data-order-category="weapon">传世武器抽奖</div>
-                    <div class="admin-category-tab" data-order-category="equipment">粉丝福利抽奖</div>
-                    <div class="admin-category-tab" data-order-category="pending">待审核</div>
-                    <div class="admin-category-tab" data-order-category="processed">已处理</div>
-                </div>
-                
                 <div class="admin-section">
-                    <h3>订单列表</h3>
+                    <h3>待审核订单</h3>
                     <div class="order-list" id="adminOrderList">
                         <!-- 订单列表将由JavaScript动态生成 -->
                     </div>
                 </div>
                 
-                <!-- 新增：订单详情查看 -->
-                <div class="admin-section" id="orderDetailsSection" style="display: none;">
-                    <h3>订单详情</h3>
-                    <div id="orderDetailsContent"></div>
-                    <button class="modal-btn" id="closeOrderDetailsBtn" style="margin-top: 10px;">关闭详情</button>
+                <div class="admin-section">
+                    <h3>已处理订单</h3>
+                    <div class="order-list" id="processedOrderList">
+                        <!-- 已处理订单列表将由JavaScript动态生成 -->
+                    </div>
                 </div>
             </div>
             
@@ -2044,38 +1886,8 @@
                 </div>
             </div>
             
-            <!-- 用户管理标签页 - 新增分类功能 -->
+            <!-- 用户管理标签页 -->
             <div class="admin-tab-content" id="usersTab">
-                <!-- 用户统计 -->
-                <div class="admin-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalUsersCount">0</div>
-                        <div class="stat-label">总用户数</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="activeUsersCount">0</div>
-                        <div class="stat-label">活跃用户</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="highValueUsersCount">0</div>
-                        <div class="stat-label">高价值用户</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="newUsersCount">0</div>
-                        <div class="stat-label">今日新增</div>
-                    </div>
-                </div>
-                
-                <!-- 用户分类筛选 -->
-                <div class="admin-category-tabs" id="userCategoryTabs">
-                    <div class="admin-category-tab active" data-user-category="all">全部用户</div>
-                    <div class="admin-category-tab" data-user-category="active">活跃用户</div>
-                    <div class="admin-category-tab" data-user-category="highValue">高价值用户</div>
-                    <div class="admin-category-tab" data-user-category="new">新用户</div>
-                    <div class="admin-category-tab" data-user-category="qq">QQ区用户</div>
-                    <div class="admin-category-tab" data-user-category="wechat">微信区用户</div>
-                </div>
-                
                 <div class="admin-section">
                     <h3>用户列表</h3>
                     <div class="user-list" id="userList">
@@ -2121,52 +1933,6 @@
                     </div>
                     
                     <button class="modal-btn" id="sendMessageToUserBtn">发送消息</button>
-                </div>
-            </div>
-            
-            <!-- 统计报表标签页 - 新增 -->
-            <div class="admin-tab-content" id="statsTab">
-                <div class="admin-section">
-                    <h3>销售统计</h3>
-                    <div class="admin-stats">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalRevenue">¥0</div>
-                            <div class="stat-label">总收入</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="avgOrderValue">¥0</div>
-                            <div class="stat-label">客单价</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="ordersPerUser">0</div>
-                            <div class="stat-label">人均订单</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="conversionRate">0%</div>
-                            <div class="stat-label">转化率</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="admin-section">
-                    <h3>订单类型分布</h3>
-                    <div id="orderTypeChart">
-                        <!-- 订单类型分布将由JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <div class="admin-section">
-                    <h3>用户活跃度分析</h3>
-                    <div id="userActivityChart">
-                        <!-- 用户活跃度分析将由JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <div class="admin-section">
-                    <h3>热门商品排行</h3>
-                    <div id="popularProductsList">
-                        <!-- 热门商品排行将由JavaScript动态生成 -->
-                    </div>
                 </div>
             </div>
             
@@ -2595,28 +2361,6 @@
         const adminTabs = document.querySelectorAll('.admin-tab');
         const adminTabContents = document.querySelectorAll('.admin-tab-content');
         
-        // 新增：后台管理分类相关DOM元素
-        const orderCategoryTabs = document.getElementById('orderCategoryTabs');
-        const userCategoryTabs = document.getElementById('userCategoryTabs');
-        const totalOrdersCount = document.getElementById('totalOrdersCount');
-        const pendingOrdersCount = document.getElementById('pendingOrdersCount');
-        const lotteryOrdersCount = document.getElementById('lotteryOrdersCount');
-        const todayOrdersCount = document.getElementById('todayOrdersCount');
-        const totalUsersCount = document.getElementById('totalUsersCount');
-        const activeUsersCount = document.getElementById('activeUsersCount');
-        const highValueUsersCount = document.getElementById('highValueUsersCount');
-        const newUsersCount = document.getElementById('newUsersCount');
-        const totalRevenue = document.getElementById('totalRevenue');
-        const avgOrderValue = document.getElementById('avgOrderValue');
-        const ordersPerUser = document.getElementById('ordersPerUser');
-        const conversionRate = document.getElementById('conversionRate');
-        const orderTypeChart = document.getElementById('orderTypeChart');
-        const userActivityChart = document.getElementById('userActivityChart');
-        const popularProductsList = document.getElementById('popularProductsList');
-        const orderDetailsSection = document.getElementById('orderDetailsSection');
-        const orderDetailsContent = document.getElementById('orderDetailsContent');
-        const closeOrderDetailsBtn = document.getElementById('closeOrderDetailsBtn');
-        
         // 传世武器奖品数据
         const lotteryPrizes = [
             { 
@@ -2670,63 +2414,52 @@
         ];
         
         // 传世装备奖品数据 - 价格改为0.1
-        // 注意：这里有两个概率字段：
-        // - displayProbability: 给用户看的虚假概率（显示在界面上）
-        // - realProbability: 实际抽奖使用的真实概率（不显示给用户）
         const equipmentLotteryPrizes = [
             { 
                 name: "火焰刀", 
-                displayProbability: 0.20, // 显示概率: 0% 几率（给用户看）
-                realProbability: 0.00, // 真实概率: 0% 几率（实际计算用）
+                probability: 0.00, // 0% 几率
                 originalPrice: 1899,
                 currentPrice: 0.1
             },
             { 
                 name: "蝴蝶刀", 
-                displayProbability: 0.20, // 显示概率: 0% 几率（给用户看）
-                realProbability: 0.00, // 真实概率: 0% 几率（实际计算用）
+                probability: 0.00, // 0% 几率
                 originalPrice: 9699,
                 currentPrice: 0.1
             },
             { 
                 name: "苏尔南手枪", 
-                displayProbability: 0.10, // 显示概率: 0% 几率（给用户看）
-                realProbability: 0.00, // 真实概率: 0% 几率（实际计算用）
+                probability: 0.00, // 0% 几率
                 originalPrice: 99299,
                 currentPrice: 0.1
             },
             { 
                 name: "弗拉迪尾刺", 
-                displayProbability: 0.30, // 显示概率: 0% 几率（给用户看）
-                realProbability: 0.00, // 真实概率: 0% 几率（实际计算用）
+                probability: 0.00, // 0% 几率
                 originalPrice: 99199,
                 currentPrice: 0.1
             },
             { 
                 name: "传世碎片*1000", 
-                displayProbability: 0.20, // 显示概率: 1% 几率（给用户看，显示虚假的低概率）
-                realProbability: 0.01, // 真实概率: 1% 几率（实际计算用）
+                probability: 0.01, // 1% 几率（正常情况下）
                 originalPrice: 149,
                 currentPrice: 0.1
             },
             { 
-                name: "传世碎片*99999", 
-                displayProbability: 0.55, // 显示概率: 5% 几率（给用户看）
-                realProbability: 0.00, // 真实概率: 10% 几率（实际计算用，比显示的高）
+                name: "七级包", 
+                probability: 0.55, // 55% 几率
                 originalPrice: 99,
                 currentPrice: 0.1
             },
             { 
                 name: "传世碎片*2", 
-                displayProbability: 1.00, // 显示概率: 80% 几率（给用户看）
-                realProbability: 0.60, // 真实概率: 60% 几率（实际计算用，比显示的低）
+                probability: 0.60, // 60% 几率
                 originalPrice: 79,
                 currentPrice: 0.1
             },
             { 
                 name: "传世碎片*100", 
-                displayProbability: 0.95, // 显示概率: 75% 几率（给用户看）
-                realProbability: 0.29, // 真实概率: 29% 几率（实际计算用，比显示的低）
+                probability: 0.75, // 75% 几率
                 originalPrice: 49,
                 currentPrice: 0.1
             }
@@ -2739,13 +2472,6 @@
         
         // 新增：预加载订单数据，减少延迟
         let cachedOrderData = null;
-        
-        // 后台管理分类相关变量
-        let currentOrderCategory = 'all';
-        let currentUserCategory = 'all';
-        
-        // 用户碎片数据缓存
-        let userFragmentsCache = null;
         
         // 播放通知声音
         function playNotificationSound() {
@@ -2785,9 +2511,9 @@
             return 0;
         }
         
-        // 新增：预加载用户碎片数据
-        async function preloadUserFragments() {
-            if (!currentUser) return;
+        // 新增：加载并显示用户碎片数量
+        async function loadUserFragments() {
+            if (!currentUser) return 0;
             
             try {
                 const allUsers = await storageManager.get('users') || [];
@@ -2807,94 +2533,63 @@
                         await storageManager.save('users', allUsers);
                     }
                     
-                    // 更新当前用户对象并缓存碎片数据
+                    // 更新当前用户对象
                     currentUser.fragments = user.fragments;
                     currentUser.firstLotteryDone = user.firstLotteryDone;
-                    userFragmentsCache = user.fragments;
-                    
                     return user.fragments;
                 }
             } catch (error) {
-                console.error('预加载用户碎片数量失败:', error);
+                console.error('加载用户碎片数量失败:', error);
             }
             
             return 0;
         }
         
-        // 新增：异步更新碎片显示（无延迟）
-        async function updateFragmentDisplayAsync() {
-            if (!currentUser || !fragmentCountElement || !fragmentDisplay) return;
+        // 新增：更新碎片显示
+        async function updateFragmentDisplay() {
+            if (!currentUser) return;
             
-            // 立即显示缓存的数据
-            if (userFragmentsCache !== null) {
-                updateFragmentDisplayWithData(userFragmentsCache);
-            }
-            
-            // 异步加载最新数据并更新
-            setTimeout(async () => {
-                try {
-                    const allUsers = await storageManager.get('users') || [];
-                    const user = allUsers.find(u => u.id === currentUser.id);
-                    
-                    if (user) {
-                        const fragmentCount = user.fragments || 0;
-                        userFragmentsCache = fragmentCount;
-                        currentUser.fragments = fragmentCount;
-                        updateFragmentDisplayWithData(fragmentCount);
-                    }
-                } catch (error) {
-                    console.error('异步更新碎片显示失败:', error);
-                }
-            }, 100);
-        }
-        
-        // 新增：使用数据更新碎片显示
-        function updateFragmentDisplayWithData(fragmentCount) {
             if (!fragmentCountElement || !fragmentDisplay) return;
             
-            // 检查是否为第一次抽奖
-            const isFirstLottery = !currentUser.firstLotteryDone;
-            
-            if (fragmentCount === 0 && !isFirstLottery) {
-                fragmentDisplay.style.display = 'none';
-            } else {
-                fragmentDisplay.style.display = 'block';
+            try {
+                const fragmentCount = await loadUserFragments();
                 
-                // 不再显示首次抽奖特别提示，只显示碎片数量
-                fragmentDisplay.style.background = 'rgba(255, 215, 0, 0.1)';
-                fragmentDisplay.style.border = '1px solid rgba(255, 215, 0, 0.3)';
-                fragmentDisplay.innerHTML = `
-                    <div style="font-size: 0.85rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
-                    <div style="font-size: 1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">${fragmentCount} 个</div>
-                    <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">累计抽奖获得</div>
-                `;
+                // 检查是否为第一次抽奖
+                const isFirstLottery = !currentUser.firstLotteryDone;
+                
+                if (fragmentCount === 0 && !isFirstLottery) {
+                    fragmentDisplay.style.display = 'none';
+                } else {
+                    fragmentDisplay.style.display = 'block';
+                    
+                    // 不再显示首次抽奖特别提示，只显示碎片数量
+                    fragmentDisplay.style.background = 'rgba(255, 215, 0, 0.1)';
+                    fragmentDisplay.style.border = '1px solid rgba(255, 215, 0, 0.3)';
+                    fragmentDisplay.innerHTML = `
+                        <div style="font-size: 0.85rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
+                        <div style="font-size: 1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">${fragmentCount} 个</div>
+                        <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">累计抽奖获得</div>
+                    `;
+                }
+            } catch (error) {
+                console.error('更新碎片显示失败:', error);
+                fragmentCountElement.textContent = '加载失败';
             }
         }
         
         // 新增：更新用户信息页的碎片显示
         async function updateProfileFragmentDisplay() {
-            if (!currentUser || !fragmentCountInProfileElement) return;
+            if (!currentUser) return;
             
-            // 使用缓存数据或加载最新数据
-            if (userFragmentsCache !== null) {
-                fragmentCountInProfileElement.textContent = userFragmentsCache;
+            if (!fragmentCountInProfileElement) return;
+            
+            try {
+                const fragmentCount = await loadUserFragments();
+                fragmentCountInProfileElement.textContent = fragmentCount;
+            } catch (error) {
+                console.error('更新用户信息页碎片显示失败:', error);
+                fragmentCountInProfileElement.textContent = '加载失败';
             }
-            
-            // 异步更新最新数据
-            setTimeout(async () => {
-                try {
-                    const allUsers = await storageManager.get('users') || [];
-                    const user = allUsers.find(u => u.id === currentUser.id);
-                    
-                    if (user) {
-                        const fragmentCount = user.fragments || 0;
-                        userFragmentsCache = fragmentCount;
-                        fragmentCountInProfileElement.textContent = fragmentCount;
-                    }
-                } catch (error) {
-                    console.error('更新用户信息页碎片显示失败:', error);
-                }
-            }, 100);
         }
         
         // 保存用户信息到本地存储
@@ -2965,8 +2660,6 @@
                                 firstLotteryDone: cloudUser.firstLotteryDone !== undefined ? cloudUser.firstLotteryDone : (userData.firstLotteryDone || false)
                             };
                             
-                            userFragmentsCache = currentUser.fragments;
-                            
                             console.log('自动登录成功:', currentUser.name);
                             return true;
                         } else {
@@ -3006,9 +2699,6 @@
                     setupOrderNotifications();
                     setupMessageCheckTimer();
                     
-                    // 预加载用户碎片数据
-                    preloadUserFragments();
-                    
                     // 添加事件委托
                     ordersGrid.addEventListener('click', handleOrderButtonClick);
                     categoryOrdersGrid.addEventListener('click', handleOrderButtonClick);
@@ -3028,8 +2718,6 @@
                     if (currentUser.firstLotteryDone === undefined) {
                         currentUser.firstLotteryDone = false;
                     }
-                    
-                    userFragmentsCache = currentUser.fragments || 0;
                     
                     console.log('发现云端用户，自动登录:', currentUser.name);
                     
@@ -3055,7 +2743,7 @@
                 ordersGrid.addEventListener('click', handleOrderButtonClick);
                 categoryOrdersGrid.addEventListener('click', handleOrderButtonClick);
                 
-                // 为规格选项容器添加事件委托
+                // 修复：为规格选项容器添加事件委托 - 这是问题的关键！
                 specsModal.addEventListener('click', function(e) {
                     const specModal = e.target.closest('.spec-modal');
                     if (!specModal) return;
@@ -3063,6 +2751,7 @@
                     document.querySelectorAll('.spec-modal').forEach(s => s.classList.remove('active'));
                     specModal.classList.add('active');
                     selectedSpec = parseInt(specModal.dataset.spec);
+                    console.log('选择了规格:', selectedSpec, '价格:', specModal.dataset.price);
                 });
                 
                 if (currentUser) {
@@ -3070,8 +2759,6 @@
                     setupOrderNotifications();
                     // 设置消息检查定时器
                     setupMessageCheckTimer();
-                    // 预加载用户碎片数据
-                    preloadUserFragments();
                 }
             } catch (error) {
                 console.error('初始化失败:', error);
@@ -3159,7 +2846,7 @@
             });
         }
         
-        // 生成传世装备抽奖奖品显示 - 修改：显示虚假概率
+        // 生成传世装备抽奖奖品显示
         function generateEquipmentLotteryPrizes() {
             equipmentPrizesContainer.innerHTML = '';
             
@@ -3168,10 +2855,10 @@
                 prizeItem.className = 'prize-item';
                 prizeItem.dataset.prize = index;
                 
-                // 格式化概率显示 - 使用displayProbability（虚假概率）显示给用户
+                // 格式化概率显示 - 概率为0的不显示
                 let probabilityHtml = '';
-                if (prize.displayProbability > 0) {
-                    const probabilityPercent = Math.round(prize.displayProbability * 100);
+                if (prize.probability > 0) {
+                    const probabilityPercent = Math.round(prize.probability * 100);
                     probabilityHtml = `<div class="prize-probability">中奖几率: ${probabilityPercent}%</div>`;
                 }
                 
@@ -3246,7 +2933,7 @@
         }
         
         // 显示传世装备抽奖弹窗 - 优化版：立即显示
-        function showEquipmentLotteryModal(orderIndex) {
+        async function showEquipmentLotteryModal(orderIndex) {
             equipmentOrder = getOrderData()[orderIndex];
             selectedEquipmentPrize = null;
             equipmentLotteryOrderData = null;
@@ -3282,16 +2969,16 @@
             // 不再显示首次抽奖必得1000碎片的提示
             if (equipmentLotteryDescription) {
                 equipmentLotteryDescription.innerHTML = `
-                    恭喜你预计【300】发中一把传世武器！<br>
-                    10000碎片可以兑换一把传世武器！
+                    恭喜你！你是幸运用户，预计【300】发即可中一把传世武器！<br>
+                    10000碎片可以兑换一把传世武器，碎片数量会自动累加！
                 `;
             }
             
+            // 更新碎片显示
+            await updateFragmentDisplay();
+            
             // 立即显示弹窗
             equipmentLotteryModal.style.display = 'flex';
-            
-            // 异步更新碎片显示（无延迟）
-            updateFragmentDisplayAsync();
         }
         
         // 开始传世武器抽奖
@@ -3583,7 +3270,7 @@
             }, spinInterval);
         }
 
-        // 修改determineEquipmentLotteryResult函数 - 使用真实概率计算
+        // 修改determineEquipmentLotteryResult函数 - 抽奖结果显示方式改为弹窗
         async function determineEquipmentLotteryResult() {
             // 检查是否为第一次抽奖
             const isFirstLottery = !currentUser.firstLotteryDone;
@@ -3610,14 +3297,13 @@
                     if (isFirstLottery && i === 0) {
                         selectedIndex = 4; // 传世碎片*1000的索引
                     } else {
-                        // 按照真实的概率随机选择奖品 - 使用realProbability
+                        // 按照正常的概率随机选择奖品
                         const randomValue = Math.random();
                         let cumulativeProbability = 0;
                         selectedIndex = 0;
                         
                         for (let j = 0; j < equipmentLotteryPrizes.length; j++) {
-                            // 使用真实概率计算
-                            cumulativeProbability += equipmentLotteryPrizes[j].realProbability;
+                            cumulativeProbability += equipmentLotteryPrizes[j].probability;
                             if (randomValue <= cumulativeProbability) {
                                 selectedIndex = j;
                                 break;
@@ -3716,13 +3402,10 @@
                 startEquipmentLotteryBtn10.style.display = 'block';
                 
                 // 更新碎片显示
-                updateFragmentDisplayAsync();
+                updateFragmentDisplay();
                 
-                // 关闭抽奖弹窗，显示支付弹窗
-                setTimeout(() => {
-                    equipmentLotteryModal.style.display = 'none';
-                    showPaymentModalForEquipmentLottery(totalPrice);
-                }, 1500);
+                // 只显示支付弹窗，不关闭抽奖弹窗
+                showPaymentModalForEquipmentLottery(totalPrice);
             }
             
             // 后台创建订单的函数
@@ -3782,16 +3465,20 @@
                             // 保存到GitHub
                             await storageManager.save('users', allUsers);
                             
-                            // 更新当前用户对象和缓存
+                            // 更新当前用户对象
                             currentUser.fragments = allUsers[userIndex].fragments;
                             currentUser.firstLotteryDone = allUsers[userIndex].firstLotteryDone;
-                            userFragmentsCache = currentUser.fragments;
                             
                             // 更新本地存储
                             saveUserToLocalStorage(currentUser);
                             
+                            // 更新显示中的碎片数量
+                            if (fragmentCountElement) {
+                                fragmentCountElement.textContent = `${currentUser.fragments} 个`;
+                            }
+                            
                             // 更新碎片显示
-                            updateFragmentDisplayWithData(currentUser.fragments);
+                            updateFragmentDisplay();
                             updateProfileFragmentDisplay();
                             
                             console.log(`用户获得传世碎片: ${totalFragmentsEarned}, 累计: ${currentUser.fragments}`);
@@ -4284,6 +3971,9 @@
             // 立即显示弹窗
             orderModal.style.display = 'flex';
             
+            // 重置选中的规格
+            selectedSpec = null;
+            
             // 对规格按照价格从低到高排序
             const sortedSpecs = [...order.specs].sort((a, b) => a.price - b.price);
             
@@ -4316,10 +4006,10 @@
             userWechatElement.textContent = `微信号/手机号: ${currentUser.wechat}`;
             
             // 更新碎片显示
-            updateProfileFragmentDisplay();
+            await updateProfileFragmentDisplay();
             
             setTimeout(() => {
-                showReviewMessageWithSound('欢迎', `【传世武器转盘】0.1粉丝福利抽奖【无空发】，${currentUser.name}！`);
+                showReviewMessageWithSound('欢迎', `【新单】推出0.5元保底1000万，${currentUser.name}！`);
             }, 1000);
         }
         
@@ -4592,84 +4282,191 @@
             checkOrderStatus();
         }
         
-        // 新增：根据订单类型获取分类标签
-        function getOrderTypeLabel(order) {
-            if (order.isLottery) {
-                if (order.lotteryType === 'weapon') {
-                    return '传世武器抽奖';
-                } else if (order.lotteryType === 'equipment') {
-                    return '粉丝福利抽奖';
-                }
-                return '抽奖订单';
-            }
-            return '普通订单';
-        }
-        
-        // 新增：获取订单类型CSS类
-        function getOrderTypeClass(order) {
-            if (order.isLottery) {
-                if (order.lotteryType === 'weapon') {
-                    return 'order-type-weapon';
-                } else if (order.lotteryType === 'equipment') {
-                    return 'order-type-equipment';
-                }
-                return 'order-type-normal';
-            }
-            return 'order-type-normal';
-        }
-        
-        // 新增：判断用户是否为高价值用户
-        function isHighValueUser(user, orders) {
-            const userOrders = orders.filter(order => order.userId === user.id);
-            const totalSpent = userOrders.reduce((sum, order) => sum + (order.price || 0), 0);
-            return totalSpent >= 50 || (user.fragments || 0) >= 100; // 消费满50元或碎片超过100
-        }
-        
-        // 新增：判断用户是否为活跃用户
-        function isActiveUser(user) {
-            if (!user.lastLoginTime) return false;
-            const lastLogin = new Date(user.lastLoginTime);
-            const now = new Date();
-            const daysSinceLastLogin = (now - lastLogin) / (1000 * 60 * 60 * 24);
-            return daysSinceLastLogin <= 7; // 7天内登录过
-        }
-        
-        // 新增：判断用户是否为新用户
-        function isNewUser(user) {
-            if (!user.registerTime) return false;
-            const registerTime = new Date(user.registerTime);
-            const now = new Date();
-            const daysSinceRegister = (now - registerTime) / (1000 * 60 * 60 * 24);
-            return daysSinceRegister <= 7; // 7天内注册
-        }
-        
         // 更新后台管理界面
         async function updateAdminPanel() {
             try {
                 userList.innerHTML = '<div class="user-item">正在加载用户数据...</div>';
                 adminOrderList.innerHTML = '<div class="order-item">正在加载订单数据...</div>';
+                processedOrderList.innerHTML = '<div class="order-item">正在加载已处理订单数据...</div>';
                 adminMessageList.innerHTML = '<div class="message-item-admin">正在加载消息数据...</div>';
                 pendingRefundList.innerHTML = '<div class="refund-item">正在加载退款数据...</div>';
                 processedRefundList.innerHTML = '<div class="refund-item">正在加载已处理退款数据...</div>';
                 
                 // 加载用户数据
                 const allUsers = await storageManager.get('users') || [];
+                
+                userList.innerHTML = '';
+                
+                if (allUsers.length === 0) {
+                    userList.innerHTML = '<div class="user-item">暂无用户数据</div>';
+                } else {
+                    allUsers.forEach(user => {
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        
+                        const formattedTime = user.registerTime ? new Date(user.registerTime).toLocaleString() : '未知时间';
+                        
+                        userItem.innerHTML = `
+                            <div><strong>${user.name}</strong> - ${user.server}</div>
+                            <div>微信号/手机号: ${user.wechat}</div>
+                            <div>注册时间: ${formattedTime}</div>
+                            <div>传世碎片: ${user.fragments || 0} 个</div>
+                            <div>首次抽奖: ${user.firstLotteryDone ? '已完成' : '未完成'}</div>
+                        `;
+                        userList.appendChild(userItem);
+                    });
+                }
+                
+                // 更新给用户发消息的选择框
+                updateSendToUserSelect(allUsers);
+                
+                // 加载订单数据
+                adminOrderList.innerHTML = '';
+                processedOrderList.innerHTML = '';
                 const allOrders = await storageManager.get('orders') || [];
                 
-                // 更新订单统计
-                updateOrderStats(allOrders);
-                
-                // 更新用户统计
-                updateUserStats(allUsers, allOrders);
-                
-                // 更新统计报表
-                updateStatsTab(allUsers, allOrders);
-                
-                // 显示订单列表（根据当前分类）
-                displayOrdersByCategory(allOrders, allUsers);
-                
-                // 显示用户列表（根据当前分类）
-                displayUsersByCategory(allUsers, allOrders);
+                if (allOrders.length === 0) {
+                    adminOrderList.innerHTML = '<div class="order-item">暂无待审核订单</div>';
+                    processedOrderList.innerHTML = '<div class="order-item">暂无已处理订单</div>';
+                } else {
+                    allOrders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    
+                    const pendingOrders = allOrders.filter(order => order.status === 'pending');
+                    const processedOrders = allOrders.filter(order => order.status !== 'pending');
+                    
+                    // 显示待审核订单
+                    if (pendingOrders.length === 0) {
+                        adminOrderList.innerHTML = '<div class="order-item">暂无待审核订单</div>';
+                    } else {
+                        pendingOrders.forEach(order => {
+                            const orderItem = document.createElement('div');
+                            orderItem.className = 'order-item';
+                            
+                            const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
+                            
+                            orderItem.innerHTML = `
+                                <div><strong>订单 #${order.id}</strong></div>
+                                <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
+                                <div>商品: ${order.orderTitle} - ${order.spec}</div>
+                                <div>金额: ¥${order.price}</div>
+                                <div>时间: ${formattedTime}</div>
+                                <div>状态: 审核中</div>
+                                ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
+                                ${order.isFirstLottery ? '<div>首次抽奖: 是</div>' : ''}
+                                ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
+                                <div class="order-actions">
+                                    <button class="approve-btn" data-order="${order.id}">通过</button>
+                                    <button class="reject-btn" data-order="${order.id}">拒绝</button>
+                                </div>
+                            `;
+                            adminOrderList.appendChild(orderItem);
+                        });
+                    }
+                    
+                    // 显示已处理订单
+                    if (processedOrders.length === 0) {
+                        processedOrderList.innerHTML = '<div class="order-item">暂无已处理订单</div>';
+                    } else {
+                        processedOrders.forEach(order => {
+                            const orderItem = document.createElement('div');
+                            orderItem.className = 'order-item';
+                            
+                            const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
+                            const statusText = order.status === 'approved' ? '已通过' : '已拒绝';
+                            const statusClass = order.status === 'approved' ? 'approve-btn' : 'reject-btn';
+                            
+                            orderItem.innerHTML = `
+                                <div><strong>订单 #${order.id}</strong></div>
+                                <div>用户: ${order.userName} (${order.userServer})</div>
+                                <div>微信号: ${order.userWechat || '未知'}</div>
+                                <div>商品: ${order.orderTitle} - ${order.spec}</div>
+                                <div>金额: ¥${order.price}</div>
+                                <div>时间: ${formattedTime}</div>
+                                <div>状态: <button class="${statusClass}" style="cursor: default;">${statusText}</button></div>
+                                ${order.reason ? `<div>拒绝理由: ${order.reason}</div>` : ''}
+                                ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
+                                ${order.isFirstLottery ? '<div>首次抽奖: 是</div>' : ''}
+                                ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
+                            `;
+                            processedOrderList.appendChild(orderItem);
+                        });
+                    }
+                    
+                    // 添加订单操作按钮事件监听
+                    document.querySelectorAll('.approve-btn').forEach(btn => {
+                        if (!btn.hasAttribute('data-order')) return;
+                        
+                        btn.addEventListener('click', async function() {
+                            const orderId = this.dataset.order;
+                            try {
+                                const allOrders = await storageManager.get('orders') || [];
+                                const orderIndex = allOrders.findIndex(order => order.id === orderId);
+                                
+                                if (orderIndex !== -1) {
+                                    allOrders[orderIndex].status = 'approved';
+                                    allOrders[orderIndex].updatedAt = new Date().toISOString();
+                                    
+                                    await storageManager.save('orders', allOrders);
+                                    updateAdminPanel();
+                                    
+                                    const order = allOrders[orderIndex];
+                                    // 显示审核通过的弹窗
+                                    showReviewMessageWithSound('审核通过', `订单 #${order.id} 已审核通过！`);
+                                    
+                                    if (currentUser && order.userId === currentUser.id) {
+                                        updateUserOrders();
+                                        showReviewMessageWithSound('审核通过', '您的订单已通过审核！');
+                                    }
+                                    
+                                    alert('审核通过！');
+                                }
+                            } catch (error) {
+                                console.error('审核订单失败:', error);
+                                alert('审核失败，请重试');
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.reject-btn').forEach(btn => {
+                        if (!btn.hasAttribute('data-order')) return;
+                        
+                        btn.addEventListener('click', async function() {
+                            const orderId = this.dataset.order;
+                            const reason = prompt('请输入拒绝理由:', '信息不符合要求');
+                            
+                            if (reason === null) return;
+                            
+                            try {
+                                const allOrders = await storageManager.get('orders') || [];
+                                const orderIndex = allOrders.findIndex(order => order.id === orderId);
+                                
+                                if (orderIndex !== -1) {
+                                    allOrders[orderIndex].status = 'rejected';
+                                    allOrders[orderIndex].reason = reason;
+                                    allOrders[orderIndex].updatedAt = new Date().toISOString();
+                                    
+                                    await storageManager.save('orders', allOrders);
+                                    updateAdminPanel();
+                                    
+                                    const order = allOrders[orderIndex];
+                                    // 显示审核未通过的弹窗
+                                    showReviewMessageWithSound('审核未通过', `订单 #${order.id} 已拒绝！`);
+                                    
+                                    if (currentUser && order.userId === currentUser.id) {
+                                        updateUserOrders();
+                                        showReviewMessageWithSound('审核未通过', `您的订单未通过审核，理由: ${reason}`);
+                                    }
+                                    
+                                    alert('已拒绝订单！');
+                                }
+                            } catch (error) {
+                                console.error('拒绝订单失败:', error);
+                                alert('操作失败，请重试');
+                            }
+                        });
+                    });
+                }
                 
                 // 加载并显示消息
                 adminMessageList.innerHTML = '';
@@ -4940,584 +4737,16 @@
                     deleteAllDataBtn.title = '删除所有数据';
                 }
                 
-                // 更新给用户发消息的选择框
-                updateSendToUserSelect(allUsers);
-                
             } catch (error) {
                 console.error('更新后台面板失败:', error);
                 userList.innerHTML = '<div class="user-item">加载用户数据失败</div>';
                 adminOrderList.innerHTML = '<div class="order-item">加载订单数据失败</div>';
+                processedOrderList.innerHTML = '<div class="order-item">加载已处理订单数据失败</div>';
                 adminMessageList.innerHTML = '<div class="message-item-admin">加载消息数据失败</div>';
                 pendingRefundList.innerHTML = '<div class="refund-item">加载退款数据失败</div>';
                 processedRefundList.innerHTML = '<div class="refund-item">加载已处理退款数据失败</div>';
                 alert('加载数据失败，请刷新页面重试');
             }
-        }
-        
-        // 新增：更新订单统计
-        function updateOrderStats(allOrders) {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const totalOrders = allOrders.length;
-            const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
-            const lotteryOrders = allOrders.filter(order => order.isLottery).length;
-            const todayOrders = allOrders.filter(order => {
-                const orderDate = new Date(order.timestamp);
-                return orderDate >= today;
-            }).length;
-            
-            totalOrdersCount.textContent = totalOrders;
-            pendingOrdersCount.textContent = pendingOrders;
-            lotteryOrdersCount.textContent = lotteryOrders;
-            todayOrdersCount.textContent = todayOrders;
-        }
-        
-        // 新增：更新用户统计
-        function updateUserStats(allUsers, allOrders) {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const totalUsers = allUsers.length;
-            const activeUsers = allUsers.filter(user => isActiveUser(user)).length;
-            const highValueUsers = allUsers.filter(user => isHighValueUser(user, allOrders)).length;
-            const newUsers = allUsers.filter(user => {
-                const registerDate = new Date(user.registerTime);
-                return registerDate >= today;
-            }).length;
-            
-            totalUsersCount.textContent = totalUsers;
-            activeUsersCount.textContent = activeUsers;
-            highValueUsersCount.textContent = highValueUsers;
-            newUsersCount.textContent = newUsers;
-        }
-        
-        // 新增：更新统计报表
-        function updateStatsTab(allUsers, allOrders) {
-            // 计算总收入
-            const totalRevenueValue = allOrders.reduce((sum, order) => sum + (order.price || 0), 0);
-            totalRevenue.textContent = `¥${totalRevenueValue.toFixed(2)}`;
-            
-            // 计算客单价
-            const avgOrderValueCalc = allOrders.length > 0 ? totalRevenueValue / allOrders.length : 0;
-            avgOrderValue.textContent = `¥${avgOrderValueCalc.toFixed(2)}`;
-            
-            // 计算人均订单数
-            const ordersPerUserCalc = allUsers.length > 0 ? allOrders.length / allUsers.length : 0;
-            ordersPerUser.textContent = ordersPerUserCalc.toFixed(1);
-            
-            // 计算转化率（有订单的用户比例）
-            const usersWithOrders = new Set(allOrders.map(order => order.userId)).size;
-            const conversionRateCalc = allUsers.length > 0 ? (usersWithOrders / allUsers.length * 100) : 0;
-            conversionRate.textContent = `${conversionRateCalc.toFixed(1)}%`;
-            
-            // 更新订单类型分布
-            updateOrderTypeChart(allOrders);
-            
-            // 更新用户活跃度分析
-            updateUserActivityChart(allUsers);
-            
-            // 更新热门商品排行
-            updatePopularProductsList(allOrders);
-        }
-        
-        // 新增：更新订单类型分布
-        function updateOrderTypeChart(allOrders) {
-            const normalOrders = allOrders.filter(order => !order.isLottery).length;
-            const weaponLotteryOrders = allOrders.filter(order => order.isLottery && order.lotteryType === 'weapon').length;
-            const equipmentLotteryOrders = allOrders.filter(order => order.isLottery && order.lotteryType === 'equipment').length;
-            const total = allOrders.length;
-            
-            orderTypeChart.innerHTML = `
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>普通订单</span>
-                        <span>${normalOrders} (${total > 0 ? ((normalOrders/total)*100).toFixed(1) : 0}%)</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>传世武器抽奖</span>
-                        <span>${weaponLotteryOrders} (${total > 0 ? ((weaponLotteryOrders/total)*100).toFixed(1) : 0}%)</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>粉丝福利抽奖</span>
-                        <span>${equipmentLotteryOrders} (${total > 0 ? ((equipmentLotteryOrders/total)*100).toFixed(1) : 0}%)</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // 新增：更新用户活跃度分析
-        function updateUserActivityChart(allUsers) {
-            const today = new Date();
-            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-            
-            const activeUsers = allUsers.filter(user => {
-                if (!user.lastLoginTime) return false;
-                const lastLogin = new Date(user.lastLoginTime);
-                return lastLogin >= weekAgo;
-            }).length;
-            
-            const inactiveUsers = allUsers.filter(user => {
-                if (!user.lastLoginTime) return false;
-                const lastLogin = new Date(user.lastLoginTime);
-                return lastLogin < weekAgo && lastLogin >= monthAgo;
-            }).length;
-            
-            const dormantUsers = allUsers.filter(user => {
-                if (!user.lastLoginTime) return false;
-                const lastLogin = new Date(user.lastLoginTime);
-                return lastLogin < monthAgo;
-            }).length;
-            
-            userActivityChart.innerHTML = `
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>活跃用户 (7天内登录)</span>
-                        <span>${activeUsers}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>不活跃用户 (7-30天)</span>
-                        <span>${inactiveUsers}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>休眠用户 (30天以上)</span>
-                        <span>${dormantUsers}</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // 新增：更新热门商品排行
-        function updatePopularProductsList(allOrders) {
-            // 统计每个商品的订单数量
-            const productCounts = {};
-            allOrders.forEach(order => {
-                const productKey = `${order.orderTitle} - ${order.spec}`;
-                productCounts[productKey] = (productCounts[productKey] || 0) + 1;
-            });
-            
-            // 转换为数组并排序
-            const sortedProducts = Object.entries(productCounts)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 5); // 取前5名
-            
-            popularProductsList.innerHTML = '';
-            
-            if (sortedProducts.length === 0) {
-                popularProductsList.innerHTML = '<div style="text-align: center; color: rgba(255, 255, 255, 0.6);">暂无订单数据</div>';
-                return;
-            }
-            
-            sortedProducts.forEach(([product, count], index) => {
-                const productItem = document.createElement('div');
-                productItem.style.cssText = `
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 6px 8px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border-radius: 4px;
-                    margin-bottom: 4px;
-                    font-size: 0.75rem;
-                `;
-                
-                productItem.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="color: #FFD700; font-weight: bold;">${index + 1}</span>
-                        <span>${product}</span>
-                    </div>
-                    <span style="color: #ff6b6b; font-weight: bold;">${count}单</span>
-                `;
-                
-                popularProductsList.appendChild(productItem);
-            });
-        }
-        
-        // 新增：根据分类显示订单
-        function displayOrdersByCategory(allOrders, allUsers) {
-            adminOrderList.innerHTML = '';
-            
-            let filteredOrders = allOrders;
-            
-            // 根据当前分类筛选订单
-            switch(currentOrderCategory) {
-                case 'normal':
-                    filteredOrders = allOrders.filter(order => !order.isLottery);
-                    break;
-                case 'weapon':
-                    filteredOrders = allOrders.filter(order => order.isLottery && order.lotteryType === 'weapon');
-                    break;
-                case 'equipment':
-                    filteredOrders = allOrders.filter(order => order.isLottery && order.lotteryType === 'equipment');
-                    break;
-                case 'pending':
-                    filteredOrders = allOrders.filter(order => order.status === 'pending');
-                    break;
-                case 'processed':
-                    filteredOrders = allOrders.filter(order => order.status !== 'pending');
-                    break;
-                default:
-                    // 全部订单
-                    filteredOrders = allOrders;
-            }
-            
-            // 按时间倒序排列
-            filteredOrders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            if (filteredOrders.length === 0) {
-                adminOrderList.innerHTML = '<div class="order-item">暂无订单数据</div>';
-                return;
-            }
-            
-            filteredOrders.forEach(order => {
-                const orderItem = document.createElement('div');
-                orderItem.className = 'order-item';
-                orderItem.style.cursor = 'pointer';
-                
-                const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString() : '未知时间';
-                const orderTypeLabel = getOrderTypeLabel(order);
-                const orderTypeClass = getOrderTypeClass(order);
-                
-                // 查找用户信息
-                const user = allUsers.find(u => u.id === order.userId);
-                const userFragments = user ? user.fragments || 0 : 0;
-                
-                orderItem.innerHTML = `
-                    <div><strong>订单 #${order.id.substring(0, 8)}...</strong> 
-                        <span class="order-type-indicator ${orderTypeClass}">${orderTypeLabel}</span>
-                    </div>
-                    <div>用户: ${order.userName} (${order.userServer})</div>
-                    <div>微信号: ${order.userWechat || '未知'}</div>
-                    <div>商品: ${order.orderTitle} - ${order.spec}</div>
-                    <div>金额: ¥${order.price} ${order.originalPrice ? `(原价: ¥${order.originalPrice})` : ''}</div>
-                    <div>时间: ${formattedTime}</div>
-                    <div>状态: ${order.status === 'pending' ? '审核中' : order.status === 'approved' ? '已通过' : '已拒绝'}</div>
-                    ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
-                    ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
-                    ${userFragments > 0 ? `<div>用户总碎片: ${userFragments} 个</div>` : ''}
-                    ${order.status === 'pending' ? `
-                        <div class="order-actions">
-                            <button class="approve-btn" data-order="${order.id}">通过</button>
-                            <button class="reject-btn" data-order="${order.id}">拒绝</button>
-                        </div>
-                    ` : ''}
-                `;
-                
-                // 添加点击查看详情事件
-                orderItem.addEventListener('click', function(e) {
-                    // 如果不是点击按钮，则显示订单详情
-                    if (!e.target.closest('.approve-btn') && !e.target.closest('.reject-btn')) {
-                        showOrderDetails(order, user);
-                    }
-                });
-                
-                adminOrderList.appendChild(orderItem);
-            });
-            
-            // 添加订单操作按钮事件监听
-            document.querySelectorAll('.approve-btn').forEach(btn => {
-                if (!btn.hasAttribute('data-order')) return;
-                
-                btn.addEventListener('click', async function(e) {
-                    e.stopPropagation();
-                    const orderId = this.dataset.order;
-                    try {
-                        const allOrders = await storageManager.get('orders') || [];
-                        const orderIndex = allOrders.findIndex(order => order.id === orderId);
-                        
-                        if (orderIndex !== -1) {
-                            allOrders[orderIndex].status = 'approved';
-                            allOrders[orderIndex].updatedAt = new Date().toISOString();
-                            
-                            await storageManager.save('orders', allOrders);
-                            updateAdminPanel();
-                            
-                            const order = allOrders[orderIndex];
-                            // 显示审核通过的弹窗
-                            showReviewMessageWithSound('审核通过', `订单 #${order.id.substring(0, 8)}... 已审核通过！`);
-                            
-                            if (currentUser && order.userId === currentUser.id) {
-                                updateUserOrders();
-                                showReviewMessageWithSound('审核通过', '您的订单已通过审核！');
-                            }
-                            
-                            alert('审核通过！');
-                        }
-                    } catch (error) {
-                        console.error('审核订单失败:', error);
-                        alert('审核失败，请重试');
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.reject-btn').forEach(btn => {
-                if (!btn.hasAttribute('data-order')) return;
-                
-                btn.addEventListener('click', async function(e) {
-                    e.stopPropagation();
-                    const orderId = this.dataset.order;
-                    const reason = prompt('请输入拒绝理由:', '信息不符合要求');
-                    
-                    if (reason === null) return;
-                    
-                    try {
-                        const allOrders = await storageManager.get('orders') || [];
-                        const orderIndex = allOrders.findIndex(order => order.id === orderId);
-                        
-                        if (orderIndex !== -1) {
-                            allOrders[orderIndex].status = 'rejected';
-                            allOrders[orderIndex].reason = reason;
-                            allOrders[orderIndex].updatedAt = new Date().toISOString();
-                            
-                            await storageManager.save('orders', allOrders);
-                            updateAdminPanel();
-                            
-                            const order = allOrders[orderIndex];
-                            // 显示审核未通过的弹窗
-                            showReviewMessageWithSound('审核未通过', `订单 #${order.id.substring(0, 8)}... 已拒绝！`);
-                            
-                            if (currentUser && order.userId === currentUser.id) {
-                                updateUserOrders();
-                                showReviewMessageWithSound('审核未通过', `您的订单未通过审核，理由: ${reason}`);
-                            }
-                            
-                            alert('已拒绝订单！');
-                        }
-                    } catch (error) {
-                        console.error('拒绝订单失败:', error);
-                        alert('操作失败，请重试');
-                    }
-                });
-            });
-        }
-        
-        // 新增：根据分类显示用户
-        function displayUsersByCategory(allUsers, allOrders) {
-            userList.innerHTML = '';
-            
-            let filteredUsers = allUsers;
-            
-            // 根据当前分类筛选用户
-            switch(currentUserCategory) {
-                case 'active':
-                    filteredUsers = allUsers.filter(user => isActiveUser(user));
-                    break;
-                case 'highValue':
-                    filteredUsers = allUsers.filter(user => isHighValueUser(user, allOrders));
-                    break;
-                case 'new':
-                    filteredUsers = allUsers.filter(user => isNewUser(user));
-                    break;
-                case 'qq':
-                    filteredUsers = allUsers.filter(user => user.server === 'QQ区');
-                    break;
-                case 'wechat':
-                    filteredUsers = allUsers.filter(user => user.server === '微信区');
-                    break;
-                default:
-                    // 全部用户
-                    filteredUsers = allUsers;
-            }
-            
-            // 按注册时间倒序排列
-            filteredUsers.sort((a, b) => new Date(b.registerTime || 0) - new Date(a.registerTime || 0));
-            
-            if (filteredUsers.length === 0) {
-                userList.innerHTML = '<div class="user-item">暂无用户数据</div>';
-                return;
-            }
-            
-            // 分组显示用户
-            const userGroups = {
-                highValue: [],
-                active: [],
-                regular: []
-            };
-            
-            filteredUsers.forEach(user => {
-                const userOrders = allOrders.filter(order => order.userId === user.id);
-                const totalSpent = userOrders.reduce((sum, order) => sum + (order.price || 0), 0);
-                const orderCount = userOrders.length;
-                
-                if (isHighValueUser(user, allOrders)) {
-                    userGroups.highValue.push({user, totalSpent, orderCount});
-                } else if (isActiveUser(user)) {
-                    userGroups.active.push({user, totalSpent, orderCount});
-                } else {
-                    userGroups.regular.push({user, totalSpent, orderCount});
-                }
-            });
-            
-            // 显示高价值用户组
-            if (userGroups.highValue.length > 0) {
-                const highValueGroup = document.createElement('div');
-                highValueGroup.className = 'user-group';
-                highValueGroup.innerHTML = '<h4>💎 高价值用户</h4>';
-                
-                userGroups.highValue.forEach(({user, totalSpent, orderCount}) => {
-                    const userItem = createUserItem(user, totalSpent, orderCount, true, false);
-                    highValueGroup.appendChild(userItem);
-                });
-                
-                userList.appendChild(highValueGroup);
-            }
-            
-            // 显示活跃用户组
-            if (userGroups.active.length > 0) {
-                const activeGroup = document.createElement('div');
-                activeGroup.className = 'user-group';
-                activeGroup.innerHTML = '<h4>✨ 活跃用户</h4>';
-                
-                userGroups.active.forEach(({user, totalSpent, orderCount}) => {
-                    const userItem = createUserItem(user, totalSpent, orderCount, false, true);
-                    activeGroup.appendChild(userItem);
-                });
-                
-                userList.appendChild(activeGroup);
-            }
-            
-            // 显示普通用户组
-            if (userGroups.regular.length > 0) {
-                const regularGroup = document.createElement('div');
-                regularGroup.className = 'user-group';
-                regularGroup.innerHTML = '<h4>👤 普通用户</h4>';
-                
-                userGroups.regular.forEach(({user, totalSpent, orderCount}) => {
-                    const userItem = createUserItem(user, totalSpent, orderCount, false, false);
-                    regularGroup.appendChild(userItem);
-                });
-                
-                userList.appendChild(regularGroup);
-            }
-        }
-        
-        // 新增：创建用户项目
-        function createUserItem(user, totalSpent, orderCount, isHighValue, isActive) {
-            const userItem = document.createElement('div');
-            userItem.className = 'user-item';
-            
-            if (isHighValue) {
-                userItem.classList.add('high-value-user');
-            } else if (isActive) {
-                userItem.classList.add('active-user');
-            }
-            
-            const formattedTime = user.registerTime ? new Date(user.registerTime).toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : '未知时间';
-            
-            const lastLoginTime = user.lastLoginTime ? new Date(user.lastLoginTime).toLocaleString('zh-CN', {
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : '从未登录';
-            
-            userItem.innerHTML = `
-                <div><strong>${user.name}</strong> - ${user.server}</div>
-                <div>微信号: ${user.wechat}</div>
-                <div>注册时间: ${formattedTime}</div>
-                <div>最后登录: ${lastLoginTime}</div>
-                <div>订单数: ${orderCount} | 消费金额: ¥${totalSpent.toFixed(2)}</div>
-                <div>传世碎片: ${user.fragments || 0} 个</div>
-                <div>首次抽奖: ${user.firstLotteryDone ? '已完成' : '未完成'}</div>
-                ${isHighValue ? '<div class="high-value-badge">高价值</div>' : ''}
-                ${isActive && !isHighValue ? '<div class="active-badge">活跃</div>' : ''}
-            `;
-            
-            return userItem;
-        }
-        
-        // 新增：显示订单详情
-        function showOrderDetails(order, user) {
-            const formattedTime = order.timestamp ? new Date(order.timestamp).toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            }) : '未知时间';
-            
-            const orderTypeLabel = getOrderTypeLabel(order);
-            
-            orderDetailsContent.innerHTML = `
-                <div style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 6px;">
-                    <h4 style="color: #FFD700; margin-bottom: 10px;">订单详情</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-                        <div><strong>订单ID:</strong></div>
-                        <div>${order.id}</div>
-                        
-                        <div><strong>订单类型:</strong></div>
-                        <div>${orderTypeLabel}</div>
-                        
-                        <div><strong>商品名称:</strong></div>
-                        <div>${order.orderTitle}</div>
-                        
-                        <div><strong>规格:</strong></div>
-                        <div>${order.spec}</div>
-                        
-                        <div><strong>价格:</strong></div>
-                        <div>¥${order.price} ${order.originalPrice ? `(原价: ¥${order.originalPrice})` : ''}</div>
-                        
-                        <div><strong>状态:</strong></div>
-                        <div>${order.status === 'pending' ? '审核中' : order.status === 'approved' ? '已通过' : '已拒绝'}</div>
-                        
-                        <div><strong>下单时间:</strong></div>
-                        <div>${formattedTime}</div>
-                    </div>
-                    
-                    <h4 style="color: #FFD700; margin-top: 15px; margin-bottom: 10px;">用户信息</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                        <div><strong>用户名:</strong></div>
-                        <div>${order.userName}</div>
-                        
-                        <div><strong>区服:</strong></div>
-                        <div>${order.userServer}</div>
-                        
-                        <div><strong>微信号:</strong></div>
-                        <div>${order.userWechat || '未知'}</div>
-                        
-                        ${user ? `
-                            <div><strong>注册时间:</strong></div>
-                            <div>${user.registerTime ? new Date(user.registerTime).toLocaleString('zh-CN') : '未知'}</div>
-                            
-                            <div><strong>传世碎片:</strong></div>
-                            <div>${user.fragments || 0} 个</div>
-                        ` : ''}
-                    </div>
-                    
-                    ${order.reason ? `
-                        <h4 style="color: #FFD700; margin-top: 15px; margin-bottom: 10px;">审核备注</h4>
-                        <div style="background: rgba(255, 107, 107, 0.1); padding: 8px; border-radius: 4px;">
-                            ${order.reason}
-                        </div>
-                    ` : ''}
-                    
-                    ${order.refundRequested ? `
-                        <h4 style="color: #FFD700; margin-top: 15px; margin-bottom: 10px;">退款信息</h4>
-                        <div style="background: rgba(255, 215, 0, 0.1); padding: 8px; border-radius: 4px;">
-                            <div><strong>退款状态:</strong> ${order.refundStatus || 'pending'}</div>
-                            ${order.refundReason ? `<div><strong>退款原因:</strong> ${order.refundReason}</div>` : ''}
-                            ${order.refundRequestTime ? `<div><strong>申请时间:</strong> ${new Date(order.refundRequestTime).toLocaleString('zh-CN')}</div>` : ''}
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-            
-            orderDetailsSection.style.display = 'block';
-            adminOrderList.style.display = 'none';
-        }
-        
-        // 新增：关闭订单详情
-        function closeOrderDetails() {
-            orderDetailsSection.style.display = 'none';
-            adminOrderList.style.display = 'flex';
         }
         
         // 更新给用户发消息的选择框
@@ -5767,7 +4996,6 @@
                 }
                 
                 currentUser = existingUser;
-                userFragmentsCache = currentUser.fragments || 0;
                 
                 // 保存用户信息到本地存储
                 saveUserToLocalStorage(currentUser);
@@ -5805,7 +5033,6 @@
                 clearLocalUserData();
                 
                 currentUser = null;
-                userFragmentsCache = null;
                 
                 // 清除所有会话存储
                 sessionStorage.clear();
@@ -5843,7 +5070,7 @@
                 if (pageId === 'profilePage' && currentUser) {
                     updateUserOrders();
                     // 更新碎片显示
-                    updateProfileFragmentDisplay();
+                    await updateProfileFragmentDisplay();
                 }
                 
                 if (pageId === 'messagePage' && currentUser) {
@@ -5891,47 +5118,7 @@
             }
         }
         
-        // 新增：订单分类标签点击事件
-        if (orderCategoryTabs) {
-            orderCategoryTabs.addEventListener('click', function(e) {
-                const categoryTab = e.target.closest('.admin-category-tab');
-                if (!categoryTab) return;
-                
-                // 更新当前分类
-                currentOrderCategory = categoryTab.dataset.orderCategory;
-                
-                // 更新标签状态
-                document.querySelectorAll('#orderCategoryTabs .admin-category-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                categoryTab.classList.add('active');
-                
-                // 刷新订单列表
-                updateAdminPanel();
-            });
-        }
-        
-        // 新增：用户分类标签点击事件
-        if (userCategoryTabs) {
-            userCategoryTabs.addEventListener('click', function(e) {
-                const categoryTab = e.target.closest('.admin-category-tab');
-                if (!categoryTab) return;
-                
-                // 更新当前分类
-                currentUserCategory = categoryTab.dataset.userCategory;
-                
-                // 更新标签状态
-                document.querySelectorAll('#userCategoryTabs .admin-category-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                categoryTab.classList.add('active');
-                
-                // 刷新用户列表
-                updateAdminPanel();
-            });
-        }
-        
-        // 确认下单
+        // 修复：确认下单按钮事件
         confirmOrderBtn.addEventListener('click', async function() {
             const selectedSpecElement = document.querySelector('.spec-modal.active');
             
@@ -5940,8 +5127,20 @@
                 return;
             }
             
+            // 获取选中的规格索引
+            const specIndex = parseInt(selectedSpecElement.dataset.spec);
+            console.log('选中的规格索引:', specIndex, 'selectedSpec变量值:', selectedSpec);
+            
+            // 使用选中的规格索引
+            const selectedSpecIndex = specIndex !== undefined ? specIndex : selectedSpec;
+            
+            if (selectedSpecIndex === null || selectedSpecIndex === undefined) {
+                alert('请选择一个规格');
+                return;
+            }
+            
             try {
-                const specData = currentOrder.specs[selectedSpec];
+                const specData = currentOrder.specs[selectedSpecIndex];
                 
                 // 显示加载动画
                 showOrderLoading();
@@ -5981,10 +5180,13 @@
                 
                 // 关闭下单弹窗，显示支付弹窗
                 orderModal.style.display = 'none';
-                showPaymentModal(currentOrder, selectedSpec);
+                showPaymentModal(currentOrder, selectedSpecIndex);
                 
                 // 更新用户订单列表
                 await updateUserOrders();
+                
+                // 重置选中的规格
+                selectedSpec = null;
             } catch (error) {
                 console.error('创建订单失败:', error);
                 // 关闭加载动画
@@ -6124,11 +5326,6 @@
             // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        
-        // 新增：关闭订单详情按钮事件
-        if (closeOrderDetailsBtn) {
-            closeOrderDetailsBtn.addEventListener('click', closeOrderDetails);
-        }
         
         // 添加点击模态框背景关闭功能 - 修改版：登录弹窗不关闭
         document.querySelectorAll('.modal, .lottery-modal').forEach(modal => {
