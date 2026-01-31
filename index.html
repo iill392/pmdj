@@ -101,19 +101,6 @@
             box-shadow: 0 6px 15px rgba(221, 36, 118, 0.5);
         }
         
-        /* 错误提示样式 */
-        .modal-error {
-            color: #ff6b6b;
-            font-size: 0.8rem;
-            margin: 5px 0;
-            display: none;
-            padding: 8px;
-            background: rgba(255, 107, 107, 0.1);
-            border-radius: 4px;
-            border-left: 3px solid #ff6b6b;
-            line-height: 1.4;
-        }
-        
         /* 主容器 */
         .container {
             max-width: 100%;
@@ -244,6 +231,43 @@
         }
         
         .order-card.sold-out .order-btn:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* 签到订单特殊样式 */
+        .order-card.daily-sign {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            animation: pulse-glow 3s infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 3px 8px rgba(255, 215, 0, 0.1);
+            }
+            to {
+                box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
+            }
+        }
+        
+        .order-card.daily-sign .order-title {
+            color: #FFD700;
+        }
+        
+        .order-card.daily-sign .order-btn {
+            background: linear-gradient(45deg, #FFD700, #FF8A00);
+            color: #1a2a6c;
+            font-weight: 700;
+        }
+        
+        .order-card.daily-sign .order-btn:disabled {
+            background: linear-gradient(45deg, #555, #777);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: not-allowed;
+        }
+        
+        .order-card.daily-sign .order-btn:disabled:hover {
             transform: none;
             box-shadow: none;
         }
@@ -718,6 +742,53 @@
             line-height: 1.3;
         }
         
+        /* 签到弹窗 */
+        .sign-modal {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+        }
+        
+        .sign-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .sign-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+        
+        .sign-fragments {
+            font-size: 2.5rem;
+            margin: 15px 0;
+            color: #FFD700;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+        
+        .sign-message {
+            margin: 15px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
         /* 后台管理 */
         .admin-panel {
             position: fixed;
@@ -1035,46 +1106,46 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            padding: 10px;
+            padding: 12px;
             width: 95%;
-            max-width: 300px;
+            max-width: 320px;
             text-align: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            margin: 10px auto;
+            margin: 12px auto;
         }
         
         .lottery-title {
-            font-size: 0.95rem;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            margin-bottom: 10px;
             color: #FFD700;
         }
         
         .lottery-description {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.75rem;
-            line-height: 1.2;
+            font-size: 0.8rem;
+            line-height: 1.3;
         }
         
         .prizes-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-            margin: 10px 0;
-            max-height: 200px;
+            gap: 8px;
+            margin: 12px 0;
+            max-height: 240px;
             overflow-y: auto;
-            padding: 3px;
+            padding: 4px;
         }
         
         .prize-item {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            padding: 8px 5px;
+            border-radius: 8px;
+            padding: 10px 6px;
             transition: all 0.2s;
             border: 1px solid transparent;
             cursor: pointer;
-            min-height: 70px;
+            min-height: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1104,41 +1175,41 @@
         }
         
         .prize-name {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             color: #FFD700;
             line-height: 1.1;
         }
         
         .prize-probability {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
         
         .prize-original-price {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             color: rgba(255, 255, 255, 0.5);
             text-decoration: line-through;
             margin-bottom: 2px;
         }
         
         .prize-current-price {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #ff6b6b;
             font-weight: 600;
         }
         
         .lottery-btn {
             width: 100%;
-            padding: 8px;
-            margin-top: 10px;
+            padding: 10px;
+            margin-top: 12px;
             background: linear-gradient(45deg, #FF512F, #DD2476);
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -1155,41 +1226,41 @@
         }
         
         .lottery-result {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 12px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             display: none;
         }
         
         .result-title {
-            font-size: 0.9rem;
-            margin-bottom: 6px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
             color: #FFD700;
         }
         
         .result-prize {
-            font-size: 0.85rem;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
             font-weight: 700;
             color: #ff6b6b;
             line-height: 1.2;
         }
         
         .result-message {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.75rem;
-            line-height: 1.2;
+            font-size: 0.8rem;
+            line-height: 1.3;
         }
         
         .lottery-spinner {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border: 3px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             border-top-color: #FFD700;
-            margin: 10px auto;
+            margin: 12px auto;
             animation: spin 1s ease-in-out infinite;
         }
         
@@ -1311,23 +1382,28 @@
             
             /* 抽奖界面手机适配 */
             .lottery-content {
-                padding: 8px;
+                padding: 10px;
                 margin: 8px;
             }
             
             .prizes-container {
                 grid-template-columns: 1fr;
-                gap: 5px;
-                max-height: 180px;
+                gap: 6px;
+                max-height: 200px;
             }
             
             .prize-item {
-                padding: 6px 4px;
-                min-height: 65px;
+                padding: 8px 5px;
+                min-height: 70px;
             }
             
             .prize-name {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
+            }
+            
+            /* 签到弹窗手机适配 */
+            .sign-fragments {
+                font-size: 2rem;
             }
             
             /* 联系客服悬浮球移动端适配 */
@@ -1347,7 +1423,7 @@
             }
         }
         
-        /* 针对非常小的手机屏幕 - 专门为360DPI优化 */
+        /* 针对非常小的手机屏幕 */
         @media (max-width: 360px) {
             .orders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -1371,44 +1447,8 @@
                 font-size: 0.75rem;
             }
             
-            /* 抽奖弹窗进一步缩小 */
-            .lottery-content {
-                padding: 8px;
-                margin: 5px;
-                max-width: 280px;
-            }
-            
-            .prizes-container {
-                grid-template-columns: 1fr;
-                gap: 4px;
-                max-height: 160px;
-            }
-            
-            .prize-item {
-                padding: 5px 3px;
-                min-height: 60px;
-            }
-            
-            .prize-name {
-                font-size: 0.7rem;
-            }
-            
-            .prize-probability {
-                font-size: 0.6rem;
-            }
-            
-            .prize-original-price {
-                font-size: 0.55rem;
-            }
-            
-            .prize-current-price {
-                font-size: 0.7rem;
-            }
-            
-            .lottery-btn {
-                padding: 7px;
-                font-size: 0.85rem;
-                margin-top: 8px;
+            .sign-fragments {
+                font-size: 1.8rem;
             }
             
             .floating-support {
@@ -1436,15 +1476,6 @@
             .chat-container {
                 height: 200px;
             }
-            
-            .lottery-content {
-                max-height: 90vh;
-                overflow-y: auto;
-            }
-            
-            .prizes-container {
-                max-height: 150px;
-            }
         }
         
         /* 抽奖滚动条样式 */
@@ -1465,84 +1496,26 @@
         .prizes-container::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 215, 0, 0.6);
         }
-
-        /* 新增样式：抽奖按钮组 */
+        
+        /* 新增：抽奖按钮并排样式 */
         .lottery-buttons-container {
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .lottery-btn-single, .lottery-btn-ten {
-            flex: 1;
-            padding: 10px;
-            background: linear-gradient(45deg, #FF512F, #DD2476);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .lottery-btn-single:hover:not(:disabled), 
-        .lottery-btn-ten:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(221, 36, 118, 0.5);
-        }
-
-        .lottery-btn-single:disabled, 
-        .lottery-btn-ten:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .lottery-buttons-container {
-                flex-direction: column;
-                gap: 6px;
-            }
-            
-            .lottery-btn-single, .lottery-btn-ten {
-                padding: 8px;
-                font-size: 0.8rem;
-            }
-        }
-        
-        /* 新增：再来一次按钮样式 */
-        .again-btn {
-            background: linear-gradient(45deg, #4CAF50, #45a049) !important;
-        }
-        
-        /* 新增：按钮容器样式 */
-        .result-buttons-container {
-            display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-top: 12px;
         }
         
-        /* 新增：奖品列表样式 */
-        .prize-list {
-            text-align: left;
-            margin: 10px 0;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            max-height: 150px;
-            overflow-y: auto;
+        .lottery-buttons-container .lottery-btn {
+            flex: 1;
+            margin-top: 0;
+            font-size: 0.9rem;
+            padding: 10px 5px;
         }
         
-        .prize-list-item {
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .prize-list-item:last-child {
-            border-bottom: none;
+        @media (max-width: 360px) {
+            .lottery-buttons-container .lottery-btn {
+                font-size: 0.85rem;
+                padding: 8px 4px;
+            }
         }
     </style>
 </head>
@@ -1583,8 +1556,6 @@
                 <option value="微信区">微信区</option>
             </select>
             <button class="modal-btn" id="serverConfirmBtn">下一步</button>
-            <!-- 添加上一步按钮 -->
-            <button class="modal-btn" style="background: #6c757d; margin-top: 8px;" id="serverPrevBtn">上一步</button>
         </div>
     </div>
     
@@ -1594,12 +1565,8 @@
             <h2 class="modal-title">输入微信号/手机号</h2>
             <input type="text" class="modal-input" id="wechatInput1" placeholder="请输入微信号或手机号">
             <input type="text" class="modal-input" id="wechatInput2" placeholder="请再次输入确认">
-            <div id="wechatError" class="modal-error">两次输入不一致，请重新输入</div>
-            <!-- 添加wxid验证错误提示 -->
-            <div id="wxidError" class="modal-error">微信号不能以wxid开头，请输入手机号注册或登录</div>
+            <div id="wechatError" style="color: #ff6b6b; font-size: 0.8rem; margin: 5px 0; display: none;">两次输入不一致，请重新输入</div>
             <button class="modal-btn" id="wechatConfirmBtn">进入</button>
-            <!-- 添加上一步按钮 -->
-            <button class="modal-btn" style="background: #6c757d; margin-top: 8px;" id="wechatPrevBtn">上一步</button>
         </div>
     </div>
     
@@ -1654,7 +1621,7 @@
             <div class="profile">
                 <div class="avatar">
                     <!-- 随机头像 -->
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzMzYzhmZiIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTI1IDYwIEEyMCAyMCA0IDAgMSA1NSA2MCBMNTUgNzAgQTIwIDIwIDQgMCAxIDI1IDcwIFoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="用户头像">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iIzMzYzhmZiIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTI1IDYwIEEyMCAyMCA0IDAgMSA1NSA2MCBMNTUgNzAgQTIwIDIwIDAgMCAxIDI1IDcwIFoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" alt="用户头像">
                 </div>
                 <div class="user-info">
                     <h2 id="userName">用户名</h2>
@@ -1700,6 +1667,22 @@
         </div>
     </div>
     
+    <!-- 签到弹窗 -->
+    <div class="sign-modal" id="signModal">
+        <div class="sign-content">
+            <h2 class="sign-title">签到成功！</h2>
+            <div class="sign-fragments" id="signFragmentsCount">+1</div>
+            <p class="sign-message" id="signMessage">
+                您获得了100个传世碎片！<br>
+                1万个碎片等于随机一把传世武器
+            </p>
+            <p class="sign-message" style="color: #FFD700; font-size: 0.8rem; margin-top: 10px;">
+                当前碎片总数: <span id="totalFragmentsCount">0</span> 个
+            </p>
+            <button class="modal-btn" id="signCloseBtn" style="margin-top: 20px;">确定</button>
+        </div>
+    </div>
+    
     <!-- 下单弹窗 -->
     <div class="order-modal" id="orderModal">
         <div class="order-modal-content">
@@ -1733,8 +1716,6 @@
                     <div class="result-title">抽奖结果</div>
                     <div class="result-prize" id="resultPrize"></div>
                     <div class="result-message" id="resultMessage"></div>
-                    <!-- 新增：按钮容器 -->
-                    <div id="weaponLotteryButtons" style="margin-top: 15px;"></div>
                 </div>
             </div>
             
@@ -1748,37 +1729,33 @@
         <div class="lottery-content">
             <h2 class="lottery-title">粉丝福利抽奖【传世】</h2>
             <!-- 新增：碎片数量显示 -->
-            <div class="fragment-display" id="fragmentDisplay" style="text-align: center; margin: 8px 0; padding: 6px; background: rgba(255, 215, 0, 0.1); border-radius: 6px; border: 1px solid rgba(255, 215, 0, 0.3);">
-                <div style="font-size: 0.85rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
-                <div style="font-size: 1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">加载中...</div>
-                <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">累计抽奖获得</div>
+            <div class="fragment-display" id="fragmentDisplay" style="text-align: center; margin: 10px 0; padding: 8px; background: rgba(255, 215, 0, 0.1); border-radius: 6px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                <div style="font-size: 0.9rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">加载中...</div>
+                <div style="font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); margin-top: 3px;">累计抽奖获得</div>
             </div>
-            <div class="lottery-description" id="equipmentLotteryDescription">
-                恭喜你！你是幸运用户，预计【300】发即可中传世武器！<br>
-                10000个碎片即可兑换一把传世武器，碎片数量会自动累加！
+            <div class="lottery-description">
+                1万个碎片可获得1把传世武器<br>
+                抽中什么就会自动下单什么，每单只有一次抽奖机会！
             </div>
             
             <div class="prizes-container" id="equipmentPrizesContainer">
                 <!-- 装备奖品将由JavaScript动态生成 -->
             </div>
             
-            <!-- 抽奖结果区域 -->
-            <div class="lottery-result" id="equipmentLotteryResult" style="display: none;">
-                <div class="lottery-spinner" id="equipmentLotterySpinner" style="display: none;"></div>
-                <div id="equipmentResultContent" style="display: none;">
+            <div class="lottery-result" id="equipmentLotteryResult">
+                <div class="lottery-spinner" id="equipmentLotterySpinner"></div>
+                <div id="equipmentResultContent">
                     <div class="result-title">抽奖结果</div>
-                    <div id="equipmentResultList" style="max-height: 150px; overflow-y: auto; margin: 8px 0;"></div>
+                    <div class="result-prize" id="equipmentResultPrize"></div>
                     <div class="result-message" id="equipmentResultMessage"></div>
-                    
-                    <!-- 新增：按钮容器 -->
-                    <div id="equipmentLotteryButtons" style="margin-top: 12px;"></div>
                 </div>
             </div>
             
-            <!-- 抽奖按钮组 -->
-            <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button class="lottery-btn" id="startEquipmentLotteryBtn1" style="flex: 1;">抽一次 (¥0.1)</button>
-                <button class="lottery-btn" id="startEquipmentLotteryBtn10" style="flex: 1;">抽十次 (¥1.0)</button>
+            <!-- 修改：将原来的一个按钮改为两个按钮并排 -->
+            <div class="lottery-buttons-container">
+                <button class="lottery-btn" id="startEquipmentLotteryBtn">抽一次 (¥0.01)</button>
+                <button class="lottery-btn" id="start10EquipmentLotteryBtn">抽十次 (¥0.10)</button>
             </div>
             <button class="modal-btn" style="background: #6c757d; margin-top: 8px;" id="cancelEquipmentLotteryBtn">取消</button>
         </div>
@@ -1974,13 +1951,6 @@
             githubRepo: 'iill392/game-order-system',
             githubBranch: 'main',
             apiEndpoint: ''
-        };
-        
-        // 本地存储的键名
-        const LOCAL_STORAGE_KEYS = {
-            USER_ID: 'youlong_user_id',
-            USER_DATA: 'youlong_user_data',
-            LOGIN_TIME: 'youlong_login_time'
         };
 
         // 简单的Token组合函数
@@ -2250,15 +2220,66 @@
         let selectedPrize = null;
         let selectedEquipmentPrize = null;
         let equipmentOrder = null;
-        // 新增：存储已创建的抽奖订单
-        let weaponLotteryOrderData = null;
-        let equipmentLotteryOrderData = null;
         
         // 客服消息刷新定时器
         let messageRefreshTimer = null;
         
         // 管理员密码
-        const ADMIN_PASSWORD = "admin123456";
+        const ADMIN_PASSWORD = "admin525780";
+        
+        // 登录状态管理
+        const LOGIN_EXPIRE_DAYS = 14; // 免登录天数
+        
+        // 验证微信号
+        function validateWechat(wechat) {
+            return !wechat.trim().toLowerCase().startsWith('wxid');
+        }
+        
+        // 保存登录状态
+        function saveLoginState(userData) {
+            const loginState = {
+                userId: userData.id,
+                loginTime: new Date().getTime(),
+                expireTime: new Date().getTime() + (LOGIN_EXPIRE_DAYS * 24 * 60 * 60 * 1000) // 14天后
+            };
+            localStorage.setItem('loginState', JSON.stringify(loginState));
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+        
+        // 检查登录状态
+        function checkLoginState() {
+            try {
+                const loginStateStr = localStorage.getItem('loginState');
+                const userDataStr = localStorage.getItem('userData');
+                
+                if (!loginStateStr || !userDataStr) {
+                    return null;
+                }
+                
+                const loginState = JSON.parse(loginStateStr);
+                const userData = JSON.parse(userDataStr);
+                
+                // 检查是否过期
+                if (new Date().getTime() > loginState.expireTime) {
+                    localStorage.removeItem('loginState');
+                    localStorage.removeItem('userData');
+                    return null;
+                }
+                
+                return userData;
+            } catch (error) {
+                console.error('检查登录状态失败:', error);
+                localStorage.removeItem('loginState');
+                localStorage.removeItem('userData');
+                return null;
+            }
+        }
+        
+        // 清除登录状态
+        function clearLoginState() {
+            localStorage.removeItem('loginState');
+            localStorage.removeItem('userData');
+        }
         
         // DOM元素
         const loading = document.getElementById('loading');
@@ -2268,14 +2289,11 @@
         const serverModal = document.getElementById('serverModal');
         const serverSelect = document.getElementById('serverSelect');
         const serverConfirmBtn = document.getElementById('serverConfirmBtn');
-        const serverPrevBtn = document.getElementById('serverPrevBtn'); // 新增：区服上一步按钮
         const wechatModal = document.getElementById('wechatModal');
         const wechatInput1 = document.getElementById('wechatInput1');
         const wechatInput2 = document.getElementById('wechatInput2');
         const wechatError = document.getElementById('wechatError');
-        const wxidError = document.getElementById('wxidError'); // 新增：wxid错误提示
         const wechatConfirmBtn = document.getElementById('wechatConfirmBtn');
-        const wechatPrevBtn = document.getElementById('wechatPrevBtn'); // 新增：微信号上一步按钮
         const mainContainer = document.getElementById('mainContainer');
         const userNameElement = document.getElementById('userName');
         const userServerElement = document.getElementById('userServer');
@@ -2300,18 +2318,16 @@
         const resultContent = document.getElementById('resultContent');
         const resultPrize = document.getElementById('resultPrize');
         const resultMessage = document.getElementById('resultMessage');
-        const weaponLotteryButtons = document.getElementById('weaponLotteryButtons');
         const equipmentLotteryModal = document.getElementById('equipmentLotteryModal');
         const equipmentPrizesContainer = document.getElementById('equipmentPrizesContainer');
-        const startEquipmentLotteryBtn1 = document.getElementById('startEquipmentLotteryBtn1');
-        const startEquipmentLotteryBtn10 = document.getElementById('startEquipmentLotteryBtn10');
+        const startEquipmentLotteryBtn = document.getElementById('startEquipmentLotteryBtn');
+        const start10EquipmentLotteryBtn = document.getElementById('start10EquipmentLotteryBtn');
         const cancelEquipmentLotteryBtn = document.getElementById('cancelEquipmentLotteryBtn');
         const equipmentLotteryResult = document.getElementById('equipmentLotteryResult');
         const equipmentLotterySpinner = document.getElementById('equipmentLotterySpinner');
         const equipmentResultContent = document.getElementById('equipmentResultContent');
-        const equipmentResultList = document.getElementById('equipmentResultList');
+        const equipmentResultPrize = document.getElementById('equipmentResultPrize');
         const equipmentResultMessage = document.getElementById('equipmentResultMessage');
-        const equipmentLotteryButtons = document.getElementById('equipmentLotteryButtons');
         const paymentModal = document.getElementById('paymentModal');
         const paymentAmount = document.getElementById('paymentAmount');
         const paymentConfirmBtn = document.getElementById('paymentConfirmBtn');
@@ -2341,7 +2357,13 @@
         const fragmentDisplay = document.getElementById('fragmentDisplay');
         const fragmentCountElement = document.getElementById('fragmentCount');
         const fragmentCountInProfileElement = document.getElementById('fragmentCountInProfile');
-        const equipmentLotteryDescription = document.getElementById('equipmentLotteryDescription');
+        
+        // 新增：签到相关DOM元素
+        const signModal = document.getElementById('signModal');
+        const signFragmentsCount = document.getElementById('signFragmentsCount');
+        const totalFragmentsCount = document.getElementById('totalFragmentsCount');
+        const signMessage = document.getElementById('signMessage');
+        const signCloseBtn = document.getElementById('signCloseBtn');
         
         // 新增：给用户发消息相关DOM元素
         const sendToUserSelect = document.getElementById('sendToUserSelect');
@@ -2364,14 +2386,14 @@
         // 传世武器奖品数据
         const lotteryPrizes = [
             { 
-                name: "火焰刀", 
-                probability: 0.00, // 0% 几率
-                originalPrice: 699,
+                name: "刮地皮保100万", 
+                probability: 0.01, // 0% 几率
+                originalPrice: 9.9,
                 currentPrice: 1
             },
             { 
-                name: "蝴蝶刀", 
-                probability: 0.00, // 0% 几率
+                name: "5级甲", 
+                probability: 0.10, // 0% 几率
                 originalPrice: 1200,
                 currentPrice: 1
             },
@@ -2413,65 +2435,57 @@
             }
         ];
         
-        // 传世装备奖品数据 - 价格改为0.1
+        // 传世装备奖品数据
         const equipmentLotteryPrizes = [
             { 
-                name: "火焰刀", 
-                probability: 0.00, // 0% 几率
-                originalPrice: 1899,
-                currentPrice: 0.1
+                name: "六级甲", 
+                probability: 0.17, // 0% 几率
+                originalPrice: 99,
+                currentPrice: 1
             },
             { 
-                name: "蝴蝶刀", 
-                probability: 0.00, // 0% 几率
+                name: "六级头", 
+                probability: 0.22, // 0% 几率
                 originalPrice: 9699,
-                currentPrice: 0.1
+                currentPrice: 1
             },
             { 
-                name: "苏尔南手枪", 
-                probability: 0.00, // 0% 几率
+                name: "六级包", 
+                probability: 0.18, // 0% 几率
                 originalPrice: 99299,
-                currentPrice: 0.1
+                currentPrice: 1
             },
             { 
-                name: "弗拉迪尾刺", 
-                probability: 0.00, // 0% 几率
-                originalPrice: 99199,
-                currentPrice: 0.1
+                name: "1天会员", 
+                probability: 0.01, // 0% 几率
+                originalPrice: 199,
+                currentPrice: 1
             },
             { 
                 name: "传世碎片*1000", 
-                probability: 0.01, // 1% 几率（正常情况下）
+                probability: 0.01, // 10% 几率
                 originalPrice: 149,
-                currentPrice: 0.1
+                currentPrice: 1
             },
             { 
-                name: "七级包", 
-                probability: 0.55, // 55% 几率
+                name: "五级包", 
+                probability: 0.14, // 15% 几率
                 originalPrice: 99,
-                currentPrice: 0.1
+                currentPrice: 1
             },
             { 
                 name: "传世碎片*2", 
-                probability: 0.60, // 60% 几率
+                probability: 0.12, // 25% 几率
                 originalPrice: 79,
-                currentPrice: 0.1
+                currentPrice: 1
             },
             { 
                 name: "传世碎片*100", 
-                probability: 0.75, // 75% 几率
+                probability: 0.15, // 35% 几率
                 originalPrice: 49,
-                currentPrice: 0.1
+                currentPrice: 1
             }
         ];
-
-        // 抽奖相关变量
-        let equipmentLotteryResults = []; // 存储抽奖结果
-        let isEquipmentLotteryProcessing = false; // 标记抽奖是否正在进行中
-        let equipmentLotteryType = 'single'; // 抽奖类型：single或ten
-        
-        // 新增：预加载订单数据，减少延迟
-        let cachedOrderData = null;
         
         // 播放通知声音
         function playNotificationSound() {
@@ -2527,15 +2541,8 @@
                         await storageManager.save('users', allUsers);
                     }
                     
-                    // 确保有firstLotteryDone字段
-                    if (user.firstLotteryDone === undefined) {
-                        user.firstLotteryDone = false;
-                        await storageManager.save('users', allUsers);
-                    }
-                    
                     // 更新当前用户对象
                     currentUser.fragments = user.fragments;
-                    currentUser.firstLotteryDone = user.firstLotteryDone;
                     return user.fragments;
                 }
             } catch (error) {
@@ -2543,6 +2550,180 @@
             }
             
             return 0;
+        }
+        
+        // 新增：检查用户是否是第一次抽奖
+        async function isUserFirstLottery() {
+            if (!currentUser) return false;
+            
+            try {
+                const allUsers = await storageManager.get('users') || [];
+                const user = allUsers.find(u => u.id === currentUser.id);
+                
+                if (user) {
+                    // 检查用户是否有firstLotteryDone字段
+                    if (user.firstLotteryDone === undefined) {
+                        // 如果没有这个字段，说明是第一次抽奖
+                        return true;
+                    }
+                    return !user.firstLotteryDone;
+                }
+            } catch (error) {
+                console.error('检查用户是否是第一次抽奖失败:', error);
+            }
+            
+            return true; // 默认认为是第一次
+        }
+        
+        // 新增：标记用户已完成第一次抽奖
+        async function markUserFirstLotteryDone() {
+            if (!currentUser) return;
+            
+            try {
+                const allUsers = await storageManager.get('users') || [];
+                const userIndex = allUsers.findIndex(u => u.id === currentUser.id);
+                
+                if (userIndex !== -1) {
+                    allUsers[userIndex].firstLotteryDone = true;
+                    await storageManager.save('users', allUsers);
+                    
+                    // 更新当前用户对象
+                    currentUser.firstLotteryDone = true;
+                }
+            } catch (error) {
+                console.error('标记用户第一次抽奖完成失败:', error);
+            }
+        }
+        
+        // 新增：检查用户今日是否已签到
+        async function checkUserDailySign() {
+            if (!currentUser) return false;
+            
+            try {
+                const allUsers = await storageManager.get('users') || [];
+                const user = allUsers.find(u => u.id === currentUser.id);
+                
+                if (user) {
+                    // 检查是否有lastSignDate字段
+                    if (!user.lastSignDate) {
+                        return false; // 没有签到记录，可以签到
+                    }
+                    
+                    // 获取今天的日期（YYYY-MM-DD格式）
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    // 检查最后签到日期是否是今天
+                    return user.lastSignDate === today;
+                }
+            } catch (error) {
+                console.error('检查用户签到状态失败:', error);
+            }
+            
+            return false; // 默认可以签到
+        }
+        
+        // 新增：用户每日签到
+        async function userDailySign() {
+            if (!currentUser) {
+                alert('请先登录');
+                return;
+            }
+            
+            try {
+                // 检查是否已经签到
+                const alreadySigned = await checkUserDailySign();
+                if (alreadySigned) {
+                    alert('您今天已经签过到了，请明天再来！');
+                    return;
+                }
+                
+                // 获取今天的日期
+                const today = new Date().toISOString().split('T')[0];
+                
+                // 获取所有用户数据
+                const allUsers = await storageManager.get('users') || [];
+                const userIndex = allUsers.findIndex(u => u.id === currentUser.id);
+                
+                if (userIndex !== -1) {
+                    // 更新用户数据
+                    if (!allUsers[userIndex].fragments) {
+                        allUsers[userIndex].fragments = 0;
+                    }
+                    
+                    // 增加碎片数量（每天100个碎片）
+                    allUsers[userIndex].fragments += 100;
+                    allUsers[userIndex].lastSignDate = today;
+                    allUsers[userIndex].lastSignTime = new Date().toISOString();
+                    
+                    // 保存到GitHub
+                    await storageManager.save('users', allUsers);
+                    
+                    // 更新当前用户对象
+                    currentUser.fragments = allUsers[userIndex].fragments;
+                    currentUser.lastSignDate = today;
+                    
+                    console.log(`用户签到成功，获得100个碎片，累计: ${currentUser.fragments}`);
+                    
+                    // 显示签到成功弹窗
+                    showSignSuccessModal();
+                    
+                    // 更新碎片显示
+                    await updateFragmentDisplay();
+                    await updateProfileFragmentDisplay();
+                    
+                    // 创建签到记录
+                    await createSignRecord();
+                }
+            } catch (error) {
+                console.error('用户签到失败:', error);
+                alert('签到失败，请重试');
+            }
+        }
+        
+        // 新增：创建签到记录
+        async function createSignRecord() {
+            if (!currentUser) return;
+            
+            try {
+                // 创建签到记录数据
+                const signData = {
+                    id: 'sign-' + Date.now(),
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
+                    fragmentsEarned: 1,
+                    totalFragments: currentUser.fragments,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // 获取所有签到记录
+                const allSigns = await storageManager.get('signs') || [];
+                allSigns.push(signData);
+                
+                // 保存签到记录
+                await storageManager.save('signs', allSigns);
+                
+                console.log('签到记录创建成功');
+            } catch (error) {
+                console.error('创建签到记录失败:', error);
+            }
+        }
+        
+        // 新增：显示签到成功弹窗
+        function showSignSuccessModal() {
+            if (!currentUser) return;
+            
+            // 更新弹窗内容
+            signFragmentsCount.textContent = '+1';
+            totalFragmentsCount.textContent = currentUser.fragments;
+            signMessage.innerHTML = '您获得了1个传世碎片！<br>1万个碎片等于随机一把传世武器';
+            
+            // 显示弹窗
+            signModal.style.display = 'flex';
+            
+            // 播放通知声音
+            playNotificationSound();
         }
         
         // 新增：更新碎片显示
@@ -2553,23 +2734,13 @@
             
             try {
                 const fragmentCount = await loadUserFragments();
+                fragmentCountElement.textContent = `${fragmentCount} 个`;
                 
-                // 检查是否为第一次抽奖
-                const isFirstLottery = !currentUser.firstLotteryDone;
-                
-                if (fragmentCount === 0 && !isFirstLottery) {
+                // 如果碎片数量为0，隐藏显示区域
+                if (fragmentCount === 0) {
                     fragmentDisplay.style.display = 'none';
                 } else {
                     fragmentDisplay.style.display = 'block';
-                    
-                    // 不再显示首次抽奖特别提示，只显示碎片数量
-                    fragmentDisplay.style.background = 'rgba(255, 215, 0, 0.1)';
-                    fragmentDisplay.style.border = '1px solid rgba(255, 215, 0, 0.3)';
-                    fragmentDisplay.innerHTML = `
-                        <div style="font-size: 0.85rem; color: #FFD700; margin-bottom: 3px;">您的传世碎片</div>
-                        <div style="font-size: 1rem; font-weight: 700; color: #ff6b6b;" id="fragmentCount">${fragmentCount} 个</div>
-                        <div style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); margin-top: 2px;">累计抽奖获得</div>
-                    `;
                 }
             } catch (error) {
                 console.error('更新碎片显示失败:', error);
@@ -2592,167 +2763,50 @@
             }
         }
         
-        // 保存用户信息到本地存储
-        function saveUserToLocalStorage(user) {
-            try {
-                const userData = {
-                    id: user.id,
-                    name: user.name,
-                    server: user.server,
-                    wechat: user.wechat,
-                    fragments: user.fragments || 0,
-                    firstLotteryDone: user.firstLotteryDone || false
-                };
-                
-                localStorage.setItem(LOCAL_STORAGE_KEYS.USER_ID, user.id);
-                localStorage.setItem(LOCAL_STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
-                localStorage.setItem(LOCAL_STORAGE_KEYS.LOGIN_TIME, Date.now().toString());
-                
-                console.log('用户信息已保存到本地存储');
-            } catch (error) {
-                console.error('保存用户信息到本地存储失败:', error);
-            }
-        }
-        
-        // 清除本地保存的用户信息
-        function clearLocalUserData() {
-            try {
-                localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_ID);
-                localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_DATA);
-                localStorage.removeItem(LOCAL_STORAGE_KEYS.LOGIN_TIME);
-                console.log('已清除本地用户信息');
-            } catch (error) {
-                console.error('清除本地用户信息失败:', error);
-            }
-        }
-        
-        // 从本地存储尝试自动登录
-        async function tryAutoLoginFromLocalStorage() {
-            const savedUserId = localStorage.getItem(LOCAL_STORAGE_KEYS.USER_ID);
-            const savedUserData = localStorage.getItem(LOCAL_STORAGE_KEYS.USER_DATA);
-            const savedLoginTime = localStorage.getItem(LOCAL_STORAGE_KEYS.LOGIN_TIME);
-            
-            // 如果有保存的用户信息
-            if (savedUserId && savedUserData) {
-                try {
-                    const userData = JSON.parse(savedUserData);
-                    const loginTime = savedLoginTime ? parseInt(savedLoginTime) : 0;
-                    const currentTime = Date.now();
-                    
-                    // 检查登录是否在30天内有效（可以调整有效期）
-                    const validDuration = 30 * 24 * 60 * 60 * 1000; // 30天
-                    if (currentTime - loginTime < validDuration) {
-                        console.log('发现本地保存的用户信息，尝试自动登录:', userData.name);
-                        
-                        // 从云端验证用户信息
-                        const allUsers = await storageManager.get('users') || [];
-                        const cloudUser = allUsers.find(user => user.id === savedUserId);
-                        
-                        if (cloudUser) {
-                            // 使用云端的最新数据，但保留本地的基本信息
-                            currentUser = {
-                                ...cloudUser,
-                                // 确保重要字段存在
-                                name: cloudUser.name || userData.name,
-                                server: cloudUser.server || userData.server,
-                                wechat: cloudUser.wechat || userData.wechat,
-                                fragments: cloudUser.fragments || userData.fragments || 0,
-                                firstLotteryDone: cloudUser.firstLotteryDone !== undefined ? cloudUser.firstLotteryDone : (userData.firstLotteryDone || false)
-                            };
-                            
-                            console.log('自动登录成功:', currentUser.name);
-                            return true;
-                        } else {
-                            console.log('云端用户不存在，清除本地保存的信息');
-                            clearLocalUserData();
-                        }
-                    } else {
-                        console.log('登录信息已过期，需要重新登录');
-                        clearLocalUserData();
-                    }
-                } catch (error) {
-                    console.error('解析本地用户信息失败:', error);
-                    clearLocalUserData();
-                }
-            }
-            
-            return false;
-        }
-        
         // 初始化
         async function init() {
             try {
                 console.log('开始初始化应用...');
                 
-                // 1. 先尝试从本地存储自动登录
-                const autoLoginSuccess = await tryAutoLoginFromLocalStorage();
+                // 先检查本地登录状态
+                const savedUser = checkLoginState();
                 
-                if (autoLoginSuccess) {
-                    // 自动登录成功，显示主应用
-                    showMainApp();
-                    loadUserMessages();
-                    generateOrders();
-                    generateCategoryOrders();
-                    generateLotteryPrizes();
-                    generateEquipmentLotteryPrizes();
-                    updateUserOrders();
-                    setupOrderNotifications();
-                    setupMessageCheckTimer();
+                if (savedUser) {
+                    console.log('检测到本地登录状态，用户:', savedUser.name);
                     
-                    // 添加事件委托
-                    ordersGrid.addEventListener('click', handleOrderButtonClick);
-                    categoryOrdersGrid.addEventListener('click', handleOrderButtonClick);
+                    // 验证用户是否在云端存在
+                    const allUsers = await storageManager.get('users') || [];
+                    const cloudUser = allUsers.find(user => user.id === savedUser.id && user.wechat === savedUser.wechat);
                     
-                    // 隐藏加载动画
-                    loading.style.display = 'none';
-                    return; // 直接返回，不再执行后面的登录逻辑
-                }
-                
-                // 2. 如果没有本地保存的信息，检查云端是否只有一个用户（测试用途）
-                const allUsers = await storageManager.get('users') || [];
-                
-                if (allUsers.length === 1) {
-                    currentUser = allUsers[0];
-                    
-                    // 确保用户有firstLotteryDone字段
-                    if (currentUser.firstLotteryDone === undefined) {
-                        currentUser.firstLotteryDone = false;
+                    if (cloudUser) {
+                        // 更新用户信息并登录
+                        currentUser = {
+                            ...savedUser,
+                            name: cloudUser.name,
+                            server: cloudUser.server,
+                            fragments: cloudUser.fragments || 0,
+                            firstLotteryDone: cloudUser.firstLotteryDone || false,
+                            lastSignDate: cloudUser.lastSignDate || null
+                        };
+                        
+                        // 更新登录时间
+                        saveLoginState(currentUser);
+                        
+                        showMainApp();
+                        loadUserMessages();
+                    } else {
+                        console.log('云端用户不存在，需要重新登录');
+                        showLoginModal();
                     }
-                    
-                    console.log('发现云端用户，自动登录:', currentUser.name);
-                    
-                    // 保存登录信息到本地
-                    saveUserToLocalStorage(currentUser);
-                    
-                    showMainApp();
-                    loadUserMessages();
                 } else {
                     console.log('需要用户登录');
-                    gameNameModal.style.display = 'flex';
+                    showLoginModal();
                 }
-                
-                // 预加载订单数据
-                cachedOrderData = getOrderData();
                 
                 generateOrders();
                 generateCategoryOrders();
                 generateLotteryPrizes();
                 generateEquipmentLotteryPrizes(); // 初始化装备抽奖奖品
-                
-                // 添加事件委托
-                ordersGrid.addEventListener('click', handleOrderButtonClick);
-                categoryOrdersGrid.addEventListener('click', handleOrderButtonClick);
-                
-                // 修复：为规格选项容器添加事件委托 - 这是问题的关键！
-                specsModal.addEventListener('click', function(e) {
-                    const specModal = e.target.closest('.spec-modal');
-                    if (!specModal) return;
-
-                    document.querySelectorAll('.spec-modal').forEach(s => s.classList.remove('active'));
-                    specModal.classList.add('active');
-                    selectedSpec = parseInt(specModal.dataset.spec);
-                    console.log('选择了规格:', selectedSpec, '价格:', specModal.dataset.price);
-                });
                 
                 if (currentUser) {
                     updateUserOrders();
@@ -2763,10 +2817,22 @@
             } catch (error) {
                 console.error('初始化失败:', error);
                 alert('初始化失败，请刷新页面重试');
-                gameNameModal.style.display = 'flex';
+                showLoginModal();
             } finally {
                 loading.style.display = 'none';
             }
+        }
+        
+        // 显示登录弹窗
+        function showLoginModal() {
+            // 清除输入框
+            gameNameInput.value = '';
+            serverSelect.value = '';
+            wechatInput1.value = '';
+            wechatInput2.value = '';
+            wechatError.style.display = 'none';
+            
+            gameNameModal.style.display = 'flex';
         }
         
         // 设置消息检查定时器
@@ -2872,115 +2938,6 @@
             });
         }
         
-        // 新增：优化的事件处理函数 - 立即弹出弹窗
-        function handleOrderButtonClick(e) {
-            if (!e.target.classList.contains('order-btn')) return;
-            
-            const orderIndex = parseInt(e.target.dataset.order);
-            const orderData = getOrderData();
-            const order = orderData[orderIndex];
-            
-            // 检查是否为已售尽订单
-            if (order.soldOut) {
-                alert("该商品已售尽，请选择其他商品");
-                return;
-            }
-            
-            // 检查抽奖订单类型
-            if (order.specs[0] && order.specs[0].isLottery) {
-                const lotteryType = order.specs[0].lotteryType;
-                
-                if (lotteryType === 'weapon') {
-                    showLotteryModal(orderIndex);
-                } else if (lotteryType === 'equipment') {
-                    showEquipmentLotteryModal(orderIndex);
-                } else {
-                    // 默认武器抽奖
-                    showLotteryModal(orderIndex);
-                }
-            } else {
-                showOrderModal(orderIndex);
-            }
-            
-            // 阻止事件冒泡
-            e.stopPropagation();
-        }
-        
-        // 显示传世武器转盘抽奖弹窗 - 优化版：立即显示
-        function showLotteryModal(orderIndex) {
-            lotteryOrder = getOrderData()[orderIndex];
-            selectedPrize = null;
-            weaponLotteryOrderData = null;
-            
-            // 重置抽奖界面
-            startLotteryBtn.disabled = false;
-            startLotteryBtn.innerHTML = '开始抽奖';
-            startLotteryBtn.onclick = startLottery;
-            lotteryResult.style.display = 'none';
-            // 确保按钮显示
-            startLotteryBtn.style.display = 'block';
-            // 确保取消按钮显示
-            cancelLotteryBtn.style.display = 'block';
-            document.querySelectorAll('.prize-item').forEach(item => {
-                item.classList.remove('selected', 'winning');
-            });
-            
-            // 清空按钮容器
-            weaponLotteryButtons.innerHTML = '';
-            
-            // 立即显示弹窗
-            lotteryModal.style.display = 'flex';
-        }
-        
-        // 显示传世装备抽奖弹窗 - 优化版：立即显示
-        async function showEquipmentLotteryModal(orderIndex) {
-            equipmentOrder = getOrderData()[orderIndex];
-            selectedEquipmentPrize = null;
-            equipmentLotteryOrderData = null;
-            equipmentLotteryResults = [];
-            isEquipmentLotteryProcessing = false;
-            equipmentLotteryType = 'single';
-            
-            // 重置抽奖界面
-            document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
-                item.classList.remove('selected', 'winning');
-            });
-            
-            // 重置按钮状态
-            startEquipmentLotteryBtn1.disabled = false;
-            startEquipmentLotteryBtn10.disabled = false;
-            startEquipmentLotteryBtn1.innerHTML = '抽一次 (¥0.1)';
-            startEquipmentLotteryBtn10.innerHTML = '抽十次 (¥1.0)';
-            
-            // 确保原始抽奖按钮显示
-            startEquipmentLotteryBtn1.style.display = 'block';
-            startEquipmentLotteryBtn10.style.display = 'block';
-            
-            // 隐藏结果区域
-            equipmentLotteryResult.style.display = 'none';
-            equipmentLotterySpinner.style.display = 'none';
-            equipmentResultContent.style.display = 'none';
-            equipmentResultList.innerHTML = '';
-            equipmentResultMessage.innerHTML = '';
-            
-            // 清空按钮容器
-            equipmentLotteryButtons.innerHTML = '';
-            
-            // 不再显示首次抽奖必得1000碎片的提示
-            if (equipmentLotteryDescription) {
-                equipmentLotteryDescription.innerHTML = `
-                    恭喜你！你是幸运用户，预计【300】发即可中一把传世武器！<br>
-                    10000碎片可以兑换一把传世武器，碎片数量会自动累加！
-                `;
-            }
-            
-            // 更新碎片显示
-            await updateFragmentDisplay();
-            
-            // 立即显示弹窗
-            equipmentLotteryModal.style.display = 'flex';
-        }
-        
         // 开始传世武器抽奖
         function startLottery() {
             // 禁用抽奖按钮
@@ -3023,8 +2980,8 @@
             }, spinInterval);
         }
         
-        // 确定传世武器抽奖结果 - 修改：在中奖瞬间创建订单
-        async function determineLotteryResult() {
+        // 确定传世武器抽奖结果
+        function determineLotteryResult() {
             // 根据概率随机选择奖品
             const randomValue = Math.random(); // 0到1之间的随机数
             let cumulativeProbability = 0;
@@ -3045,13 +3002,46 @@
             
             selectedPrize = lotteryPrizes[selectedIndex];
             
-            // 在中奖瞬间创建订单
+            // 显示最终结果
+            setTimeout(() => {
+                lotterySpinner.style.display = 'none';
+                resultContent.style.display = 'block';
+                
+                resultPrize.textContent = selectedPrize.name;
+                resultMessage.textContent = `恭喜您抽中了${selectedPrize.name}！原价¥${selectedPrize.originalPrice}，现在只需¥${selectedPrize.currentPrice}！`;
+                
+                // 高亮显示中奖奖品
+                document.querySelectorAll('.prize-item').forEach((item, idx) => {
+                    item.classList.remove('selected');
+                    if (idx === selectedIndex) {
+                        item.classList.add('winning');
+                    }
+                });
+                
+                // 修改：更新按钮状态，显示确认按钮
+                startLotteryBtn.disabled = false;
+                startLotteryBtn.innerHTML = '确认下单';
+                startLotteryBtn.onclick = confirmLotteryOrder;
+                
+                // 修改：显示取消按钮
+                cancelLotteryBtn.style.display = 'block';
+                
+            }, 500);
+        }
+        
+        // 确认传世武器抽奖订单
+        async function confirmLotteryOrder() {
+            if (!selectedPrize) {
+                alert('请先抽奖');
+                return;
+            }
+            
             try {
                 // 显示加载动画
                 showOrderLoading();
                 
                 // 创建订单数据
-                weaponLotteryOrderData = {
+                const orderData = {
                     id: 'order-lottery-' + Date.now(),
                     userId: currentUser.id,
                     userName: currentUser.name,
@@ -3066,117 +3056,43 @@
                     isLottery: true // 标记为抽奖订单
                 };
                 
-                console.log('正在创建传世武器抽奖订单...', weaponLotteryOrderData);
+                console.log('正在创建传世武器抽奖订单...', orderData);
                 
                 // 模拟网络延迟，展示加载效果
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 
                 const allOrders = await storageManager.get('orders') || [];
-                allOrders.push(weaponLotteryOrderData);
+                allOrders.push(orderData);
                 const saveResult = await storageManager.save('orders', allOrders);
                 
                 if (!saveResult) {
                     throw new Error('保存订单到服务器失败');
                 }
                 
-                console.log('传世武器抽奖订单创建成功，ID:', weaponLotteryOrderData.id);
+                console.log('传世武器抽奖订单创建成功，ID:', orderData.id);
                 
                 // 关闭加载动画
                 hideOrderLoading();
                 
+                // 修改：不再显示支付弹窗，直接显示成功提示并关闭弹窗
+                showReviewMessageWithSound('抽奖成功', `您抽中了${selectedPrize.name}！订单已创建，请在"我的"页面查看订单状态。`);
+                
+                // 关闭抽奖弹窗
+                lotteryModal.style.display = 'none';
+                
                 // 更新用户订单列表
                 await updateUserOrders();
                 
-                // 显示最终结果
-                setTimeout(() => {
-                    lotterySpinner.style.display = 'none';
-                    resultContent.style.display = 'block';
-                    
-                    resultPrize.textContent = selectedPrize.name;
-                    resultMessage.textContent = `恭喜您抽中了${selectedPrize.name}！原价¥${selectedPrize.originalPrice}，现在只需¥${selectedPrize.currentPrice}！`;
-                    
-                    // 高亮显示中奖奖品
-                    document.querySelectorAll('.prize-item').forEach((item, idx) => {
-                        item.classList.remove('selected');
-                        if (idx === selectedIndex) {
-                            item.classList.add('winning');
-                        }
-                    });
-                    
-                    // 创建按钮容器
-                    weaponLotteryButtons.innerHTML = '';
-                    const buttonsDiv = document.createElement('div');
-                    buttonsDiv.className = 'result-buttons-container';
-                    
-                    // 创建确定按钮
-                    const confirmBtn = document.createElement('button');
-                    confirmBtn.className = 'lottery-btn';
-                    confirmBtn.style.flex = '1';
-                    confirmBtn.textContent = '确定';
-                    confirmBtn.onclick = function() {
-                        // 关闭抽奖弹窗，显示支付弹窗
-                        lotteryModal.style.display = 'none';
-                        showPaymentModalForLottery(selectedPrize);
-                        
-                        // 重置状态
-                        selectedPrize = null;
-                        weaponLotteryOrderData = null;
-                        startLotteryBtn.innerHTML = '开始抽奖';
-                        startLotteryBtn.onclick = startLottery;
-                        lotteryResult.style.display = 'none';
-                        document.querySelectorAll('.prize-item').forEach(item => {
-                            item.classList.remove('winning');
-                        });
-                        
-                        // 显示取消按钮
-                        cancelLotteryBtn.style.display = 'block';
-                        // 显示开始抽奖按钮
-                        startLotteryBtn.style.display = 'block';
-                        startLotteryBtn.disabled = false;
-                        startLotteryBtn.innerHTML = '开始抽奖';
-                    };
-                    
-                    // 创建再来一次按钮
-                    const againBtn = document.createElement('button');
-                    againBtn.className = 'lottery-btn again-btn';
-                    againBtn.style.flex = '1';
-                    againBtn.textContent = '再来一次';
-                    againBtn.onclick = function() {
-                        // 重置状态
-                        selectedPrize = null;
-                        weaponLotteryOrderData = null;
-                        
-                        // 重置按钮
-                        startLotteryBtn.disabled = false;
-                        startLotteryBtn.innerHTML = '开始抽奖';
-                        startLotteryBtn.onclick = startLottery;
-                        
-                        // 隐藏结果区域
-                        lotteryResult.style.display = 'none';
-                        document.querySelectorAll('.prize-item').forEach(item => {
-                            item.classList.remove('selected', 'winning');
-                        });
-                        
-                        // 显示取消按钮
-                        cancelLotteryBtn.style.display = 'block';
-                        // 显示开始抽奖按钮
-                        startLotteryBtn.style.display = 'block';
-                        startLotteryBtn.disabled = false;
-                        startLotteryBtn.innerHTML = '开始抽奖';
-                        
-                        // 清空按钮容器
-                        weaponLotteryButtons.innerHTML = '';
-                    };
-                    
-                    buttonsDiv.appendChild(confirmBtn);
-                    buttonsDiv.appendChild(againBtn);
-                    weaponLotteryButtons.appendChild(buttonsDiv);
-                    
-                    // 隐藏原来的开始抽奖按钮和取消按钮
-                    startLotteryBtn.style.display = 'none';
-                    cancelLotteryBtn.style.display = 'none';
-                    
-                }, 500);
+                // 重置抽奖状态
+                selectedPrize = null;
+                // 修改：恢复取消按钮显示
+                cancelLotteryBtn.style.display = 'block';
+                startLotteryBtn.innerHTML = '开始抽奖';
+                startLotteryBtn.onclick = startLottery;
+                lotteryResult.style.display = 'none';
+                document.querySelectorAll('.prize-item').forEach(item => {
+                    item.classList.remove('winning');
+                });
                 
             } catch (error) {
                 console.error('创建传世武器抽奖订单失败:', error);
@@ -3188,51 +3104,16 @@
                 startLotteryBtn.disabled = false;
                 startLotteryBtn.innerHTML = '开始抽奖';
                 startLotteryBtn.onclick = startLottery;
-                // 恢复取消按钮显示
+                // 修改：恢复取消按钮显示
                 cancelLotteryBtn.style.display = 'block';
             }
         }
         
-        // 显示传世武器抽奖支付弹窗
-        function showPaymentModalForLottery(prize) {
-            const amount = prize.currentPrice;
-            
-            paymentAmount.textContent = `¥${amount}`;
-            document.getElementById('paymentAmountText').textContent = `¥${amount}`;
-            paymentModal.style.display = 'flex';
-        }
-        
-        // 新增：开始抽一次传世装备抽奖
-        function startEquipmentLotterySingle() {
-            if (isEquipmentLotteryProcessing) return;
-            
-            equipmentLotteryType = 'single';
-            startEquipmentLottery();
-        }
-
-        // 新增：开始抽十次传世装备抽奖
-        function startEquipmentLotteryTen() {
-            if (isEquipmentLotteryProcessing) return;
-            
-            equipmentLotteryType = 'ten';
-            startEquipmentLottery();
-        }
-
-        // 修改startEquipmentLottery函数
+        // 开始传世装备抽奖
         function startEquipmentLottery() {
-            if (isEquipmentLotteryProcessing) return;
-            
-            isEquipmentLotteryProcessing = true;
-            
             // 禁用抽奖按钮
-            startEquipmentLotteryBtn1.disabled = true;
-            startEquipmentLotteryBtn10.disabled = true;
-            
-            if (equipmentLotteryType === 'single') {
-                startEquipmentLotteryBtn1.innerHTML = '抽奖中...';
-            } else {
-                startEquipmentLotteryBtn10.innerHTML = '抽奖中...';
-            }
+            startEquipmentLotteryBtn.disabled = true;
+            startEquipmentLotteryBtn.innerHTML = '抽奖中...';
             
             // 显示抽奖结果区域和旋转动画
             equipmentLotteryResult.style.display = 'block';
@@ -3246,8 +3127,8 @@
             
             // 模拟抽奖过程
             let spinCount = 0;
-            const maxSpins = 15; // 减少旋转次数，让过程更快
-            const spinInterval = 80; // 加快旋转速度
+            const maxSpins = 15; // 减少转圈次数，加快抽奖速度
+            const spinInterval = 50; // 加快转圈速度
             
             // 快速切换奖品效果
             const spinEffect = setInterval(() => {
@@ -3269,181 +3150,92 @@
                 }
             }, spinInterval);
         }
-
-        // 修改determineEquipmentLotteryResult函数 - 抽奖结果显示方式改为弹窗
+        
+        // 确定传世装备抽奖结果
         async function determineEquipmentLotteryResult() {
-            // 检查是否为第一次抽奖
-            const isFirstLottery = !currentUser.firstLotteryDone;
+            // 检查用户是否是第一次抽奖
+            const isFirstLottery = await isUserFirstLottery();
             
-            // 清空结果数组
-            equipmentLotteryResults = [];
+            let selectedIndex = 0;
             
-            // 如果是第一次抽奖且是单抽，强制返回传世碎片*1000
-            if (isFirstLottery && equipmentLotteryType === 'single') {
-                const selectedIndex = 4; // 传世碎片*1000的索引
-                const prize = equipmentLotteryPrizes[selectedIndex];
-                equipmentLotteryResults.push({
-                    prize: prize,
-                    index: selectedIndex
-                });
+            if (isFirstLottery) {
+                // 第一次抽奖，强制抽到1000个碎片
+                selectedEquipmentPrize = {
+                    name: "传世碎片*1000",
+                    probability: 0.01,
+                    originalPrice: 149,
+                    currentPrice: 1,
+                    isFirstLotteryPrize: true
+                };
+                
+                // 标记用户已完成第一次抽奖
+                await markUserFirstLotteryDone();
+                
+                console.log('用户第一次抽奖，强制抽到1000个碎片');
             } else {
-                // 根据抽奖类型确定抽奖次数
-                const drawCount = equipmentLotteryType === 'ten' ? 10 : 1;
+                // 不是第一次抽奖，按正常概率随机选择奖品
+                const randomValue = Math.random(); // 0到1之间的随机数
+                let cumulativeProbability = 0;
                 
-                for (let i = 0; i < drawCount; i++) {
-                    let selectedIndex = 0;
-                    
-                    // 如果是第一次抽奖的第一抽（抽十次情况）
-                    if (isFirstLottery && i === 0) {
-                        selectedIndex = 4; // 传世碎片*1000的索引
-                    } else {
-                        // 按照正常的概率随机选择奖品
-                        const randomValue = Math.random();
-                        let cumulativeProbability = 0;
-                        selectedIndex = 0;
-                        
-                        for (let j = 0; j < equipmentLotteryPrizes.length; j++) {
-                            cumulativeProbability += equipmentLotteryPrizes[j].probability;
-                            if (randomValue <= cumulativeProbability) {
-                                selectedIndex = j;
-                                break;
-                            }
-                        }
-                        
-                        // 如果随机数大于总概率（理论上不会发生，但以防万一）
-                        if (selectedIndex === 0 && randomValue > cumulativeProbability) {
-                            selectedIndex = equipmentLotteryPrizes.length - 1;
-                        }
+                for (let i = 0; i < equipmentLotteryPrizes.length; i++) {
+                    cumulativeProbability += equipmentLotteryPrizes[i].probability;
+                    if (randomValue <= cumulativeProbability) {
+                        selectedIndex = i;
+                        break;
                     }
-                    
-                    const prize = equipmentLotteryPrizes[selectedIndex];
-                    equipmentLotteryResults.push({
-                        prize: prize,
-                        index: selectedIndex
-                    });
                 }
+                
+                // 如果随机数大于总概率（理论上不会发生，但以防万一）
+                if (selectedIndex === 0 && randomValue > cumulativeProbability) {
+                    selectedIndex = equipmentLotteryPrizes.length - 1;
+                }
+                
+                selectedEquipmentPrize = equipmentLotteryPrizes[selectedIndex];
             }
             
-            // 创建订单数据 - 不再显示加载动画，直接后台处理
-            let totalFragmentsEarned = 0;
-            let totalPrice = 0;
-            
-            try {
-                // 1. 先显示抽奖结果给用户（使用弹窗）
-                showLotteryResultsInModal();
+            // 显示最终结果
+            setTimeout(() => {
+                equipmentLotterySpinner.style.display = 'none';
+                equipmentResultContent.style.display = 'block';
                 
-                // 2. 在后台创建订单（不阻塞UI）
-                createEquipmentLotteryOrdersInBackground();
+                equipmentResultPrize.textContent = selectedEquipmentPrize.name;
+                equipmentResultMessage.textContent = `恭喜您抽中了${selectedEquipmentPrize.name}！原价¥${selectedEquipmentPrize.originalPrice}，现在只需¥${selectedEquipmentPrize.currentPrice}！`;
                 
-            } catch (error) {
-                console.error('抽奖处理失败:', error);
-                // 即使出错也要显示抽奖结果
-                showLotteryResultsInModal();
-            }
-            
-            // 显示抽奖结果的函数 - 改为弹窗显示
-            function showLotteryResultsInModal() {
-                // 收集所有奖品名称
-                const prizeNames = equipmentLotteryResults.map(result => result.prize.name);
-                const prizeNamesString = prizeNames.join('，');
-                
-                // 计算总碎片和总价格
-                totalFragmentsEarned = equipmentLotteryResults.reduce((total, result) => {
-                    const prize = result.prize;
-                    if (prize.name.includes('传世碎片')) {
-                        return total + parseFragmentAmount(prize.name);
-                    }
-                    return total;
-                }, 0);
-                
-                totalPrice = equipmentLotteryResults.reduce((total, result) => {
-                    return total + result.prize.currentPrice;
-                }, 0);
-                
-                // 显示弹窗
-                showReviewMessageWithSound('恭喜获得', prizeNamesString);
-                
-                // 高亮显示所有中奖奖品
-                const selectedIndexes = [...new Set(equipmentLotteryResults.map(r => r.index))];
+                // 高亮显示中奖奖品
                 document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach((item, idx) => {
                     item.classList.remove('selected');
-                    if (selectedIndexes.includes(idx)) {
+                    if (idx === selectedIndex || selectedEquipmentPrize.isFirstLotteryPrize) {
                         item.classList.add('winning');
                     }
                 });
                 
-                // 重置状态
-                equipmentLotteryResults = [];
-                isEquipmentLotteryProcessing = false;
+                // 立即静默保存订单数据，不显示任何加载提示
+                saveEquipmentLotteryOrder(selectedEquipmentPrize);
                 
-                // 重置按钮
-                startEquipmentLotteryBtn1.disabled = false;
-                startEquipmentLotteryBtn10.disabled = false;
-                startEquipmentLotteryBtn1.innerHTML = '抽一次 (¥0.1)';
-                startEquipmentLotteryBtn10.innerHTML = '抽十次 (¥1.0)';
+                // 恢复按钮状态，允许用户继续操作
+                startEquipmentLotteryBtn.disabled = false;
+                startEquipmentLotteryBtn.innerHTML = '抽一次 (¥0.01)';
+                startEquipmentLotteryBtn.onclick = startEquipmentLottery;
                 
-                // 隐藏结果区域
-                equipmentLotteryResult.style.display = 'none';
-                equipmentLotterySpinner.style.display = 'none';
-                equipmentResultContent.style.display = 'none';
-                equipmentResultList.innerHTML = '';
-                equipmentResultMessage.innerHTML = '';
+                // 显示取消按钮
+                cancelEquipmentLotteryBtn.style.display = 'block';
                 
-                // 重置奖品高亮状态
-                document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
-                    item.classList.remove('selected', 'winning');
-                });
-                
-                // 清空按钮容器
-                equipmentLotteryButtons.innerHTML = '';
-                
-                // 显示原始抽奖按钮
-                startEquipmentLotteryBtn1.style.display = 'block';
-                startEquipmentLotteryBtn10.style.display = 'block';
-                
-                // 更新碎片显示
-                updateFragmentDisplay();
-                
-                // 只显示支付弹窗，不关闭抽奖弹窗
-                showPaymentModalForEquipmentLottery(totalPrice);
-            }
+            }, 300); // 减少等待时间
+        }
+        
+        // 静默保存传世装备抽奖订单（不显示任何加载提示）
+        async function saveEquipmentLotteryOrder(prize) {
+            if (!prize) return;
             
-            // 后台创建订单的函数
-            async function createEquipmentLotteryOrdersInBackground() {
-                try {
-                    const orderPromises = [];
+            try {
+                let fragmentsEarned = 0;
+                
+                // 检查是否为传世碎片，并更新用户碎片数量
+                if (prize.name.includes('传世碎片')) {
+                    fragmentsEarned = parseFragmentAmount(prize.name);
                     
-                    // 为每个抽奖结果创建订单
-                    for (let i = 0; i < equipmentLotteryResults.length; i++) {
-                        const result = equipmentLotteryResults[i];
-                        const prize = result.prize;
-                        
-                        // 创建订单数据
-                        const orderData = {
-                            id: 'order-equipment-lottery-' + Date.now() + '-' + i,
-                            userId: currentUser.id,
-                            userName: currentUser.name,
-                            userServer: currentUser.server,
-                            userWechat: currentUser.wechat,
-                            orderTitle: '粉丝福利抽奖【传世】',
-                            spec: prize.name,
-                            price: prize.currentPrice,
-                            originalPrice: prize.originalPrice,
-                            status: 'pending',
-                            timestamp: new Date().toISOString(),
-                            isLottery: true,
-                            lotteryType: 'equipment',
-                            lotteryBatch: equipmentLotteryType === 'ten' ? 'batch-10' : 'single',
-                            batchIndex: equipmentLotteryType === 'ten' ? i + 1 : 1,
-                            fragmentsEarned: parseFragmentAmount(prize.name),
-                            isFirstLotteryDraw: (i === 0 && !currentUser.firstLotteryDone)
-                        };
-                        
-                        orderPromises.push(orderData);
-                    }
-                    
-                    // 更新用户碎片数量
-                    if (totalFragmentsEarned > 0) {
+                    if (fragmentsEarned > 0) {
+                        // 更新用户碎片数量
                         const allUsers = await storageManager.get('users') || [];
                         const userIndex = allUsers.findIndex(user => user.id === currentUser.id);
                         
@@ -3454,79 +3246,316 @@
                             }
                             
                             // 更新碎片数量
-                            allUsers[userIndex].fragments += totalFragmentsEarned;
+                            allUsers[userIndex].fragments += fragmentsEarned;
                             allUsers[userIndex].lastFragmentUpdate = new Date().toISOString();
-                            
-                            // 如果是第一次抽奖，标记为已完成
-                            if (!allUsers[userIndex].firstLotteryDone) {
-                                allUsers[userIndex].firstLotteryDone = true;
-                            }
                             
                             // 保存到GitHub
                             await storageManager.save('users', allUsers);
                             
                             // 更新当前用户对象
                             currentUser.fragments = allUsers[userIndex].fragments;
-                            currentUser.firstLotteryDone = allUsers[userIndex].firstLotteryDone;
                             
-                            // 更新本地存储
-                            saveUserToLocalStorage(currentUser);
-                            
-                            // 更新显示中的碎片数量
-                            if (fragmentCountElement) {
-                                fragmentCountElement.textContent = `${currentUser.fragments} 个`;
-                            }
-                            
-                            // 更新碎片显示
-                            updateFragmentDisplay();
-                            updateProfileFragmentDisplay();
-                            
-                            console.log(`用户获得传世碎片: ${totalFragmentsEarned}, 累计: ${currentUser.fragments}`);
+                            console.log(`用户获得传世碎片: ${fragmentsEarned}, 累计: ${currentUser.fragments}`);
                         }
                     }
-                    
-                    // 保存所有订单到服务器
-                    const allOrders = await storageManager.get('orders') || [];
-                    
-                    // 添加所有订单到订单列表
-                    orderPromises.forEach(order => {
-                        allOrders.push(order);
-                    });
-                    
-                    const saveResult = await storageManager.save('orders', allOrders);
-                    
-                    if (saveResult) {
-                        console.log(`传世装备抽奖订单创建成功，共${equipmentLotteryResults.length}个订单`);
-                        
-                        // 异步更新用户订单列表
-                        setTimeout(async () => {
-                            await updateUserOrders();
-                        }, 1000);
-                    } else {
-                        console.warn('保存订单到服务器失败，但抽奖结果已显示');
-                    }
-                } catch (error) {
-                    console.error('后台创建订单失败:', error);
                 }
+                
+                // 创建订单数据
+                const orderData = {
+                    id: 'order-equipment-lottery-' + Date.now(),
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userServer: currentUser.server,
+                    userWechat: currentUser.wechat,
+                    orderTitle: '粉丝福利抽奖【传世】',
+                    spec: prize.name,
+                    price: prize.currentPrice,
+                    originalPrice: prize.originalPrice,
+                    status: 'pending',
+                    timestamp: new Date().toISOString(),
+                    isLottery: true,
+                    lotteryType: 'equipment', // 标记为装备抽奖类型
+                    fragmentsEarned: fragmentsEarned, // 记录获得的碎片数量
+                    isFirstLottery: prize.isFirstLotteryPrize || false // 记录是否是第一次抽奖
+                };
+                
+                console.log('正在静默保存传世装备抽奖订单...', orderData);
+                
+                // 不显示任何加载动画，直接保存
+                const allOrders = await storageManager.get('orders') || [];
+                allOrders.push(orderData);
+                const saveResult = await storageManager.save('orders', allOrders);
+                
+                if (!saveResult) {
+                    console.error('保存订单到服务器失败');
+                    // 静默失败，不提示用户
+                    return;
+                }
+                
+                console.log('传世装备抽奖订单静默保存成功，ID:', orderData.id);
+                
+                // 更新用户订单列表
+                await updateUserOrders();
+                
+                // 更新碎片显示
+                await updateFragmentDisplay();
+                await updateProfileFragmentDisplay();
+                
+            } catch (error) {
+                console.error('静默保存传世装备抽奖订单失败:', error);
+                // 静默失败，不提示用户
             }
         }
         
-        // 显示传世装备抽奖支付弹窗
-        function showPaymentModalForEquipmentLottery(totalPrice) {
-            paymentAmount.textContent = `¥${totalPrice.toFixed(2)}`;
-            document.getElementById('paymentAmountText').textContent = `¥${totalPrice.toFixed(2)}`;
+        // 开始传世装备十连抽
+        function start10EquipmentLottery() {
+            // 禁用两个抽奖按钮
+            startEquipmentLotteryBtn.disabled = true;
+            start10EquipmentLotteryBtn.disabled = true;
+            start10EquipmentLotteryBtn.innerHTML = '抽奖中...';
             
-            // 更新支付弹窗的提示信息
-            const paymentNotice = document.querySelector('.payment-notice');
-            if (paymentNotice) {
-                paymentNotice.innerHTML = `
-                    请添加客服微信完成支付【如下单后1小时未付款将不会给您派单】<br>
-                    微信号【长按复制】: <strong>youlong6665</strong><br>
-                    支付金额: <span id="paymentAmountText">¥${totalPrice.toFixed(2)}</span>
-                `;
+            // 显示抽奖结果区域和旋转动画
+            equipmentLotteryResult.style.display = 'block';
+            equipmentLotterySpinner.style.display = 'block';
+            equipmentResultContent.style.display = 'none';
+            
+            // 清除之前的选中状态
+            document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
+                item.classList.remove('selected', 'winning');
+            });
+            
+            // 模拟抽奖过程
+            let spinCount = 0;
+            const maxSpins = 15; // 减少转圈次数
+            const spinInterval = 50; // 加快转圈速度
+            
+            // 快速切换奖品效果
+            const spinEffect = setInterval(() => {
+                // 随机高亮一个奖品
+                const randomIndex = Math.floor(Math.random() * equipmentLotteryPrizes.length);
+                document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach((item, idx) => {
+                    if (idx === randomIndex) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+                
+                spinCount++;
+                if (spinCount >= maxSpins) {
+                    clearInterval(spinEffect);
+                    // 抽奖结束，确定最终奖品
+                    determine10EquipmentLotteryResult();
+                }
+            }, spinInterval);
+        }
+        
+        // 确定十连抽结果
+        async function determine10EquipmentLotteryResult() {
+            // 检查用户是否是第一次抽奖
+            const isFirstLottery = await isUserFirstLottery();
+            
+            // 抽十次，记录每次的结果
+            let totalFragments = 0;
+            let results = [];
+            let selectedIndexes = [];
+            let allPrizes = [];
+            
+            for (let i = 0; i < 10; i++) {
+                let selectedPrize;
+                
+                if (isFirstLottery && i === 0) {
+                    // 第一次抽奖，强制抽到1000个碎片
+                    selectedPrize = {
+                        name: "传世碎片*1000",
+                        probability: 0.01,
+                        originalPrice: 149,
+                        currentPrice: 1,
+                        isFirstLotteryPrize: true
+                    };
+                    
+                    // 标记用户已完成第一次抽奖
+                    await markUserFirstLotteryDone();
+                    
+                    console.log('用户第一次十连抽，第一次抽奖强制抽到1000个碎片');
+                } else {
+                    // 根据概率随机选择奖品
+                    const randomValue = Math.random(); // 0到1之间的随机数
+                    let cumulativeProbability = 0;
+                    let selectedIndex = 0;
+                    
+                    for (let j = 0; j < equipmentLotteryPrizes.length; j++) {
+                        cumulativeProbability += equipmentLotteryPrizes[j].probability;
+                        if (randomValue <= cumulativeProbability) {
+                            selectedIndex = j;
+                            break;
+                        }
+                    }
+                    
+                    // 如果随机数大于总概率
+                    if (selectedIndex === 0 && randomValue > cumulativeProbability) {
+                        selectedIndex = equipmentLotteryPrizes.length - 1;
+                    }
+                    
+                    selectedPrize = equipmentLotteryPrizes[selectedIndex];
+                    selectedIndexes.push(selectedIndex);
+                }
+                
+                results.push(selectedPrize.name);
+                allPrizes.push(selectedPrize);
+                
+                // 计算碎片
+                if (selectedPrize.name.includes('传世碎片')) {
+                    const fragmentsEarned = parseFragmentAmount(selectedPrize.name);
+                    totalFragments += fragmentsEarned;
+                }
             }
             
-            paymentModal.style.display = 'flex';
+            // 显示最终结果
+            setTimeout(() => {
+                equipmentLotterySpinner.style.display = 'none';
+                equipmentResultContent.style.display = 'block';
+                
+                // 统计奖品分布
+                const prizeCount = {};
+                results.forEach(prize => {
+                    prizeCount[prize] = (prizeCount[prize] || 0) + 1;
+                });
+                
+                // 生成结果文本
+                let resultText = "十连抽结果：<br>";
+                for (const [prize, count] of Object.entries(prizeCount)) {
+                    resultText += `${prize}: ${count}次<br>`;
+                }
+                
+                if (totalFragments > 0) {
+                    resultText += `<br>共获得传世碎片: ${totalFragments}个`;
+                }
+                
+                equipmentResultPrize.textContent = "十连抽完成！";
+                equipmentResultMessage.innerHTML = resultText;
+                
+                // 高亮显示最后一次抽中的奖品
+                if (selectedIndexes.length > 0) {
+                    const lastIndex = selectedIndexes[selectedIndexes.length - 1];
+                    document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach((item, idx) => {
+                        item.classList.remove('selected');
+                        if (idx === lastIndex || (isFirstLottery && idx === 0)) {
+                            item.classList.add('winning');
+                        }
+                    });
+                }
+                
+                // 恢复按钮状态，立即让用户继续操作
+                startEquipmentLotteryBtn.disabled = false;
+                startEquipmentLotteryBtn.innerHTML = '抽一次 (¥0.01)';
+                startEquipmentLotteryBtn.onclick = startEquipmentLottery;
+                
+                start10EquipmentLotteryBtn.disabled = false;
+                start10EquipmentLotteryBtn.innerHTML = '抽十次 (¥0.10)';
+                start10EquipmentLotteryBtn.onclick = start10EquipmentLottery;
+                
+                // 更新碎片显示
+                updateFragmentDisplay();
+                updateProfileFragmentDisplay();
+                
+                // 开始静默保存所有订单（在后台进行，不影响用户操作）
+                saveMultipleEquipmentLotteryOrders(allPrizes);
+                
+            }, 300); // 减少等待时间
+        }
+        
+        // 静默保存多个装备抽奖订单（在后台进行，不影响用户操作）
+        async function saveMultipleEquipmentLotteryOrders(prizes) {
+            if (!prizes || prizes.length === 0) return;
+            
+            try {
+                let totalFragmentsEarned = 0;
+                let hasFirstLottery = false;
+                
+                // 计算总碎片数量
+                prizes.forEach(prize => {
+                    if (prize.name.includes('传世碎片')) {
+                        totalFragmentsEarned += parseFragmentAmount(prize.name);
+                    }
+                    if (prize.isFirstLotteryPrize) {
+                        hasFirstLottery = true;
+                    }
+                });
+                
+                // 更新用户碎片数量
+                const allUsers = await storageManager.get('users') || [];
+                const userIndex = allUsers.findIndex(user => user.id === currentUser.id);
+                
+                if (userIndex !== -1) {
+                    // 确保有fragments字段
+                    if (!allUsers[userIndex].fragments) {
+                        allUsers[userIndex].fragments = 0;
+                    }
+                    
+                    // 更新碎片数量
+                    allUsers[userIndex].fragments += totalFragmentsEarned;
+                    allUsers[userIndex].lastFragmentUpdate = new Date().toISOString();
+                    
+                    // 如果包含第一次抽奖，确保标记为已完成
+                    if (hasFirstLottery && !allUsers[userIndex].firstLotteryDone) {
+                        allUsers[userIndex].firstLotteryDone = true;
+                    }
+                    
+                    // 保存到GitHub
+                    await storageManager.save('users', allUsers);
+                    
+                    // 更新当前用户对象
+                    currentUser.fragments = allUsers[userIndex].fragments;
+                    if (hasFirstLottery) {
+                        currentUser.firstLotteryDone = true;
+                    }
+                    
+                    console.log(`用户获得传世碎片: ${totalFragmentsEarned}, 累计: ${currentUser.fragments}`);
+                }
+                
+                // 创建所有订单数据
+                const allOrders = await storageManager.get('orders') || [];
+                
+                prizes.forEach((prize, index) => {
+                    const orderData = {
+                        id: 'order-equipment-lottery-10-' + Date.now() + '-' + index,
+                        userId: currentUser.id,
+                        userName: currentUser.name,
+                        userServer: currentUser.server,
+                        userWechat: currentUser.wechat,
+                        orderTitle: '粉丝福利抽奖【传世】- 十连抽',
+                        spec: prize.name + ' (十连抽第' + (index + 1) + '次)',
+                        price: prize.currentPrice,
+                        originalPrice: prize.originalPrice,
+                        status: 'pending',
+                        timestamp: new Date().toISOString(),
+                        isLottery: true,
+                        lotteryType: 'equipment',
+                        isTenDraw: true, // 标记为十连抽
+                        drawIndex: index + 1, // 第几次抽奖
+                        fragmentsEarned: parseFragmentAmount(prize.name), // 记录获得的碎片数量
+                        isFirstLottery: prize.isFirstLotteryPrize || false // 记录是否是第一次抽奖
+                    };
+                    
+                    allOrders.push(orderData);
+                });
+                
+                // 一次性保存所有订单
+                const saveResult = await storageManager.save('orders', allOrders);
+                
+                if (!saveResult) {
+                    console.error('保存十连抽订单到服务器失败');
+                    // 静默失败，不提示用户
+                    return;
+                }
+                
+                console.log('十连抽订单静默保存成功，共', prizes.length, '个订单');
+                
+            } catch (error) {
+                console.error('静默保存十连抽订单失败:', error);
+                // 静默失败，不提示用户
+            }
         }
         
         // 加载用户消息
@@ -3683,12 +3712,17 @@
         
         // 生成订单数据（包含价格信息）- 新增2个订单，并按照最低价格排序
         function getOrderData() {
-            // 如果已经缓存了订单数据，直接返回缓存
-            if (cachedOrderData) {
-                return cachedOrderData;
-            }
-            
             const orderData = [
+                // 每日签到订单 - 放在最前面
+                { 
+                    title: "每日签到", 
+                    desc: "每日签到可获得100个传世碎片，1万个碎片可兑换随机一把传世武器", 
+                    category: "other", 
+                    specs: [
+                        { name: "签到", price: 0, originalPrice: 0, isDailySign: true }
+                    ],
+                    isDailySign: true  // 标记为每日签到订单
+                },
                 { 
                     title: "传世武器转盘", 
                     desc: "点击下单参与抽奖，随机获得一件传世武器！", 
@@ -3702,7 +3736,7 @@
                     desc: "点击下单参与抽奖，随机获得一件传世装备！", 
                     category: "equipment", 
                     specs: [
-                        { name: "点击抽奖(0.1元抽传世装备)", price: 0.1, originalPrice: 9299, isLottery: true, lotteryType: 'equipment' }
+                        { name: "点击抽奖(0.01元抽传世装备)", price: 0.01, originalPrice: 9299, isLottery: true, lotteryType: 'equipment' }
                     ] 
                 },
                 { 
@@ -3795,8 +3829,8 @@
                 },
                 // 新增订单1
                 { 
-                    title: "算命【深资50年老师傅】", 
-                    desc: "深资50年老师傅算命，结果仅供参考", 
+                    title: "AI算命", 
+                    desc: "AI算命，结果仅供参考", 
                     category: "equipment", 
                     specs: [
                         { name: "算命【基础】下单后请联系客服", price: 1, originalPrice: 2 },
@@ -3818,7 +3852,7 @@
                 },
                 // 新增：已售尽订单
                 { 
-                    title: "蝴蝶刀（每日1把，0：00开始）【已售尽】", 
+                    title: "蝴蝶刀（每日1把，15：00开始）【已售尽】", 
                     desc: "此商品已售尽，请关注其他商品", 
                     category: "other", 
                     specs: [
@@ -3829,13 +3863,11 @@
             ];
             
             // 按照最低价格排序（从便宜到贵）
-            cachedOrderData = orderData.sort((a, b) => {
+            return orderData.sort((a, b) => {
                 const minPriceA = Math.min(...a.specs.map(spec => spec.price));
                 const minPriceB = Math.min(...b.specs.map(spec => spec.price));
                 return minPriceA - minPriceB;
             });
-            
-            return cachedOrderData;
         }
         
         // 计算价格范围
@@ -3868,13 +3900,13 @@
             }
         }
         
-        // 生成订单数据 - 优化版：不绑定单个事件
-        function generateOrders() {
+        // 生成订单数据
+        async function generateOrders() {
             const orderData = getOrderData();
             
             ordersGrid.innerHTML = '';
             
-            orderData.forEach((order, index) => {
+            for (const order of orderData) {
                 const priceRange = getPriceRange(order.specs);
                 const originalPriceRange = getOriginalPriceRange(order.specs);
                 
@@ -3886,36 +3918,156 @@
                     orderCard.classList.add('sold-out');
                 }
                 
+                // 如果是每日签到订单，添加特殊类名
+                if (order.isDailySign) {
+                    orderCard.classList.add('daily-sign');
+                }
+                
+                // 检查用户是否已经签到
+                let buttonText = "立即下单";
+                let buttonDisabled = false;
+                
+                if (order.isDailySign) {
+                    buttonText = "点击签到";
+                    
+                    // 如果用户已登录，检查是否已经签到
+                    if (currentUser) {
+                        const alreadySigned = await checkUserDailySign();
+                        if (alreadySigned) {
+                            buttonText = "今日已签到";
+                            buttonDisabled = true;
+                        }
+                    }
+                }
+                
                 orderCard.innerHTML = `
                     <div class="order-title">${order.title}</div>
                     <div class="order-price-range">${priceRange}</div>
                     <div class="order-original-price">${originalPriceRange}</div>
                     <div class="order-desc">${order.desc}</div>
-                    <button class="order-btn" data-order="${index}">立即下单</button>
+                    <button class="order-btn" data-order="${orderData.indexOf(order)}" ${buttonDisabled ? 'disabled' : ''}>${buttonText}</button>
                 `;
                 ordersGrid.appendChild(orderCard);
+            }
+            
+            document.querySelectorAll('.order-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const orderIndex = parseInt(this.dataset.order);
+                    const orderData = getOrderData();
+                    const order = orderData[orderIndex];
+                    
+                    // 检查是否为已售尽订单
+                    if (order.soldOut) {
+                        alert("该商品已售尽，请选择其他商品");
+                        return;
+                    }
+                    
+                    // 检查是否为每日签到订单
+                    if (order.isDailySign) {
+                        // 检查用户是否已经签到
+                        if (currentUser) {
+                            const alreadySigned = await checkUserDailySign();
+                            if (alreadySigned) {
+                                alert("您今天已经签过到了，请明天再来！");
+                                return;
+                            }
+                        }
+                        
+                        // 执行签到
+                        await userDailySign();
+                        return;
+                    }
+                    
+                    // 检查抽奖订单类型
+                    if (order.specs[0] && order.specs[0].isLottery) {
+                        const lotteryType = order.specs[0].lotteryType;
+                        
+                        if (lotteryType === 'weapon') {
+                            showLotteryModal(orderIndex);
+                        } else if (lotteryType === 'equipment') {
+                            showEquipmentLotteryModal(orderIndex);
+                        } else {
+                            // 默认武器抽奖
+                            showLotteryModal(orderIndex);
+                        }
+                    } else {
+                        showOrderModal(orderIndex);
+                    }
+                });
             });
         }
         
-        // 生成分类订单 - 优化版：不绑定单个事件
-        function generateCategoryOrders() {
+        // 显示传世武器转盘抽奖弹窗
+        function showLotteryModal(orderIndex) {
+            const orderData = getOrderData();
+            const order = orderData[orderIndex];
+            
+            lotteryOrder = order;
+            selectedPrize = null;
+            
+            // 重置抽奖界面
+            startLotteryBtn.disabled = false;
+            startLotteryBtn.innerHTML = '开始抽奖';
+            startLotteryBtn.onclick = startLottery;
+            lotteryResult.style.display = 'none';
+            // 修改：确保取消按钮显示
+            cancelLotteryBtn.style.display = 'block';
+            document.querySelectorAll('.prize-item').forEach(item => {
+                item.classList.remove('selected', 'winning');
+            });
+            
+            lotteryModal.style.display = 'flex';
+        }
+        
+        // 显示传世装备抽奖弹窗
+        async function showEquipmentLotteryModal(orderIndex) {
+            const orderData = getOrderData();
+            const order = orderData[orderIndex];
+            
+            equipmentOrder = order;
+            selectedEquipmentPrize = null;
+            
+            // 重置抽奖界面
+            startEquipmentLotteryBtn.disabled = false;
+            startEquipmentLotteryBtn.innerHTML = '抽一次 (¥0.01)';
+            startEquipmentLotteryBtn.onclick = startEquipmentLottery;
+            
+            // 重置抽十次按钮
+            start10EquipmentLotteryBtn.disabled = false;
+            start10EquipmentLotteryBtn.innerHTML = '抽十次 (¥0.10)';
+            start10EquipmentLotteryBtn.onclick = start10EquipmentLottery;
+            
+            equipmentLotteryResult.style.display = 'none';
+            cancelEquipmentLotteryBtn.style.display = 'block';
+            document.querySelectorAll('#equipmentPrizesContainer .prize-item').forEach(item => {
+                item.classList.remove('selected', 'winning');
+            });
+            
+            // 更新碎片显示
+            await updateFragmentDisplay();
+            
+            equipmentLotteryModal.style.display = 'flex';
+        }
+        
+        // 生成分类订单
+        async function generateCategoryOrders() {
             const orderData = getOrderData();
             
             categoryOrdersGrid.innerHTML = '';
-            filterOrdersByCategory('all');
+            await filterOrdersByCategory('all');
             
             categories.forEach(category => {
-                category.addEventListener('click', function() {
+                category.addEventListener('click', async function() {
                     const categoryType = this.dataset.category;
                     categories.forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
-                    filterOrdersByCategory(categoryType);
+                    await filterOrdersByCategory(categoryType);
                 });
             });
         }
         
         // 根据分类过滤订单（并排序）
-        function filterOrdersByCategory(category) {
+        async function filterOrdersByCategory(category) {
             const orderData = getOrderData();
             categoryOrdersGrid.innerHTML = '';
             
@@ -3931,7 +4083,7 @@
                 return minPriceA - minPriceB;
             });
             
-            filteredOrders.forEach((order, index) => {
+            for (const order of filteredOrders) {
                 const priceRange = getPriceRange(order.specs);
                 const originalPriceRange = getOriginalPriceRange(order.specs);
                 
@@ -3946,18 +4098,86 @@
                     orderCard.classList.add('sold-out');
                 }
                 
+                // 如果是每日签到订单，添加特殊类名
+                if (order.isDailySign) {
+                    orderCard.classList.add('daily-sign');
+                }
+                
+                // 检查用户是否已经签到
+                let buttonText = "立即下单";
+                let buttonDisabled = false;
+                
+                if (order.isDailySign) {
+                    buttonText = "点击签到";
+                    
+                    // 如果用户已登录，检查是否已经签到
+                    if (currentUser) {
+                        const alreadySigned = await checkUserDailySign();
+                        if (alreadySigned) {
+                            buttonText = "今日已签到";
+                            buttonDisabled = true;
+                        }
+                    }
+                }
+                
                 orderCard.innerHTML = `
                     <div class="order-title">${order.title}</div>
                     <div class="order-price-range">${priceRange}</div>
                     <div class="order-original-price">${originalPriceRange}</div>
                     <div class="order-desc">${order.desc}</div>
-                    <button class="order-btn" data-order="${originalIndex !== -1 ? originalIndex : index}">立即下单</button>
+                    <button class="order-btn" data-order="${originalIndex !== -1 ? originalIndex : orderData.indexOf(order)}" ${buttonDisabled ? 'disabled' : ''}>${buttonText}</button>
                 `;
                 categoryOrdersGrid.appendChild(orderCard);
+            }
+            
+            document.querySelectorAll('#categoryOrdersGrid .order-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const orderIndex = parseInt(this.dataset.order);
+                    const orderData = getOrderData();
+                    const order = orderData[orderIndex];
+                    
+                    // 检查是否为已售尽订单
+                    if (order.soldOut) {
+                        alert("该商品已售尽，请选择其他商品");
+                        return;
+                    }
+                    
+                    // 检查是否为每日签到订单
+                    if (order.isDailySign) {
+                        // 检查用户是否已经签到
+                        if (currentUser) {
+                            const alreadySigned = await checkUserDailySign();
+                            if (alreadySigned) {
+                                alert("您今天已经签过到了，请明天再来！");
+                                return;
+                            }
+                        }
+                        
+                        // 执行签到
+                        await userDailySign();
+                        return;
+                    }
+                    
+                    // 检查抽奖订单类型
+                    if (order.specs[0] && order.specs[0].isLottery) {
+                        const lotteryType = order.specs[0].lotteryType;
+                        
+                        if (lotteryType === 'weapon') {
+                            showLotteryModal(orderIndex);
+                        } else if (lotteryType === 'equipment') {
+                            showEquipmentLotteryModal(orderIndex);
+                        } else {
+                            // 默认武器抽奖
+                            showLotteryModal(orderIndex);
+                        }
+                    } else {
+                        showOrderModal(orderIndex);
+                    }
+                });
             });
         }
         
-        // 显示下单弹窗（规格按价格排序）- 优化版：立即显示
+        // 显示下单弹窗（规格按价格排序）
         function showOrderModal(orderIndex) {
             const orderData = getOrderData();
             const order = orderData[orderIndex];
@@ -3965,14 +4185,7 @@
             currentOrder = order;
             orderModalTitle.textContent = order.title;
             
-            // 先清空规格容器
             specsModal.innerHTML = '';
-            
-            // 立即显示弹窗
-            orderModal.style.display = 'flex';
-            
-            // 重置选中的规格
-            selectedSpec = null;
             
             // 对规格按照价格从低到高排序
             const sortedSpecs = [...order.specs].sort((a, b) => a.price - b.price);
@@ -3991,6 +4204,16 @@
                 `;
                 specsModal.appendChild(specElement);
             });
+            
+            document.querySelectorAll('.spec-modal').forEach(spec => {
+                spec.addEventListener('click', function() {
+                    document.querySelectorAll('.spec-modal').forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedSpec = parseInt(this.dataset.spec);
+                });
+            });
+            
+            orderModal.style.display = 'flex';
         }
         
         // 显示主应用
@@ -4005,8 +4228,9 @@
             userServerElement.textContent = `区服: ${currentUser.server}`;
             userWechatElement.textContent = `微信号/手机号: ${currentUser.wechat}`;
             
-            // 更新碎片显示
-            await updateProfileFragmentDisplay();
+            // 重新生成订单以更新签到按钮状态
+            await generateOrders();
+            await generateCategoryOrders();
             
             setTimeout(() => {
                 showReviewMessageWithSound('欢迎', `【新单】推出0.5元保底1000万，${currentUser.name}！`);
@@ -4305,6 +4529,7 @@
                         userItem.className = 'user-item';
                         
                         const formattedTime = user.registerTime ? new Date(user.registerTime).toLocaleString() : '未知时间';
+                        const lastSignDate = user.lastSignDate ? new Date(user.lastSignDate).toLocaleDateString() : '从未签到';
                         
                         userItem.innerHTML = `
                             <div><strong>${user.name}</strong> - ${user.server}</div>
@@ -4312,6 +4537,7 @@
                             <div>注册时间: ${formattedTime}</div>
                             <div>传世碎片: ${user.fragments || 0} 个</div>
                             <div>首次抽奖: ${user.firstLotteryDone ? '已完成' : '未完成'}</div>
+                            <div>最后签到: ${lastSignDate}</div>
                         `;
                         userList.appendChild(userItem);
                     });
@@ -4353,8 +4579,8 @@
                                 <div>时间: ${formattedTime}</div>
                                 <div>状态: 审核中</div>
                                 ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
-                                ${order.isFirstLottery ? '<div>首次抽奖: 是</div>' : ''}
                                 ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
+                                ${order.isFirstLottery ? '<div style="color:#FFD700;">✨ 首次抽奖奖励</div>' : ''}
                                 <div class="order-actions">
                                     <button class="approve-btn" data-order="${order.id}">通过</button>
                                     <button class="reject-btn" data-order="${order.id}">拒绝</button>
@@ -4386,8 +4612,8 @@
                                 <div>状态: <button class="${statusClass}" style="cursor: default;">${statusText}</button></div>
                                 ${order.reason ? `<div>拒绝理由: ${order.reason}</div>` : ''}
                                 ${order.isLottery ? '<div>类型: 抽奖订单</div>' : ''}
-                                ${order.isFirstLottery ? '<div>首次抽奖: 是</div>' : ''}
                                 ${order.fragmentsEarned ? `<div>获得碎片: ${order.fragmentsEarned} 个</div>` : ''}
+                                ${order.isFirstLottery ? '<div style="color:#FFD700;">✨ 首次抽奖奖励</div>' : ''}
                             `;
                             processedOrderList.appendChild(orderItem);
                         });
@@ -4849,6 +5075,10 @@
                 await storageManager.remove('users');
                 console.log('已删除用户数据');
                 
+                // 删除签到记录
+                await storageManager.remove('signs');
+                console.log('已删除签到记录');
+                
                 alert('所有数据已成功删除！');
                 
                 // 刷新后台面板
@@ -4899,37 +5129,23 @@
             wechatInput1.focus();
         });
         
-        // 区服弹窗上一步按钮事件
-        serverPrevBtn.addEventListener('click', function() {
-            serverModal.style.display = 'none';
-            gameNameModal.style.display = 'flex';
-        });
-        
-        // 微信号弹窗上一步按钮事件
-        wechatPrevBtn.addEventListener('click', function() {
-            wechatModal.style.display = 'none';
-            serverModal.style.display = 'flex';
-        });
-        
-        // 微信号弹窗确认事件 - 修改后版本
+        // 微信号弹窗确认事件
         wechatConfirmBtn.addEventListener('click', async function() {
             const wechat1 = wechatInput1.value.trim();
             const wechat2 = wechatInput2.value.trim();
             const name = sessionStorage.getItem('tempGameName');
             const server = sessionStorage.getItem('tempServer');
             
-            // 清空错误提示
-            wechatError.style.display = 'none';
-            wxidError.style.display = 'none';
-            
             if (!wechat1 || !wechat2) {
                 alert('请输入微信号/手机号');
                 return;
             }
             
-            // 检查是否以wxid开头（不区分大小写）
-            if (wechat1.toLowerCase().startsWith('wxid')) {
-                wxidError.style.display = 'block';
+            // 验证微信号是否以wxid开头
+            if (!validateWechat(wechat1)) {
+                alert('微信号不能以wxid开头，请输入手机号或更改微信号');
+                wechatError.style.display = 'block';
+                wechatError.textContent = '微信号不能以wxid开头，请输入手机号或更改微信号';
                 wechatInput1.value = '';
                 wechatInput2.value = '';
                 wechatInput1.focus();
@@ -4938,6 +5154,7 @@
             
             if (wechat1 !== wechat2) {
                 wechatError.style.display = 'block';
+                wechatError.textContent = '两次输入不一致，请重新输入';
                 wechatInput1.value = '';
                 wechatInput2.value = '';
                 wechatInput1.focus();
@@ -4945,9 +5162,6 @@
             }
             
             wechatError.style.display = 'none';
-            console.log('微信号/手机号输入:', wechat1);
-            console.log('游戏名称:', name);
-            console.log('区服:', server);
             
             if (!name || !server) {
                 alert('信息丢失，请重新开始');
@@ -4968,7 +5182,6 @@
                     existingUser.name = name;
                     existingUser.server = server;
                     existingUser.lastLoginTime = new Date().toISOString();
-                    
                     console.log('找到现有用户，更新信息:', existingUser);
                 } else {
                     // 创建新用户
@@ -4979,8 +5192,9 @@
                         wechat: wechat1,
                         registerTime: new Date().toISOString(),
                         lastLoginTime: new Date().toISOString(),
-                        fragments: 0, // 新增：初始碎片数量为0
-                        firstLotteryDone: false // 第一次抽奖未完成
+                        fragments: 0,
+                        firstLotteryDone: false, // 新用户首次抽奖未完成
+                        lastSignDate: null // 新用户未签到
                     };
                     
                     allUsers.push(userData);
@@ -4997,8 +5211,8 @@
                 
                 currentUser = existingUser;
                 
-                // 保存用户信息到本地存储
-                saveUserToLocalStorage(currentUser);
+                // 保存登录状态到本地存储（14天免登录）
+                saveLoginState(existingUser);
                 
                 // 清除临时数据
                 sessionStorage.removeItem('tempGameName');
@@ -5015,41 +5229,27 @@
             }
         });
         
-        // 添加输入框事件监听，当用户输入时隐藏错误提示
-        wechatInput1.addEventListener('input', function() {
-            wechatError.style.display = 'none';
-            wxidError.style.display = 'none';
-        });
-
-        wechatInput2.addEventListener('input', function() {
-            wechatError.style.display = 'none';
-            wxidError.style.display = 'none';
-        });
-        
         // 退出登录事件
         logoutBtn.addEventListener('click', async function() {
             try {
-                // 清除本地保存的用户信息
-                clearLocalUserData();
-                
                 currentUser = null;
+                
+                // 清除本地登录状态
+                clearLoginState();
                 
                 // 清除所有会话存储
                 sessionStorage.clear();
                 
                 mainContainer.style.display = 'none';
-                gameNameModal.style.display = 'flex';
-                
-                gameNameInput.value = '';
-                serverSelect.value = '';
-                wechatInput1.value = '';
-                wechatInput2.value = '';
+                showLoginModal();
                 
                 // 清除消息检查定时器
                 if (messageRefreshTimer) {
                     clearInterval(messageRefreshTimer);
                     messageRefreshTimer = null;
                 }
+                
+                console.log('用户已退出登录');
             } catch (error) {
                 console.error('退出登录失败:', error);
                 alert('退出失败，请重试');
@@ -5087,6 +5287,16 @@
                         window.messageRefreshTimer = null;
                     }
                 }
+                
+                // 如果切换到主页，重新生成订单以更新签到按钮状态
+                if (pageId === 'homePage' && currentUser) {
+                    await generateOrders();
+                }
+                
+                // 如果切换到分类页，重新生成分类订单以更新签到按钮状态
+                if (pageId === 'categoryPage' && currentUser) {
+                    await generateCategoryOrders();
+                }
             });
         });
         
@@ -5118,7 +5328,7 @@
             }
         }
         
-        // 修复：确认下单按钮事件
+        // 确认下单
         confirmOrderBtn.addEventListener('click', async function() {
             const selectedSpecElement = document.querySelector('.spec-modal.active');
             
@@ -5127,20 +5337,8 @@
                 return;
             }
             
-            // 获取选中的规格索引
-            const specIndex = parseInt(selectedSpecElement.dataset.spec);
-            console.log('选中的规格索引:', specIndex, 'selectedSpec变量值:', selectedSpec);
-            
-            // 使用选中的规格索引
-            const selectedSpecIndex = specIndex !== undefined ? specIndex : selectedSpec;
-            
-            if (selectedSpecIndex === null || selectedSpecIndex === undefined) {
-                alert('请选择一个规格');
-                return;
-            }
-            
             try {
-                const specData = currentOrder.specs[selectedSpecIndex];
+                const specData = currentOrder.specs[selectedSpec];
                 
                 // 显示加载动画
                 showOrderLoading();
@@ -5180,13 +5378,10 @@
                 
                 // 关闭下单弹窗，显示支付弹窗
                 orderModal.style.display = 'none';
-                showPaymentModal(currentOrder, selectedSpecIndex);
+                showPaymentModal(currentOrder, selectedSpec);
                 
                 // 更新用户订单列表
                 await updateUserOrders();
-                
-                // 重置选中的规格
-                selectedSpec = null;
             } catch (error) {
                 console.error('创建订单失败:', error);
                 // 关闭加载动画
@@ -5205,18 +5400,17 @@
         cancelLotteryBtn.addEventListener('click', function() {
             lotteryModal.style.display = 'none';
             selectedPrize = null;
-            weaponLotteryOrderData = null;
-            // 清空按钮容器
-            weaponLotteryButtons.innerHTML = '';
         });
         
         // 取消传世装备抽奖
         cancelEquipmentLotteryBtn.addEventListener('click', function() {
             equipmentLotteryModal.style.display = 'none';
             selectedEquipmentPrize = null;
-            equipmentLotteryOrderData = null;
-            // 清空按钮容器
-            equipmentLotteryButtons.innerHTML = '';
+        });
+        
+        // 关闭签到弹窗
+        signCloseBtn.addEventListener('click', function() {
+            signModal.style.display = 'none';
         });
         
         // 支付确认
@@ -5328,7 +5522,7 @@
         });
         
         // 添加点击模态框背景关闭功能 - 修改版：登录弹窗不关闭
-        document.querySelectorAll('.modal, .lottery-modal').forEach(modal => {
+        document.querySelectorAll('.modal, .lottery-modal, .sign-modal').forEach(modal => {
             // 检查是否为登录相关的弹窗（游戏名称、区服、微信号弹窗）
             if (modal.id === 'gameNameModal' || modal.id === 'serverModal' || modal.id === 'wechatModal') {
                 // 登录弹窗不添加背景点击关闭功能
@@ -5348,9 +5542,28 @@
             }
         });
         
-        // 添加抽奖按钮事件监听
-        startEquipmentLotteryBtn1.addEventListener('click', startEquipmentLotterySingle);
-        startEquipmentLotteryBtn10.addEventListener('click', startEquipmentLotteryTen);
+        // 添加微信号输入实时验证
+        wechatInput1.addEventListener('input', function() {
+            const wechat = this.value.trim();
+            if (!validateWechat(wechat) && wechat.toLowerCase().startsWith('wxid')) {
+                wechatError.style.display = 'block';
+                wechatError.textContent = '微信号不能以wxid开头，请输入手机号或更改微信号';
+            } else if (wechatError.style.display === 'block' && wechatError.textContent.includes('wxid')) {
+                wechatError.style.display = 'none';
+            }
+        });
+        
+        wechatInput2.addEventListener('input', function() {
+            const wechat1 = wechatInput1.value.trim();
+            const wechat2 = this.value.trim();
+            
+            if (wechat1 && wechat2 && wechat1 !== wechat2) {
+                wechatError.style.display = 'block';
+                wechatError.textContent = '两次输入不一致，请重新输入';
+            } else if (wechatError.style.display === 'block' && wechatError.textContent.includes('不一致')) {
+                wechatError.style.display = 'none';
+            }
+        });
         
         // 初始化应用
         init();
